@@ -1,0 +1,72 @@
+.work {
+  overflow: hidden;
+}
+
+.work__header {
+  width: 100vw;
+  height: 150px;
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+
+.header__title {
+  font-family: "Alte Haas Grotesk", sans-serif;
+  background-color: white;
+  color: black;
+  font-size: 30px;
+  font-weight: 800;
+  padding: 10px 25px;
+  margin: 5px;
+  position: absolute;
+  filter: drop-shadow(0 0 5px #00000095);
+  border-radius: 0;
+  cursor: pointer;
+  border: none;
+  box-sizing: border-box;
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.button {
+  font-family: "Alte Haas Grotesk", sans-serif;
+  background-color: white;
+  color: black;
+  font-size: 30px;
+  font-weight: 800;
+  padding: 10px 25px;
+  margin: 5px;
+  position: absolute;
+  filter: drop-shadow(0 0 5px #00000095);
+  border-radius: 0;
+  cursor: pointer;
+  border: none;
+  box-sizing: border-box;
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.header__contact {
+  left: 5%;
+}
+
+.header__home {
+  right: 5%;
+}
+
+.button:hover {
+  border: none;
+  background: black;
+  color: white;
+  cursor: pointer;
+  filter: drop-shadow(0 0 0 #000000);
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.work__main{
+  overflow: scroll;
+  width: 100vw;
+  max-height: calc(100vh - 150px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
