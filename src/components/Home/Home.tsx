@@ -38,8 +38,9 @@ export default function Home() {
         </button>
       </Link>
       <div
-        style={isHoveringHeader ? { bottom: "30%" } : {}}
-        className={styles["rees__peek"]}
+        className={`${styles["rees__peek"]} ${
+          isHoveringHeader ? styles["active"] : ""
+        }`}
       >
         <img src={rees_peek} alt="michael rees!"></img>
       </div>

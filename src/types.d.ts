@@ -1,7 +1,8 @@
 interface ProjectInfo {
-  title?: string;
+  title: string;
+  showTitle: boolean;
   content: string;
-  link?: string;
+  link: string;
   role: string;
   dateUploaded: number;
 }
