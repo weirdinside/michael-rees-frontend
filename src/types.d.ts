@@ -1,8 +1,7 @@
 interface ProjectInfo {
   title: string;
   showTitle: boolean;
-  content: string;
+  thumbnail?: string;
   link: string;
   role: string;
-  dateUploaded: number;
 }

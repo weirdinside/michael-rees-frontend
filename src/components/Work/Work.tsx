@@ -1,20 +1,26 @@
 import { Link } from "react-router-dom";
 import styles from "./Work.module.css";
 import Project from "./WorkItem/Project";
+import AddProjectModal from "./AddProjectModal/AddProjectModal";
+import { useEffect, useState } from "react";
+import { getProjects } from "../../utils/api";
 
 export default function Work({isLoggedIn}) {
   // logic here for displaying Projects from the schema as below:
   // { title: string, block: (this needs either an image or a url), role: string, dateUploaded: date }
 
-  const projectInfo: ProjectInfo = {
-    title: "KANYE WEST x AKEEM SMITH",
-    showTitle: false,
-    role: "DONDA LISTENING PARTY VISUALS EDITOR",
-    link: "https://www.youtube.com/watch?v=tP_y08ghUEE&t=55s&ab_channel=YKTV00",
-    content:
-      "https://static.wixstatic.com/media/04f237_b961bdb686cb4fecb884fe4d62b05c1c~mv2.png",
-    dateUploaded: Date.now(),
-  };
+  const [projects, setProjects] = useState([])
+  const [activeModal, setActiveModal] = useState<string>('');
+
+  function closeModal(){
+    setActiveModal('')
+  }
+
+  useEffect(()=>{
+    getProjects().then((res)=>{
+      setProjects(res);
+    })
+  }, [activeModal])
 
   return (
     <div className={styles["work"]}>
@@ -51,13 +57,12 @@ export default function Work({isLoggedIn}) {
         </Link>
       </div>
       <main className={styles["work__main"]}>
-        <Project projectInfo={projectInfo}></Project>
-        <Project projectInfo={projectInfo}></Project>
-        <Project projectInfo={projectInfo}></Project>
-        <Project projectInfo={projectInfo}></Project>
+        {projects.map((projectInfo)=>{
+          return (<Project projectInfo={projectInfo}></Project>)
+        })}
       </main>
-      {isLoggedIn ?   <div className={styles['add__project']}>+</div> : null}
-    
+      {isLoggedIn ?   <div onClick={()=>setActiveModal('add')} className={styles['add__project']}>+</div> : null}
+      <AddProjectModal closeModal={closeModal} activeModal={activeModal}></AddProjectModal>
     </div>
   );
 }

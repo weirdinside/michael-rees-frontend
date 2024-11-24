@@ -1,5 +1,5 @@
 .project {
-  width: 80vw;
+  width: 80cqw;
   max-width: 800px;
   margin: 10px;
 }
@@ -12,8 +12,9 @@
   align-items: center;
 }
 
-.project__content{
-    margin: 10px;
+.project__content {
+  margin: 10px;
+  aspect-ratio: 16 / 9;
 }
 
 .project__info_container {
@@ -31,8 +32,15 @@
   font-size: 28px;
 }
 
+.thumbnail {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
 .project__info_role {
   font-weight: 600;
   font-size: 22px;
 }
-
