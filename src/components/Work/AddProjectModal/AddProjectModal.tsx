@@ -1,9 +1,10 @@
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useRef, useEffect, useState } from "react";
 import styles from "./AddProjectModal.module.css";
 import Project from "../WorkItem/Project";
 import { addProject, uploadThumbnail } from "../../../utils/api";
 
-export default function AddProjectModal({ activeModal, closeModal }) {
+export default function AddProjectModal({ activeModal, closeModal }: {activeModal: string, closeModal: ()=>void}) {
+  
   const [title, setTitle] = useState<string>("");
   const [showTitle, setShowTitle] = useState<boolean>(false);
   const [thumbnail, setThumbnail] = useState<string>("");
@@ -24,7 +25,7 @@ export default function AddProjectModal({ activeModal, closeModal }) {
     thumbnail: thumbnail,
   };
 
-  function clearFields(e) {
+  function clearFields(e: React.MouseEvent) {
     e.preventDefault();
     setTitle("");
     setShowTitle(false);
@@ -44,7 +45,7 @@ export default function AddProjectModal({ activeModal, closeModal }) {
 
   // write a function handleImageUpload that uploads the image to uploadthing and returns the url,
 
-  async function handleSubmitProject(e){
+  async function handleSubmitProject(e: React.MouseEvent){
     e.preventDefault();
     setLoading(true)
     
@@ -66,6 +67,18 @@ export default function AddProjectModal({ activeModal, closeModal }) {
       setLoading(false)
     }
   }
+
+  useEffect(function handleEscClose(){
+    window.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape'){
+        closeModal();
+      }
+    })
+
+    return window.removeEventListener('keydown', ()=>{
+      closeModal();
+    })
+  }, [])
 
   return (
     <div

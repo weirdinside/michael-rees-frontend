@@ -2,6 +2,99 @@
   width: 80cqw;
   max-width: 800px;
   margin: 10px;
+  position: relative;
+}
+
+.edit__button{
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+
+  display: flex;
+  justify-content: center;
+  font-family: 'Alte Haas Grotesk', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  width: max-content;
+  padding: 0 10px;
+  height: max-content;
+  color: black;
+  border: 2px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.edit__button::after{
+  content: '...';
+}
+
+.edit__button:hover{
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+  background-color: black;
+  color: white;
+}
+
+.edit__button:hover::after{
+  content: "edit post";
+  width: max-content;
+}
+
+.delete__button:hover::after{
+  font-family: 'Alte Haas Grotesk', sans-serif;
+  text-wrap: nowrap;
+  content: 'delete post';
+  font-weight: 800;
+  font-size: 20px;
+}
+
+.delete__button{
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+  cursor: pointer;
+  position: absolute;
+  border-radius: 5px;
+  border: 2px solid black;
+  height: 30px;
+  width: 30px;
+  right: 5px;
+  bottom: 0;
+  background-size: 80%;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('../../../assets/images/trash-can.svg')
+}
+
+.delete__button:hover{
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+  color: white;
+  background-color: black;
+  width: max-content;
+  padding: 0 10px;
+}
+
+.thumbnail__title{
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.647);
+  font-family: 'Alte Haas Grotesk';
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 3cqw;
+  text-decoration: none;
+  opacity: 0;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.thumbnail:hover .thumbnail__title{
+  text-decoration: none;
+  opacity: 1;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 .project__info {
@@ -43,4 +136,20 @@
 .project__info_role {
   font-weight: 600;
   font-size: 22px;
+}
+
+@media screen and (max-width: 500px) and (max-height: 800px){
+  .project{
+    width: 80svw;
+  }
+
+  .edit__button{
+    font-size: 20px;
+    left: -18px;
+    bottom: 3px;
+  }
+
+  .delete__button{
+    right: -10px;
+  }
 }

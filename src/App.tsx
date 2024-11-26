@@ -17,7 +17,6 @@ export default function App() {
 
   const [isPending, setIsPending] = useState(false);
   const [isLoggedIn, setLoggedIn] = useState(false);
-  const [currentUser, setUser] = useState({ name: "" });
   const [isPopupActive, setPopupActive] = useState(false);
 
   let timer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -71,7 +70,7 @@ export default function App() {
       });
   }
 
-  function handleSignOut(e) {
+  function handleSignOut(e: React.MouseEvent) {
     e.preventDefault();
     localStorage.removeItem("token");
     console.log(localStorage.getItem("token"));
@@ -99,7 +98,6 @@ export default function App() {
           >
             ➔
           </div>
-          <div className={styles["greeting"]}>hello</div>
         </>
       ) : null}
 

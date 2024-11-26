@@ -4,6 +4,23 @@ export function checkResponse(res) {
   return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
 }
 
+export function getSiteData(){
+  return fetch(`${baseUrl}/data`).then((res)=>{
+    return checkResponse(res);
+  });
+}
+
+export function setSiteData(order: Array<string>, lastEdited: string){
+  return fetch(`${baseUrl}/data`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify({order, lastEdited})
+  })
+}
+
 export function getProjects() {
   return fetch(`${baseUrl}/portfolio`).then((res) => {
     return checkResponse(res);

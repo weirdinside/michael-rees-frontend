@@ -2,13 +2,46 @@
   overflow: hidden;
 }
 
+@keyframes textPulse{
+  0%{
+    opacity: 1;
+  }
+  50%{
+    opacity: 0.6;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
+.work__loading{
+  display: flex;
+  position: absolute;
+  top: 0;
+  background-color: white;
+  z-index: 10;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+}
+
+.loading__text{
+  font-size: 30px;
+  font-family: 'Alte Haas Grotesk', sans-serif;
+  font-weight: 800;
+  animation: textPulse 1s infinite;
+}
+
 .work__header {
-  width: 100vw;
-  height: 150px;
+  width: 90vw;
+  max-width: 1200px;
+  margin: auto auto;
+  height: 100px;
   display: flex;
   position: relative;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .header__title {
@@ -19,7 +52,6 @@
   font-weight: 800;
   padding: 10px 25px;
   margin: 5px;
-  position: absolute;
   filter: drop-shadow(0 0 5px #00000095);
   border-radius: 0;
   cursor: pointer;
@@ -36,7 +68,6 @@
   font-weight: 800;
   padding: 10px 25px;
   margin: 5px;
-  position: absolute;
   filter: drop-shadow(0 0 5px #00000095);
   border-radius: 0;
   cursor: pointer;
@@ -46,11 +77,9 @@
 }
 
 .header__contact {
-  left: 5%;
 }
 
 .header__home {
-  right: 5%;
 }
 
 .button:hover {
@@ -93,6 +122,45 @@
 }
 
 .add__project:hover{
+  color: white;
+  width: fit-content;
+  line-height: 25px;
+  padding: 10px;
+  background-color: black;
+  border: 2px solid black;
+  transition: 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.reorder__button{
+  display: flex;
+  position: absolute;
+  font-family: 'Alte Haas Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 40px;
+  bottom: 10px;
+  left: 10px;
+  color: black;
+  line-height: 20px;
+  border-radius: 10px;
+  border: 2px solid black;
+  height: 27px;
+  padding: 5px;
+  margin: 0;
+  width: min-content;
+  cursor: pointer;
+  transition: 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+  z-index: 3;
+}
+
+.reorder__button::after{
+  content: 'edit';
+}
+
+.reorder__button:hover::after{
+  content: 'edit order of projects'
+}
+
+.reorder__button:hover{
   color: white;
   width: fit-content;
   line-height: 25px;
