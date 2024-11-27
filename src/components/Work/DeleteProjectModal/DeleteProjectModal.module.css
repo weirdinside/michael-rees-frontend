@@ -1,0 +1,80 @@
+.deletemodal {
+  backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.337);
+  width: 100vw;
+  z-index: -4;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  opacity: 0;
+  left: 0;
+  font-family: "Alte Haas Grotesk";
+  transition: 0.5s opacity cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.deletemodal.active{
+    opacity: 1;
+    z-index: 2;
+    transition: 0.5s opacity cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.deletemodal__content {
+  width: 400px;
+  background-color: white;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.deletemodal__heading {
+  margin: 10px auto 0;
+}
+
+.deletemodal__subheading {
+  margin: 5px auto 5px;
+  font-size: 20px;
+}
+
+.deletemodal__options {
+  display: flex;
+  gap: 10px;
+  margin: 10px;
+}
+
+.deletemodal__button {
+  font-size: 20px;
+  padding: 10px;
+  font-family: "Alte Haas Grotesk";
+  display: flex;
+  border: 2px solid black;
+  border-radius: 5px;
+  background-color: white;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1)
+}
+
+.deletemodal__button:hover {
+  filter: invert(1);
+  border: 2px solid white;
+}
+
+.deletemodal__button.no {
+  opacity: 0.6;
+}
+
+.deletemodal__button.no:hover {
+  opacity: 1;
+}
+
+.deletemodal__button.yes {
+  font-weight: 800;
+}
+
+.deletemodal__button.yes:hover {
+  color: rgb(3, 164, 244);
+}

@@ -2,19 +2,19 @@
   overflow: hidden;
 }
 
-@keyframes textPulse{
-  0%{
+@keyframes textPulse {
+  0% {
     opacity: 1;
   }
-  50%{
+  50% {
     opacity: 0.6;
   }
-  100%{
+  100% {
     opacity: 1;
   }
 }
 
-.work__loading{
+.work__loading {
   display: flex;
   position: absolute;
   top: 0;
@@ -26,9 +26,9 @@
   justify-content: center;
 }
 
-.loading__text{
+.loading__text {
   font-size: 30px;
-  font-family: 'Alte Haas Grotesk', sans-serif;
+  font-family: "Alte Haas Grotesk", sans-serif;
   font-weight: 800;
   animation: textPulse 1s infinite;
 }
@@ -91,7 +91,7 @@
   transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
-.work__main{
+.work__main {
   overflow: scroll;
   width: 100vw;
   max-height: calc(100vh - 150px);
@@ -100,10 +100,10 @@
   align-items: center;
 }
 
-.add__project{
+.add__project {
   display: flex;
   position: absolute;
-  font-family: 'Alte Haas Grotesk', sans-serif;
+  font-family: "Alte Haas Grotesk", sans-serif;
   font-weight: 800;
   font-size: 40px;
   bottom: 10px;
@@ -121,7 +121,7 @@
   z-index: 3;
 }
 
-.add__project:hover{
+.add__project:hover {
   color: white;
   width: fit-content;
   line-height: 25px;
@@ -131,10 +131,10 @@
   transition: 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
-.reorder__button{
+.reorder__button {
   display: flex;
   position: absolute;
-  font-family: 'Alte Haas Grotesk', sans-serif;
+  font-family: "Alte Haas Grotesk", sans-serif;
   font-weight: 800;
   font-size: 40px;
   bottom: 10px;
@@ -152,15 +152,26 @@
   z-index: 3;
 }
 
-.reorder__button::after{
-  content: 'edit';
+.header__smallcontact {
+  visibility: hidden;
+  width: 0;
+  height: 0;
+  position: absolute;
 }
 
-.reorder__button:hover::after{
-  content: 'edit order of projects'
+.header__smallcontact_parent {
+  position: absolute;
 }
 
-.reorder__button:hover{
+.reorder__button::after {
+  content: "edit";
+}
+
+.reorder__button:hover::after {
+  content: "edit order of projects";
+}
+
+.reorder__button:hover {
   color: white;
   width: fit-content;
   line-height: 25px;
@@ -170,6 +181,55 @@
   transition: 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
-.add__project:hover::before{
-  content: 'add an item'
+.add__project:hover::before {
+  content: "add an item";
+}
+
+@media screen and (max-width: 660px) {
+  .button {
+    font-size: 20px;
+  }
+
+  .work__header {
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .work__header {
+    justify-content: space-around;
+    max-width: 90svw;
+  }
+
+  .header__smallcontact_parent {
+    position: relative;
+    width: 50px;
+  }
+
+  .header__smallcontact {
+    width: 50px;
+    height: 50px;
+    background-image: url("../../assets/images/mail.png");
+    background-color: white;
+    background-position: center;
+    background-size: contain;
+    border: 2px solid black;
+    border-radius: 5px;
+    filter: drop-shadow(0 0 5px #00000095);
+    visibility: visible;
+    position: relative;
+    transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+  }
+
+  .header__smallcontact:hover {
+    filter: invert(1);
+    transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+  }
+
+  .button {
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    width: 0px;
+  }
 }

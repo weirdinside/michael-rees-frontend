@@ -1,7 +1,7 @@
 import { ChangeEvent, useRef, useEffect, useState } from "react";
 import styles from "./AddProjectModal.module.css";
 import Project from "../WorkItem/Project";
-import { addProject, uploadThumbnail } from "../../../utils/api";
+import { addProject, getSiteData, setSiteData, uploadThumbnail } from "../../../utils/api";
 
 export default function AddProjectModal({ activeModal, closeModal }: {activeModal: string, closeModal: ()=>void}) {
   
@@ -12,10 +12,9 @@ export default function AddProjectModal({ activeModal, closeModal }: {activeModa
   const [role, setRole] = useState<string>("");
 
   const [file, setFile] = useState<File>();
+  const fileUploadRef = useRef<HTMLInputElement>(null);
 
   const [isLoading, setLoading] = useState<boolean>(false);
-
-  const fileUploadRef = useRef<HTMLInputElement>(null);
 
   const data = {
     title: title,
@@ -34,6 +33,7 @@ export default function AddProjectModal({ activeModal, closeModal }: {activeModa
     setRole("");
     if (fileUploadRef.current) fileUploadRef.current.value = "";
   }
+
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const selectedFile = e.target.files[0];
@@ -60,6 +60,12 @@ export default function AddProjectModal({ activeModal, closeModal }: {activeModa
 
       const projectAdded = await addProject(title, showTitle, link, role, newThumbnail)
       console.log(projectAdded);
+      const idToAdd = projectAdded.data._id;
+      const oldSiteData = await getSiteData();
+      const order = oldSiteData[0].order;
+      order.push(idToAdd);
+      const res = await setSiteData(order, String(Date.now()));
+      console.log(res);
       closeModal();
     } catch (error) {
       console.error('an error happened in handleSubmitProject', error)

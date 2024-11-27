@@ -120,7 +120,7 @@ export default function App() {
           }
         ></Route>
         <Route
-          path="/login"
+          path='/login'
           element={
             <Login isPending={isPending} handleSignIn={handleSignIn}></Login>
           }

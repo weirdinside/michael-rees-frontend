@@ -1,6 +1,65 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { setSiteData } from "../../../utils/api";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragOverEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+  useSortable,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+
 import styles from "./ReorderProjectsModal.module.css";
-import { getProjects, getSiteData } from "../../../utils/api";
+
+function SortableItem({
+  project,
+  index,
+}: {
+  project: ProjectInfo;
+  index: number;
+}) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: project._id || index });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.9 : 1,
+    backgroundColor: isDragging ? "black" : "white",
+    color: isDragging ? "white" : "black",
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={`
+        ${styles["draggable__project"]} 
+        ${isDragging ? styles["dragging"] : ""}
+      `}
+      {...attributes}
+      {...listeners}
+    >
+      <div className={styles["project__drag"]}>≡</div>
+      <p className={styles["project__title"]}>{project.title}</p>
+    </div>
+  );
+}
 
 export default function ReorderProjectsModal({
   projects,
@@ -9,78 +68,99 @@ export default function ReorderProjectsModal({
 }: {
   activeModal: string;
   closeModal: () => void;
-  projects: [];
+  projects: ProjectInfo[];
 }) {
-  // working with ._id and the ids in the order array
-
-  const [order, setOrder] = useState<string[]>();
-  const [isLoading, setLoading] = useState<boolean>();
-
-  const [orderedProjects, setOrderedProjects] = useState<object[]>();
-  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
-
-  const draggedRef = useRef();
-
-  function handleDragStart(e, index) {
-    setDraggedIndex(index);
-    e.dataTransfer.effectAllowed = "move";
-    e.target.classList.add("opacity-50");
-  }
-
-  function handleDragEnd(e) {
-    setDraggedIndex(null);
-    e.target.classList.remove("opacity-50");
-  }
-
-  function handleDragOver(e, index) {
-    console.log(`dragged over ${index}`)
-    e.preventDefault();
-    if (draggedIndex === null) return;
-
-    if (draggedIndex !== index) {
-      const newItems = [...orderedProjects];
-      const [draggedItem] = newItems.splice(draggedIndex, 1);
-      newItems.splice(index, 0, draggedItem);
-      setOrderedProjects(newItems);
-      setDraggedIndex(index);
-    }
-  }
+  const [orderedProjects, setOrderedProjects] = useState<ProjectInfo[]>([]);
 
   useEffect(() => {
-    if (projects.length > 0) {
-      setOrderedProjects([...projects]);
+    if (projects && projects.length > 0) {
+      setOrderedProjects(projects);
     }
   }, [projects]);
 
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
+
+  function handleDragOver(e: DragOverEvent) {
+    const { active, over } = e;
+    if (active.id !== over?.id) {
+      setOrderedProjects((projects) => {
+        const oldIndex = projects.findIndex(
+          (project) =>
+            project._id === active.id ||
+            projects.indexOf(project) === active.id,
+        );
+        const newIndex = projects.findIndex(
+          (project) =>
+            project._id === over?.id || projects.indexOf(project) === over?.id,
+        );
+        return arrayMove(projects, oldIndex, newIndex);
+      });
+    }
+  }
+
+  async function handleConfirmOrder(e: React.MouseEvent) {
+    e.preventDefault();
+
+    try {
+      const reversedData: ProjectInfo[] = orderedProjects.reverse();
+      const res = await setSiteData(reversedData, String(Date.now()));
+      console.log(res)
+      closeModal();
+    } catch(err) {
+      console.error(err)
+    } finally {
+      
+    }
+  }
+
+  if (!projects || projects.length === 0) {
+    return (
+      <div className={styles["rpmodal"]}>
+        <div className={styles["rpmodal__content"]}>
+          <p>No projects available</p>
+        </div>
+      </div>
+    );
+  }
   return (
-    <div className={styles["rpmodal"]}>
+    <div className={`${styles["rpmodal"]} ${activeModal === 'order' && styles['active']}`}>
       <div className={styles["rpmodal__content"]}>
         <h1 className={styles["rpmodal__title"]}>re-order work</h1>
-        <div className={styles["rpmodal__closebutton"]}></div>
-        <div className={styles["rpmodal__itemlist"]}>
-          {orderedProjects?.map((project, index) => {
-            return (
-              <div
-                draggable={true}
-                onDragStart={(e) => {
-                  handleDragStart(e, index);
-                }}
-                onDragOver={(e) => {
-                  handleDragOver(e, index);
-                }}
-                onDragEnd={(e) => {
-                  handleDragEnd(e);
-                }}
-                key={index}
-                className={styles["draggable__project"]}
-              >
-                <div className={styles["project__drag"]}>≡</div>
-                <p className={styles["project__title"]}>{project.title}</p>
-              </div>
-            );
-          })}
-        </div>
-        <button className={styles["rpmodal__confirm"]}>
+        <div
+          className={styles["rpmodal__closebutton"]}
+          onClick={closeModal}
+        ></div>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragOver={handleDragOver}
+        >
+          <SortableContext
+            items={orderedProjects.map((p) => p._id || p.title)}
+            strategy={verticalListSortingStrategy}
+          >
+            <div className={styles["rpmodal__itemlist"]}>
+              {orderedProjects.map((project, index) => (
+                <SortableItem
+                  key={project._id || index}
+                  project={project}
+                  index={index}
+                />
+              ))}
+            </div>
+          </SortableContext>
+        </DndContext>
+        <button
+          className={styles["rpmodal__confirm"]}
+          onClick={(e) => {
+            handleConfirmOrder(e);
+          }}
+        >
           confirm arrangement
         </button>
       </div>

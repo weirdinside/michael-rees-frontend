@@ -1,12 +1,23 @@
 import { Link } from "react-router-dom";
 import styles from "./Project.module.css";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 
-export default function Project({ projectInfo, isLoggedIn }: { isLoggedIn: boolean, projectInfo: ProjectInfo }) {
+export default function Project({
+  projectInfo,
+  isLoggedIn = false,
+  handleDeleteClick,
+  handleEditClick,
+}: {
+  isLoggedIn?: boolean;
+  projectInfo: ProjectInfo;
+  handleDeleteClick?: (projectData: ProjectInfo) => void;
+  handleEditClick?: (projectData: ProjectInfo) => void;
+}) {
   //   projectInfo will be an object with the following schema
   // { title: string, block: (this needs either an image or a url), role: string, dateUploaded: date }
 
   const [data, setData] = useState<ProjectInfo>({
+    _id: "",
     title: "",
     showTitle: false,
     role: "",
@@ -101,8 +112,22 @@ export default function Project({ projectInfo, isLoggedIn }: { isLoggedIn: boole
 
   return (
     <div className={styles["project"]}>
-      {isLoggedIn? <div className={styles['edit__button']}></div> : null}
-      {isLoggedIn ? <div className={styles['delete__button']}></div> : null}
+      {isLoggedIn && handleEditClick && (
+        <div
+          onClick={() => {
+            handleEditClick(data);
+          }}
+          className={styles["edit__button"]}
+        ></div>
+      )}
+      {isLoggedIn && handleDeleteClick && (
+        <div
+          onClick={() => {
+            handleDeleteClick(data);
+          }}
+          className={styles["delete__button"]}
+        ></div>
+      )}
       <div className={styles["project__content"]}>{videoMarkup}</div>
       <div className={styles["project__info"]}>
         <div

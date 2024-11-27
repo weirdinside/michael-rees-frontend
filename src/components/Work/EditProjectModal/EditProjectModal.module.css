@@ -1,0 +1,177 @@
+.epmodal {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -4;
+  background-color: rgba(0, 0, 0, 0.374);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.epmodal.active{
+  z-index: 2;
+  opacity: 1;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.epmodal__heading {
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.epmodal__content {
+  max-height: 80svh;
+  padding: 20px;
+  background-color: white;
+  color: black;
+  font-family: "Alte Haas Grotesk", sans-serif;
+  max-width: 80svw;
+  height: max-content;
+  position: absolute;
+  border-radius: 10px;
+}
+
+.epmodal__close {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  height: 30px;
+  width: 30px;
+  border-radius: 50px;
+  background-image: url("../../../assets/images/close-button.png");
+  background-position: center;
+  background-size: 70%;
+  background-repeat: no-repeat;
+  background-color: white;
+  rotate: 0deg;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.epmodal__close:hover{
+  filter: invert(1);
+  rotate: 180deg;
+  border: 2px solid white;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.edit__fields {
+  overflow-y: scroll;
+  max-height: 50svh;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  overflow-x: hidden;
+}
+
+.edit__container {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit__label {
+  font-size: 24px;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+}
+
+.preview{
+  width: min-content;
+  flex-shrink: 1;
+  max-width: 80svw;
+}
+
+.edit__label.checkbox {
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.edit__checkbox {
+  width: 20px;
+  height: 20px;
+}
+
+.edit__input {
+  border: none;
+  border-bottom: 2px solid black;
+  font-size: 20px;
+}
+
+.edit__options{
+  width: 100%;
+  height: max-content;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.edit__button{
+  width: 100%;
+  font-size: 25px;
+  padding: 10px;
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  font-weight: 600;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.edit__button.revert{
+  opacity: 0.5;
+  background-color: white;
+  color: black;
+}
+
+.edit__button:disabled{
+  pointer-events: none;
+}
+
+.edit__button:hover{
+  opacity: 1;
+  filter: invert(1);
+  box-shadow: inset 0 0 10px #b4b4b4;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.edit__label.fileupload {
+  font-size: 15px;
+  border-radius: 20px;
+  text-align: center;
+  font-weight: 600;
+  border: 3px dashed black;
+  display: inline-block;
+  padding: 25px;
+  cursor: pointer;
+  max-width: 100%;
+}
+
+.edit__label.fileupload:hover {
+  background-color: black;
+  color: white;
+}
+
+.edit__input {
+  border: none;
+  border-bottom: 2px solid black;
+}
+
+.edit__input.fileupload {
+  visibility: hidden;
+  height: 0px;
+  width: 0px;
+}
+
+
+@media screen and (max-width: 1000px) {
+  .preview{
+    margin-left: -18px;
+  }
+}

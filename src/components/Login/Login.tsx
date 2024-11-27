@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import styles from "./Login.module.css";
 import { Link } from "react-router-dom";
 
-export default function Login({ isPending, handleSignIn }) {
+export default function Login({ isPending, handleSignIn }: {isPending: boolean, handleSignIn: (name: string, password: string)=> void}) {
   const [name, setName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isFormValid, setFormValidity] = useState<boolean>(false);
 
-  function handleSubmit(e) {
+  function handleSubmit(e: React.MouseEvent) {
     e.preventDefault();
     handleSignIn(name, password);
   }

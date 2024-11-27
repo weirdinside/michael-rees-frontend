@@ -1,24 +1,24 @@
 import { baseUrl } from "./constants";
 
-export function checkResponse(res) {
+export function checkResponse(res: Response) {
   return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
 }
 
-export function getSiteData(){
-  return fetch(`${baseUrl}/data`).then((res)=>{
+export function getSiteData() {
+  return fetch(`${baseUrl}/data`).then((res) => {
     return checkResponse(res);
   });
 }
 
-export function setSiteData(order: Array<string>, lastEdited: string){
+export function setSiteData(order: ProjectInfo[], lastEdited: string) {
   return fetch(`${baseUrl}/data`, {
-    method: "POST",
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${localStorage.getItem('token')}`
+      authorization: `Bearer ${localStorage.getItem("token")}`,
     },
-    body: JSON.stringify({order, lastEdited})
-  })
+    body: JSON.stringify({ order, lastEdited }),
+  });
 }
 
 export function getProjects() {
@@ -27,10 +27,16 @@ export function getProjects() {
   });
 }
 
-export async function addProject(title: string, showTitle: boolean, link: string, role: string, thumbnail?: string) {
+export async function addProject(
+  title: string,
+  showTitle: boolean,
+  link: string,
+  role: string,
+  thumbnail?: string,
+) {
   console.log(title, showTitle, link, role, thumbnail);
   try {
-    const res = fetch(`${baseUrl}/portfolio`, {
+    const res = await fetch(`${baseUrl}/portfolio`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -42,6 +48,47 @@ export async function addProject(title: string, showTitle: boolean, link: string
     return responseData;
   } catch (err) {
     console.error("Error adding project:", err);
+  }
+}
+
+export async function editProject(
+  _id: string,
+  title: string,
+  showTitle: boolean,
+  link: string,
+  role: string,
+  thumbnail: string | undefined,
+) {
+  try {
+    const res = await fetch(`${baseUrl}/portfolio/${_id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({_id, title, showTitle, link, role, thumbnail }),
+    });
+    const responseData = await checkResponse(res);
+    return responseData;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export async function deleteProject(id: string) {
+  console.log(id);
+  try {
+    const res = await fetch(`${baseUrl}/portfolio/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    const responseData = await checkResponse(res);
+    return responseData;
+  } catch (err) {
+    console.error("Error deleting project:", err);
   }
 }
 
@@ -66,7 +113,7 @@ export async function uploadThumbnail(file: File) {
 
     if (res.ok) {
       const result = await res.json();
-      console.log(result.filePath)
+      console.log(result.filePath);
       return result.filePath;
     } else {
       console.error("failed to upload file:", res.statusText);
