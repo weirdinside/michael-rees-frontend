@@ -11,6 +11,7 @@ import Register from "./components/Register/Register";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 import { signIn, register } from "./utils/auth";
+import Contact from "./components/Contact/Contact";
 
 export default function App() {
   const navigate = useNavigate();
@@ -18,6 +19,8 @@ export default function App() {
   const [isPending, setIsPending] = useState(false);
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isPopupActive, setPopupActive] = useState(false);
+
+  const [popupMessage, setPopupMessage] = useState("");
 
   let timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -28,12 +31,13 @@ export default function App() {
   }, []);
 
   const setPopup = useCallback(() => {
-    if(timer.current){
+    if (timer.current) {
       clearTimeout(timer.current);
     }
     setPopupActive(true);
     timer.current = setTimeout(() => {
       setPopupActive(false);
+      setPopupMessage("");
     }, 2000);
   }, [isLoggedIn]);
 
@@ -42,6 +46,7 @@ export default function App() {
     signIn(name, password)
       .then((res) => {
         setLoggedIn(true);
+        setPopupMessage("signed in");
         setPopup();
         navigate("/");
       })
@@ -73,6 +78,7 @@ export default function App() {
   function handleSignOut(e: React.MouseEvent) {
     e.preventDefault();
     localStorage.removeItem("token");
+    setPopupMessage("signed out");
     console.log(localStorage.getItem("token"));
     setLoggedIn(false);
     setPopup();
@@ -86,7 +92,7 @@ export default function App() {
           isPopupActive ? styles["active"] : ""
         }`}
       >
-        {isLoggedIn ? "signed in" : "signed out"}
+        {popupMessage}
       </div>
       {isLoggedIn ? (
         <>
@@ -107,6 +113,7 @@ export default function App() {
           path="*"
           element={<p style={{ color: "black" }}>whoops, not found</p>}
         ></Route>
+        <Route path="/contact" element={<Contact></Contact>}></Route>
         <Route
           path="/work"
           element={<Work isLoggedIn={isLoggedIn}></Work>}
@@ -120,7 +127,7 @@ export default function App() {
           }
         ></Route>
         <Route
-          path='/login'
+          path="/login"
           element={
             <Login isPending={isPending} handleSignIn={handleSignIn}></Login>
           }

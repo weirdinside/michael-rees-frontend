@@ -170,24 +170,27 @@ export default function AddProjectModal({ activeModal, closeModal }: {activeModa
                 remove thumbnail
               </button>
             ) : null}
-            <button
-              onClick={handleSubmitProject}
-              disabled={isLoading}
-              className={styles["form__button"]}
-            >
-              {isLoading ? "adding.." : "add"}
-            </button>
-            <button
-              disabled={isLoading}
-              onClick={clearFields}
-              className={styles["form__button"]}
-            >
-              clear fields
-            </button>
           </form>
           <div className={styles["preview"]}>
             <Project projectInfo={data}></Project>
           </div>
+        </div>
+        <div className={styles['add__options']}>
+        
+            <button
+              disabled={isLoading}
+              onClick={clearFields}
+              className={`${styles["add__button"]} ${styles['revert']}`}
+            >
+              clear fields
+            </button>
+            <button
+              onClick={handleSubmitProject}
+              disabled={isLoading}
+              className={styles["add__button"]}
+            >
+              {isLoading ? "adding.." : "add"}
+            </button>
         </div>
       </div>
     </div>

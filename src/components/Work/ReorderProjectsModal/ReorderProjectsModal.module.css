@@ -71,6 +71,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  touch-action: manipulation;
   max-width: 80%;
   margin: 5px auto;
   border: 2px solid black;

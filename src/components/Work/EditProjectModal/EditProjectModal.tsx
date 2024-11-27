@@ -17,7 +17,7 @@ export default function EditProjectModal({
   const [thumbnail, setThumbnail] = useState<string | undefined>("");
   const [link, setLink] = useState<string>("");
   const [role, setRole] = useState<string>("");
-
+  
   const [initialData, setInitialData] = useState<ProjectInfo>();
 
   const [file, setFile] = useState<File>();

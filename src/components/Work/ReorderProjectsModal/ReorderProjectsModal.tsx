@@ -8,6 +8,7 @@ import {
   useSensor,
   useSensors,
   DragOverEvent,
+  TouchSensor,
 } from "@dnd-kit/core";
 import {
   arrayMove,
@@ -71,6 +72,7 @@ export default function ReorderProjectsModal({
   projects: ProjectInfo[];
 }) {
   const [orderedProjects, setOrderedProjects] = useState<ProjectInfo[]>([]);
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (projects && projects.length > 0) {
@@ -80,6 +82,7 @@ export default function ReorderProjectsModal({
 
   const sensors = useSensors(
     useSensor(PointerSensor),
+    useSensor(TouchSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     }),
@@ -105,7 +108,7 @@ export default function ReorderProjectsModal({
 
   async function handleConfirmOrder(e: React.MouseEvent) {
     e.preventDefault();
-
+    setLoading(true);
     try {
       const reversedData: ProjectInfo[] = orderedProjects.reverse();
       const res = await setSiteData(reversedData, String(Date.now()));
@@ -114,7 +117,7 @@ export default function ReorderProjectsModal({
     } catch(err) {
       console.error(err)
     } finally {
-      
+      setLoading(false);
     }
   }
 
@@ -156,12 +159,13 @@ export default function ReorderProjectsModal({
           </SortableContext>
         </DndContext>
         <button
+          disabled={isLoading}
           className={styles["rpmodal__confirm"]}
           onClick={(e) => {
             handleConfirmOrder(e);
           }}
         >
-          confirm arrangement
+          {isLoading ? 'confirming...' : 'confirm arrangement'}
         </button>
       </div>
     </div>
