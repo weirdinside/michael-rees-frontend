@@ -1,6 +1,10 @@
 import React, { useState, useRef, useEffect, ChangeEvent } from "react";
 import styles from "./EditProjectModal.module.css";
-import { editProject } from "../../../utils/api";
+import {
+  deleteThumbnail,
+  editProject,
+  uploadThumbnail,
+} from "../../../utils/api";
 import Project from "../WorkItem/Project";
 
 export default function EditProjectModal({
@@ -17,7 +21,7 @@ export default function EditProjectModal({
   const [thumbnail, setThumbnail] = useState<string | undefined>("");
   const [link, setLink] = useState<string>("");
   const [role, setRole] = useState<string>("");
-  
+
   const [initialData, setInitialData] = useState<ProjectInfo>();
 
   const [file, setFile] = useState<File>();
@@ -55,13 +59,38 @@ export default function EditProjectModal({
 
   async function handleConfirmEdit(e: React.MouseEvent) {
     e.preventDefault();
+    setLoading(true);
     if (projectToEdit && projectToEdit._id) {
       try {
-        const res = await editProject(projectToEdit._id, title, showTitle, link, role, thumbnail);
+        let newThumbnail = thumbnail;
+        console.log(file);
+        if (
+          initialData &&
+          initialData.thumbnail &&
+          thumbnail !== initialData.thumbnail
+        ) {
+          const deletedThumb = await deleteThumbnail(initialData.thumbnail);
+          console.log("file deleted", deletedThumb);
+        }
+        if (file) {
+          const customThumbnail = await uploadThumbnail(file);
+          newThumbnail = customThumbnail;
+        }
+
+        const res = await editProject(
+          projectToEdit._id,
+          title,
+          showTitle,
+          link,
+          role,
+          newThumbnail,
+        );
         console.log(res);
         closeModal();
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     }
   }

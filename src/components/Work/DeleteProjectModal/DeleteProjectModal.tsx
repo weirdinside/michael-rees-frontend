@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./DeleteProjectModal.module.css";
-import { getSiteData, setSiteData, deleteProject } from "../../../utils/api";
+import { getSiteData, setSiteData, deleteProject, deleteThumbnail } from "../../../utils/api";
 
 export default function DeleteProjectModal({
   projectToDelete,
@@ -27,9 +27,15 @@ export default function DeleteProjectModal({
       const deletedProject = await deleteProject(projectToDelete._id);
       const siteData = await getSiteData();
       const newOrder = siteData[0].order.filter((id: string) => {
-        return id !== deletedProject.data;
+        return id !== deletedProject._id;
       });
       const response = await setSiteData(newOrder, String(Date.now()));
+      if(deletedProject.thumbnail){
+        const res = deleteThumbnail(deletedProject.thumbnail);
+        console.log(res);
+      } else {
+        console.log('There was no thumbnail to delete')
+      }
       console.log(response);
       closeModal();
     } catch (err) {

@@ -66,12 +66,30 @@ export async function editProject(
         "Content-Type": "application/json",
         authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-      body: JSON.stringify({_id, title, showTitle, link, role, thumbnail }),
+      body: JSON.stringify({ _id, title, showTitle, link, role, thumbnail }),
     });
     const responseData = await checkResponse(res);
     return responseData;
   } catch (err) {
     console.error(err);
+  }
+}
+
+export async function deleteThumbnail(filename: string) {
+  const newFilename = filename.replace("thumbnails/", "");
+  try {
+    const res = await fetch(`${baseUrl}/api/delete/${newFilename}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    const responseData = await checkResponse(res);
+    console.log(responseData);
+    return responseData;
+  } catch (err) {
+    console.error("Error deleting image from storage:", err);
   }
 }
 
@@ -97,7 +115,7 @@ export async function uploadThumbnail(file: File) {
     console.error("No file selected for upload");
     return;
   }
-  console.log(file);
+
   const formData = new FormData();
   formData.append("file", file);
   console.log(formData);
