@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Register.module.css";
 
@@ -12,7 +12,7 @@ export default function Register({ handleRegister, isPending }) {
 
   const [isFormValid, setFormValid] = useState<boolean>(false);
 
-  function handleSubmit(e) {
+  function handleSubmit(e: React.MouseEvent) {
     e.preventDefault();
     console.log(handleRegister);
     return handleRegister(name, password, secret);
@@ -99,7 +99,7 @@ export default function Register({ handleRegister, isPending }) {
           <input
             disabled={isPending}
             checked={showPasswords}
-            onChange={(e) => {
+            onChange={() => {
               setShowPasswords((prev) => !prev);
               console.log(showPasswords);
             }}

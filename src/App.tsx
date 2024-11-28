@@ -26,7 +26,7 @@ export default function App() {
 
   const [popupMessage, setPopupMessage] = useState("");
 
-  let timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // -------------------------------- //
   //          EVENT HANDLERS          //

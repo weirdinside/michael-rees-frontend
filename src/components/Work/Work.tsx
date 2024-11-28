@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import styles from "./Work.module.css";
 import Project from "./WorkItem/Project";
 
-import { useEffect, useState } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { getSiteData, getProjects } from "../../utils/api";
 
 import AddProjectModal from "./AddProjectModal/AddProjectModal";
@@ -11,7 +11,6 @@ import DeleteProjectModal from "./DeleteProjectModal/DeleteProjectModal";
 import EditProjectModal from "./EditProjectModal/EditProjectModal";
 
 export default function Work({ isLoggedIn }: { isLoggedIn: boolean }) {
-
   // -------------------------------- //
   //         STATES / VARIABLES       //
   // -------------------------------- //
@@ -35,12 +34,12 @@ export default function Work({ isLoggedIn }: { isLoggedIn: boolean }) {
     setActiveModal("delete");
   }
 
-  function handleEditClick(projectData: ProjectInfo){
+  function handleEditClick(projectData: ProjectInfo) {
     setSelectedProject(projectData);
-    setActiveModal('edit');
+    setActiveModal("edit");
   }
 
-  async function getAndOrderProjects() {
+  const getAndOrderProjects = useCallback(async () => {
     if (!activeModal) {
       setLoading(true);
       try {
@@ -61,7 +60,7 @@ export default function Work({ isLoggedIn }: { isLoggedIn: boolean }) {
     } else {
       return;
     }
-  }
+  }, [activeModal]);
 
   // -------------------------------- //
   //               HOOKS              //
@@ -69,7 +68,7 @@ export default function Work({ isLoggedIn }: { isLoggedIn: boolean }) {
 
   useEffect(() => {
     getAndOrderProjects();
-  }, [activeModal]);
+  }, [activeModal, getAndOrderProjects]);
 
   // -------------------------------- //
   //         COMPONENT RETURN         //
@@ -83,7 +82,6 @@ export default function Work({ isLoggedIn }: { isLoggedIn: boolean }) {
         </div>
       ) : null}
       <div className={styles["work__header"]}>
-        
         <Link
           style={{
             display: "flex",
@@ -102,7 +100,7 @@ export default function Work({ isLoggedIn }: { isLoggedIn: boolean }) {
         </Link>
         <h1 className={styles["header__title"]}>PROJECTS</h1>
         <Link
-        className={styles['header__smallcontact_parent']}
+          className={styles["header__smallcontact_parent"]}
           style={{
             display: "flex",
             justifyContent: "center",
@@ -128,7 +126,6 @@ export default function Work({ isLoggedIn }: { isLoggedIn: boolean }) {
             HOME
           </button>
         </Link>
-
       </div>
       <main className={styles["work__main"]}>
         {projects.map((projectInfo) => {
@@ -158,12 +155,12 @@ export default function Work({ isLoggedIn }: { isLoggedIn: boolean }) {
         ></div>
       ) : null}
 
-  {/* 
+      {/* 
   // -------------------------------- //
   //               MODALS             //
   // -------------------------------- //
   */}
-  
+
       <AddProjectModal
         closeModal={closeModal}
         activeModal={activeModal}

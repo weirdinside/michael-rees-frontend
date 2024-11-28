@@ -33,8 +33,7 @@ export default function AddProjectModal({ activeModal, closeModal }: {activeModa
   //          EVENT HANDLERS          //
   // -------------------------------- //
 
-  function clearFields(e: React.MouseEvent) {
-    e.preventDefault();
+  function clearFields() {
     setTitle("");
     setShowTitle(false);
     setThumbnail("");
@@ -75,6 +74,7 @@ export default function AddProjectModal({ activeModal, closeModal }: {activeModa
       const res = await setSiteData(order, String(Date.now()));
       console.log(res);
       closeModal();
+      clearFields();
     } catch (error) {
       console.error('an error happened in handleSubmitProject', error)
     } finally {
@@ -195,7 +195,7 @@ export default function AddProjectModal({ activeModal, closeModal }: {activeModa
         
             <button
               disabled={isLoading}
-              onClick={clearFields}
+              onClick={(e)=>{e.preventDefault();clearFields();}}
               className={`${styles["add__button"]} ${styles['revert']}`}
             >
               clear fields
