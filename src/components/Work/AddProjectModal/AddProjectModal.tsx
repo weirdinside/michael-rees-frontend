@@ -4,7 +4,12 @@ import Project from "../WorkItem/Project";
 import { addProject, getSiteData, setSiteData, uploadThumbnail } from "../../../utils/api";
 
 export default function AddProjectModal({ activeModal, closeModal }: {activeModal: string, closeModal: ()=>void}) {
+
+  // -------------------------------- //
+  //         STATES / VARIABLES       //
+  // -------------------------------- //
   
+  // the following can be minimized with useReducer
   const [title, setTitle] = useState<string>("");
   const [showTitle, setShowTitle] = useState<boolean>(false);
   const [thumbnail, setThumbnail] = useState<string>("");
@@ -23,6 +28,10 @@ export default function AddProjectModal({ activeModal, closeModal }: {activeModa
     role: role,
     thumbnail: thumbnail,
   };
+
+  // -------------------------------- //
+  //          EVENT HANDLERS          //
+  // -------------------------------- //
 
   function clearFields(e: React.MouseEvent) {
     e.preventDefault();
@@ -43,7 +52,6 @@ export default function AddProjectModal({ activeModal, closeModal }: {activeModa
     }
   };
 
-  // write a function handleImageUpload that uploads the image to uploadthing and returns the url,
 
   async function handleSubmitProject(e: React.MouseEvent){
     e.preventDefault();
@@ -74,6 +82,10 @@ export default function AddProjectModal({ activeModal, closeModal }: {activeModa
     }
   }
 
+  // -------------------------------- //
+  //               HOOKS              //
+  // -------------------------------- //
+
   useEffect(function handleEscClose(){
     window.addEventListener('keydown', (e)=>{
       if(e.key === 'Escape'){
@@ -85,6 +97,10 @@ export default function AddProjectModal({ activeModal, closeModal }: {activeModa
       closeModal();
     })
   }, [])
+
+  // -------------------------------- //
+  //         COMPONENT RETURN         //
+  // -------------------------------- //
 
   return (
     <div

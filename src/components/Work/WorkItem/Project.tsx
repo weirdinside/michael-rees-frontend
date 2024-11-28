@@ -13,8 +13,10 @@ export default function Project({
   handleDeleteClick?: (projectData: ProjectInfo) => void;
   handleEditClick?: (projectData: ProjectInfo) => void;
 }) {
-  //   projectInfo will be an object with the following schema
-  // { title: string, block: (this needs either an image or a url), role: string, dateUploaded: date }
+
+  // -------------------------------- //
+  //         STATES / VARIABLES       //
+  // -------------------------------- //
 
   const [data, setData] = useState<ProjectInfo>({
     _id: "",
@@ -27,12 +29,20 @@ export default function Project({
 
   const [videoMarkup, setVideoMarkup] = useState(<></>);
 
+  // -------------------------------- //
+  //               HOOKS              //
+  // -------------------------------- //
+
   useEffect(
     function setProjectInfo() {
       setData(projectInfo);
     },
     [projectInfo],
   );
+
+  // -------------------------------- //
+  //    CONDITIONAL MARKUP RETURN     //
+  // -------------------------------- //
 
   useEffect(
     function setVideoPlayer() {
@@ -109,6 +119,10 @@ export default function Project({
     },
     [data.link, data.thumbnail],
   );
+
+  // -------------------------------- //
+  //         COMPONENT RETURN         //
+  // -------------------------------- //
 
   return (
     <div className={styles["project"]}>

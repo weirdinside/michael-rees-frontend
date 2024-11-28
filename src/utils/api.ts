@@ -1,13 +1,12 @@
 import { baseUrl } from "./constants";
 
-export function checkResponse(res: Response) {
-  return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
+export async function checkResponse(res: Response) {
+  return res.ok ? await res.json() : Promise.reject(`Error: ${res.status}`);
 }
 
-export function getSiteData() {
-  return fetch(`${baseUrl}/data`).then((res) => {
-    return checkResponse(res);
-  });
+export async function getSiteData() {
+  const res = await fetch(`${baseUrl}/data`);
+  return await checkResponse(res);
 }
 
 export function setSiteData(order: ProjectInfo[], lastEdited: string) {

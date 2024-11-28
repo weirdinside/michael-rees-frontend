@@ -16,6 +16,11 @@ export default function EditProjectModal({
   closeModal: () => void;
   activeModal: string;
 }) {
+
+  // -------------------------------- //
+  //         STATES / VARIABLES       //
+  // -------------------------------- //
+
   const [title, setTitle] = useState<string>("");
   const [showTitle, setShowTitle] = useState<boolean>(false);
   const [thumbnail, setThumbnail] = useState<string | undefined>("");
@@ -28,6 +33,10 @@ export default function EditProjectModal({
   const fileUploadRef = useRef<HTMLInputElement>(null);
 
   const [isLoading, setLoading] = useState<boolean>(false);
+
+  // -------------------------------- //
+  //          EVENT HANDLERS          //
+  // -------------------------------- //
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -95,7 +104,11 @@ export default function EditProjectModal({
     }
   }
 
-  useEffect(() => {
+  // -------------------------------- //
+  //               HOOKS              //
+  // -------------------------------- //
+
+  useEffect(function setInitialDataOnOpen(){
     if (projectToEdit) {
       setTitle(projectToEdit.title);
       setShowTitle(projectToEdit.showTitle);
@@ -105,6 +118,10 @@ export default function EditProjectModal({
       setInitialData(projectToEdit);
     }
   }, [projectToEdit]);
+
+  // -------------------------------- //
+  //         COMPONENT RETURN         //
+  // -------------------------------- //
 
   return (
     <div

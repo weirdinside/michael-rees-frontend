@@ -14,7 +14,11 @@ import { signIn, register } from "./utils/auth";
 import Contact from "./components/Contact/Contact";
 
 export default function App() {
-  const navigate = useNavigate();
+
+
+  // -------------------------------- //
+  //         STATES / VARIABLES       //
+  // -------------------------------- //
 
   const [isPending, setIsPending] = useState(false);
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -24,11 +28,9 @@ export default function App() {
 
   let timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  useEffect(() => {
-    if (localStorage.token) {
-      setLoggedIn(true);
-    }
-  }, []);
+  // -------------------------------- //
+  //          EVENT HANDLERS          //
+  // -------------------------------- //
 
   const setPopup = useCallback(() => {
     if (timer.current) {
@@ -41,39 +43,34 @@ export default function App() {
     }, 2000);
   }, [isLoggedIn]);
 
-  function handleSignIn(name: string, password: string) {
+  const handleSignIn = async (name: string, password: string) => {
     setIsPending(true);
-    signIn(name, password)
-      .then((res) => {
-        setLoggedIn(true);
-        setPopupMessage("signed in");
-        setPopup();
-        navigate("/");
-      })
-      .catch((err) => {
-        console.error(err);
-      })
-      .finally(() => {
-        setIsPending(false);
-      });
-  }
+    try {
+      await signIn(name, password);
+      setLoggedIn(true);
+      setPopupMessage("signed in");
+      setPopup();
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsPending(false);
+    }
+  };
 
-  async function handleRegister(
+  const handleRegister = async (
     name: string,
     password: string,
     secret: string,
-  ) {
-    register(name, password, secret)
-      .then((res) => {
-        return handleSignIn(res.name, password);
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }
+  ) => {
+    try {
+      const signedUpUser = await register(name, password, secret);
+      const signedInUser = await handleSignIn(signedUpUser.name, password);
+      console.log(signedInUser);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   function handleSignOut(e: React.MouseEvent) {
     e.preventDefault();
@@ -84,6 +81,18 @@ export default function App() {
     setPopup();
     navigate("/login");
   }
+
+  // -------------------------------- //
+  //               HOOKS              //
+  // -------------------------------- //
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.token) {
+      setLoggedIn(true);
+    }
+  }, []);
 
   return (
     <div className={styles["page"]}>

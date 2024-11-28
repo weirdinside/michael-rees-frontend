@@ -11,19 +11,20 @@ import DeleteProjectModal from "./DeleteProjectModal/DeleteProjectModal";
 import EditProjectModal from "./EditProjectModal/EditProjectModal";
 
 export default function Work({ isLoggedIn }: { isLoggedIn: boolean }) {
-  // logic here for displaying Projects from the schema as below:
-  // { title: string, block: (this needs either an image or a url), role: string, dateUploaded: date }
 
-  // projectorganizer: a modal that allows michael to order projects by index.
-  // possibly experiment with draggable divs, but this will need to be stored in an array in the db
-  // and therefore is going to need its own set of requests.
-  // the data structure needed for this is a linked list
+  // -------------------------------- //
+  //         STATES / VARIABLES       //
+  // -------------------------------- //
 
   const [projects, setProjects] = useState<ProjectInfo[]>([]);
   const [activeModal, setActiveModal] = useState<string>("");
   const [gettingProjects, setLoading] = useState<boolean>(true);
 
   const [selectedProject, setSelectedProject] = useState<ProjectInfo>();
+
+  // -------------------------------- //
+  //           EVENT HANDLERS         //
+  // -------------------------------- //
 
   function closeModal() {
     setActiveModal("");
@@ -62,9 +63,17 @@ export default function Work({ isLoggedIn }: { isLoggedIn: boolean }) {
     }
   }
 
+  // -------------------------------- //
+  //               HOOKS              //
+  // -------------------------------- //
+
   useEffect(() => {
     getAndOrderProjects();
   }, [activeModal]);
+
+  // -------------------------------- //
+  //         COMPONENT RETURN         //
+  // -------------------------------- //
 
   return (
     <div className={styles["work"]}>
@@ -148,6 +157,13 @@ export default function Work({ isLoggedIn }: { isLoggedIn: boolean }) {
           className={styles["reorder__button"]}
         ></div>
       ) : null}
+
+  {/* 
+  // -------------------------------- //
+  //               MODALS             //
+  // -------------------------------- //
+  */}
+  
       <AddProjectModal
         closeModal={closeModal}
         activeModal={activeModal}

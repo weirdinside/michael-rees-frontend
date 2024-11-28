@@ -11,7 +11,17 @@ export default function DeleteProjectModal({
   projectToDelete: ProjectInfo | undefined;
   closeModal: () => void;
 }) {
+
+  // -------------------------------- //
+  //         STATES / VARIABLES       //
+  // -------------------------------- //
+
   const [isDeleting, setDeleting] = useState<boolean>(false);
+
+
+  // -------------------------------- //
+  //          EVENT HANDLERS          //
+  // -------------------------------- //
 
   function handleEscClose(e: KeyboardEvent) {
     if (e.key === "Escape") {
@@ -45,13 +55,21 @@ export default function DeleteProjectModal({
     }
   }
 
-  useEffect(() => {
+  // -------------------------------- //
+  //              HOOKS               //
+  // -------------------------------- //
+
+  useEffect(function closeModalOnEsc(){
     if (activeModal !== "") {
       window.addEventListener("keydown", handleEscClose);
     }
 
     return window.removeEventListener("keydown", handleEscClose);
   }, [activeModal]);
+
+  // -------------------------------- //
+  //         COMPONENT RETURN         //
+  // -------------------------------- //
 
   return (
     <div

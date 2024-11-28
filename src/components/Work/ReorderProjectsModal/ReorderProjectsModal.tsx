@@ -71,14 +71,13 @@ export default function ReorderProjectsModal({
   closeModal: () => void;
   projects: ProjectInfo[];
 }) {
+
+  // -------------------------------- //
+  //         STATES / VARIABLES       //
+  // -------------------------------- //
+
   const [orderedProjects, setOrderedProjects] = useState<ProjectInfo[]>([]);
   const [isLoading, setLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (projects && projects.length > 0) {
-      setOrderedProjects(projects);
-    }
-  }, [projects]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -87,6 +86,10 @@ export default function ReorderProjectsModal({
       coordinateGetter: sortableKeyboardCoordinates,
     }),
   );
+
+  // -------------------------------- //
+  //          EVENT HANDLERS          //
+  // -------------------------------- //
 
   function handleDragOver(e: DragOverEvent) {
     const { active, over } = e;
@@ -120,6 +123,20 @@ export default function ReorderProjectsModal({
       setLoading(false);
     }
   }
+
+  // -------------------------------- //
+  //               HOOKS              //
+  // -------------------------------- //
+
+  useEffect(() => {
+    if (projects && projects.length > 0) {
+      setOrderedProjects(projects);
+    }
+  }, [projects]);
+
+  // -------------------------------- //
+  //         COMPONENT RETURN         //
+  // -------------------------------- //
 
   if (!projects || projects.length === 0) {
     return (
