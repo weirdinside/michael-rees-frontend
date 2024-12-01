@@ -8,6 +8,12 @@
   position: relative;
 }
 
+.login.dark{
+  background-color: #0e1521;
+  filter: drop-shadow(0 0 5px #cacacaa4);
+  color: white;
+}
+
 .back{
   position: absolute;
   top: 0;
@@ -41,6 +47,12 @@
   width: 100%;
   border: none;
   border-bottom: 2px solid black;
+}
+
+.login__input.dark{
+  background-color: transparent;
+  color: white;
+  border-bottom: 2px solid white;
 }
 
 .form__button {

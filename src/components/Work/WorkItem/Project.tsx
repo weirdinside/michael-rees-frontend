@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import styles from "./Project.module.css";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 export default function Project({
   projectInfo,
@@ -39,6 +40,8 @@ export default function Project({
     },
     [projectInfo],
   );
+
+  const {isDarkMode} = useContext(ThemeContext)
 
   // -------------------------------- //
   //    CONDITIONAL MARKUP RETURN     //
@@ -104,7 +107,7 @@ export default function Project({
         setVideoMarkup(
           <iframe
             width="100%"
-            height="400px"
+            height="100%"
             src={`https://www.youtube.com/embed/${slug}`}
             title="YouTube video player"
             frameBorder="0"
@@ -125,13 +128,13 @@ export default function Project({
   // -------------------------------- //
 
   return (
-    <div className={styles["project"]}>
+    <div className={`${styles["project"]} ${isDarkMode && styles['dark']}`}>
       {isLoggedIn && handleEditClick && (
         <div
           onClick={() => {
             handleEditClick(data);
           }}
-          className={styles["edit__button"]}
+          className={`${styles["edit__button"]} ${isDarkMode && styles['dark']}`}
         ></div>
       )}
       {isLoggedIn && handleDeleteClick && (
@@ -139,7 +142,7 @@ export default function Project({
           onClick={() => {
             handleDeleteClick(data);
           }}
-          className={styles["delete__button"]}
+          className={`${styles["delete__button"]} ${isDarkMode && styles['dark']}`}
         ></div>
       )}
       <div className={styles["project__content"]}>{videoMarkup}</div>
@@ -151,7 +154,7 @@ export default function Project({
               ? { opacity: "1" }
               : { opacity: "0" }
           }
-          className={styles["project__info_container"]}
+          className={`${styles["project__info_container"]} ${isDarkMode && styles['dark']}`}
         >
           {projectInfo.showTitle ? (
             <span className={styles["project__info_title"]}>

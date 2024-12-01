@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { setSiteData } from "../../../utils/api";
 import {
   DndContext,
@@ -20,6 +20,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 
 import styles from "./ReorderProjectsModal.module.css";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 function SortableItem({
   project,
@@ -28,6 +29,9 @@ function SortableItem({
   project: ProjectInfo;
   index: number;
 }) {
+
+  const {isDarkMode} = useContext(ThemeContext)
+
   const {
     attributes,
     listeners,
@@ -51,6 +55,7 @@ function SortableItem({
       style={style}
       className={`
         ${styles["draggable__project"]} 
+        ${isDarkMode && styles['dark']}
         ${isDragging ? styles["dragging"] : ""}
       `}
       {...attributes}
@@ -134,25 +139,18 @@ export default function ReorderProjectsModal({
     }
   }, [projects]);
 
+  const {isDarkMode} = useContext(ThemeContext);
+
   // -------------------------------- //
   //         COMPONENT RETURN         //
   // -------------------------------- //
-
-  if (!projects || projects.length === 0) {
-    return (
-      <div className={styles["rpmodal"]}>
-        <div className={styles["rpmodal__content"]}>
-          <p>No projects available</p>
-        </div>
-      </div>
-    );
-  }
+  
   return (
     <div className={`${styles["rpmodal"]} ${activeModal === 'order' && styles['active']}`}>
-      <div className={styles["rpmodal__content"]}>
+      <div className={`${styles["rpmodal__content"]}  ${isDarkMode && styles['dark']}`}>
         <h1 className={styles["rpmodal__title"]}>re-order work</h1>
         <div
-          className={styles["rpmodal__closebutton"]}
+          className={`${styles["rpmodal__closebutton"]} ${isDarkMode && styles['dark']}`}
           onClick={closeModal}
         ></div>
         <DndContext

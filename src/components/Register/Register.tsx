@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Register.module.css";
+import { ThemeContext } from "../../contexts/ThemeProvider";
 
-export default function Register({ handleRegister, isPending }) {
+export default function Register({ handleRegister, isPending }: {handleRegister: (name: string, password: string, secret: string)=>{}, isPending: boolean}) {
   const [name, setName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [verifyPassword, setVerifyPassword] = useState<string>("");
@@ -34,10 +35,12 @@ export default function Register({ handleRegister, isPending }) {
     [name, password, verifyPassword, secret],
   );
 
+  const {isDarkMode} = useContext(ThemeContext);
+
   return (
     <div
       style={isPending ? { opacity: "0.5" } : { opacity: "1" }}
-      className={styles["register"]}
+      className={`${styles["register"]} ${isDarkMode && styles['dark']}`}
     >
       <Link style={{ color: "black", textDecoration: "none" }} to="/">
         <div className={styles["back"]}>⬅</div>
@@ -55,7 +58,7 @@ export default function Register({ handleRegister, isPending }) {
             }}
             placeholder="name"
             type="text"
-            className={styles["register__input"]}
+            className={`${styles["register__input"]} ${isDarkMode && styles['dark']}`}
           ></input>
         </label>
         <label className={styles["register__field"]}>
@@ -67,7 +70,7 @@ export default function Register({ handleRegister, isPending }) {
             }}
             type={showPasswords ? "text" : "password"}
             placeholder="password"
-            className={styles["register__input"]}
+            className={`${styles["register__input"]} ${isDarkMode && styles['dark']}`}
           ></input>
         </label>
         <label className={styles["register__field"]}>
@@ -79,7 +82,7 @@ export default function Register({ handleRegister, isPending }) {
             }}
             type={showPasswords ? "text" : "password"}
             placeholder="verify password"
-            className={styles["register__input"]}
+            className={`${styles["register__input"]} ${isDarkMode && styles['dark']}`}
           ></input>
         </label>
         <label className={styles["register__field"]}>
@@ -91,7 +94,7 @@ export default function Register({ handleRegister, isPending }) {
             }}
             type={showPasswords ? "text" : "password"}
             placeholder="secret phrase"
-            className={styles["register__input"]}
+            className={`${styles["register__input"]} ${isDarkMode && styles['dark']}`}
           ></input>
         </label>
         <label>

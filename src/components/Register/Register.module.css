@@ -8,6 +8,13 @@
   position: relative;
 }
 
+.register.dark{
+  filter: drop-shadow(0 0 20px #828282);
+  color: white;
+  background-color: #0e1521;
+  animation: filterPulse 4s infinite ease-in-out;
+}
+
 .back {
   position: absolute;
   top: 0;
@@ -41,6 +48,12 @@
   width: 100%;
   border: none;
   border-bottom: 2px solid black;
+}
+
+.register__input.dark{
+  background-color: transparent;
+  color: white;
+  border-bottom: 2px solid white;
 }
 
 .form__button {

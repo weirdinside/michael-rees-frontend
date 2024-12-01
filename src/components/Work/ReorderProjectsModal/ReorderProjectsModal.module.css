@@ -13,7 +13,7 @@
   transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
-.rpmodal.active{
+.rpmodal.active {
   z-index: 2;
   opacity: 1;
   transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
@@ -32,7 +32,13 @@
   flex-direction: column;
 }
 
-.rpmodal__itemlist{
+.rpmodal__content.dark{
+  background-color: #0e1521;
+  filter: drop-shadow(0 0 5px #cacacaa4);
+  color: white;
+}
+
+.rpmodal__itemlist {
   overflow: scroll;
 }
 
@@ -53,12 +59,20 @@
   cursor: pointer;
 }
 
+.rpmodal__closebutton.dark{
+  filter: invert(1);
+}
+
 .rpmodal__closebutton:hover {
   filter: invert(1);
   background-color: white;
   border: 2px solid white;
   rotate: 180deg;
   transition: 0.6s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.rpmodal__closebutton.dark:hover{
+  filter:invert(0)
 }
 
 .rpmodal__title {
@@ -78,6 +92,11 @@
   border-radius: 5px;
   padding: 10px;
   transition: 0.6s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.draggable__project.dark{
+  background-color: #0e1521;
+  color: white;
 }
 
 .project__drag {

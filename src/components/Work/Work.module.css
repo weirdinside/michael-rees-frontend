@@ -1,5 +1,11 @@
 .work {
   overflow: hidden;
+  height: 100svh;
+}
+
+.work.dark{
+  background-color: #0e1521;
+  color: white;
 }
 
 @keyframes textPulse {
@@ -26,6 +32,11 @@
   justify-content: center;
 }
 
+.work__loading.dark{
+  background-color: #0e1521;
+  color: white;
+}
+
 .loading__text {
   font-size: 30px;
   font-family: "Alte Haas Grotesk", sans-serif;
@@ -34,7 +45,7 @@
 }
 
 .work__header {
-  width: 90vw;
+  width: 80vw;
   max-width: 1200px;
   margin: auto auto;
   height: 100px;
@@ -60,6 +71,25 @@
   transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
+@keyframes filterPulse{
+  0%{
+    filter: drop-shadow(0 0 10px #9d9d9d);
+  }
+  50%{
+    filter: drop-shadow(0 0 20px #828282);
+  }
+  100%{
+    filter: drop-shadow(0 0 10px #9d9d9d);
+  }
+}
+
+.header__title.dark{
+  background-color: #0e1521;
+  filter: drop-shadow(0 0 20px #828282);
+  color: white;
+  animation: filterPulse 3s infinite linear;
+}
+
 .button {
   font-family: "Alte Haas Grotesk", sans-serif;
   background-color: white;
@@ -74,6 +104,19 @@
   border: none;
   box-sizing: border-box;
   transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.button.dark{
+  color: white;
+  background-color: #0e1521;
+  filter: drop-shadow(0 0 5px #cacacaa4);
+}
+
+.button.dark:hover{
+  filter: drop-shadow(0 0 20px #828282);
+  color: white;
+  background-color: #0e1521;
+  scale: 1.1;
 }
 
 .header__contact {
@@ -121,6 +164,11 @@
   z-index: 3;
 }
 
+.add__project.dark{
+  filter: invert(1)
+
+}
+
 .add__project:hover {
   color: white;
   width: fit-content;
@@ -152,11 +200,20 @@
   z-index: 3;
 }
 
+.reorder__button.dark{
+  filter: invert(1)
+}
+
 .header__smallcontact {
   visibility: hidden;
   width: 0;
   height: 0;
   position: absolute;
+}
+
+.header__smallcontact.dark{
+  filter: invert(1) drop-shadow(0 0 5px #cacacaa4);
+  background-color: transparent;
 }
 
 .header__smallcontact_parent {
@@ -185,7 +242,7 @@
   content: "add an item";
 }
 
-@media screen and (max-width: 660px) {
+@media screen and (max-width: 840px) {
   .button {
     font-size: 20px;
   }
@@ -195,9 +252,9 @@
   }
 }
 
-@media screen and (max-width: 560px) {
+@media screen and (max-width: 660px) {
   .work__header {
-    justify-content: space-around;
+    justify-content: space-between;
     max-width: 90svw;
   }
 

@@ -1,7 +1,8 @@
-import { ChangeEvent, useRef, useEffect, useState } from "react";
+import { ChangeEvent, useRef, useEffect, useState, useContext } from "react";
 import styles from "./AddProjectModal.module.css";
 import Project from "../WorkItem/Project";
 import { addProject, getSiteData, setSiteData, uploadThumbnail } from "../../../utils/api";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 export default function AddProjectModal({ activeModal, closeModal }: {activeModal: string, closeModal: ()=>void}) {
 
@@ -98,6 +99,8 @@ export default function AddProjectModal({ activeModal, closeModal }: {activeModa
     })
   }, [])
 
+  const {isDarkMode} = useContext(ThemeContext);
+
   // -------------------------------- //
   //         COMPONENT RETURN         //
   // -------------------------------- //
@@ -108,8 +111,8 @@ export default function AddProjectModal({ activeModal, closeModal }: {activeModa
         activeModal === "add" ? styles["active"] : ""
       }`}
     >
-      <div className={styles["modal__content"]}>
-        <div onClick={closeModal} className={styles["modal__close"]}></div>
+      <div className={`${styles["modal__content"]} ${isDarkMode && styles['dark']}`}>
+        <div onClick={closeModal} className={`${styles["modal__close"]} ${isDarkMode && styles['dark']}`}></div>
         <h1 className={styles["modal__heading"]}>add an item</h1>
         <div className={styles["edit__container"]}>
           <form className={styles["additem__form"]}>
@@ -120,7 +123,7 @@ export default function AddProjectModal({ activeModal, closeModal }: {activeModa
                 onChange={(e) => {
                   setTitle(e.target.value.toUpperCase());
                 }}
-                className={styles["additem__input"]}
+                className={`${styles["additem__input"]} ${isDarkMode && styles['dark']}`}
               ></input>
             </label>
             <label
@@ -146,7 +149,7 @@ export default function AddProjectModal({ activeModal, closeModal }: {activeModa
                 onChange={(e) => {
                   setLink(e.target.value);
                 }}
-                className={styles["additem__input"]}
+                className={`${styles["additem__input"]} ${isDarkMode && styles['dark']}`}
               ></input>
             </label>
             <label className={styles["additem__label"]}>
@@ -156,7 +159,7 @@ export default function AddProjectModal({ activeModal, closeModal }: {activeModa
                 onChange={(e) => {
                   setRole(e.target.value.toUpperCase());
                 }}
-                className={styles["additem__input"]}
+                className={`${styles["additem__input"]} ${isDarkMode && styles['dark']}`}
               ></input>
             </label>
             <label
@@ -196,14 +199,14 @@ export default function AddProjectModal({ activeModal, closeModal }: {activeModa
             <button
               disabled={isLoading}
               onClick={(e)=>{e.preventDefault();clearFields();}}
-              className={`${styles["add__button"]} ${styles['revert']}`}
+              className={`${styles["add__button"]} ${isDarkMode && styles['dark']} ${styles['revert']}`}
             >
               clear fields
             </button>
             <button
               onClick={handleSubmitProject}
               disabled={isLoading}
-              className={styles["add__button"]}
+              className={`${styles["add__button"]} ${isDarkMode && styles['dark']}`}
             >
               {isLoading ? "adding.." : "add"}
             </button>

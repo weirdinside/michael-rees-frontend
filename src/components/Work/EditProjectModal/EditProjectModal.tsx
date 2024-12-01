@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, ChangeEvent } from "react";
+import React, { useState, useRef, useEffect, ChangeEvent, useContext } from "react";
 import styles from "./EditProjectModal.module.css";
 import {
   deleteThumbnail,
@@ -6,6 +6,7 @@ import {
   uploadThumbnail,
 } from "../../../utils/api";
 import Project from "../WorkItem/Project";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 export default function EditProjectModal({
   projectToEdit,
@@ -119,6 +120,8 @@ export default function EditProjectModal({
     }
   }, [projectToEdit]);
 
+  const {isDarkMode} = useContext(ThemeContext);
+
   // -------------------------------- //
   //         COMPONENT RETURN         //
   // -------------------------------- //
@@ -129,10 +132,10 @@ export default function EditProjectModal({
         activeModal === "edit" && styles["active"]
       }`}
     >
-      <div className={styles["epmodal__content"]}>
+      <div className={`${styles["epmodal__content"]} ${isDarkMode && styles['dark']}`}>
         <button
           onClick={closeModal}
-          className={styles["epmodal__close"]}
+          className={`${styles["epmodal__close"]} ${isDarkMode && styles['dark']}`}
         ></button>
         <h1 className={styles["epmodal__heading"]}>edit project</h1>
         <div className={styles["edit__container"]}>
@@ -144,7 +147,7 @@ export default function EditProjectModal({
                 onChange={(e) => {
                   setTitle(e.target.value);
                 }}
-                className={styles["edit__input"]}
+                className={`${styles["edit__input"]} ${isDarkMode && styles['dark']}`}
               ></input>
             </label>
             <label className={`${styles["edit__label"]} ${styles["checkbox"]}`}>
@@ -165,7 +168,7 @@ export default function EditProjectModal({
                 onChange={(e) => {
                   setLink(e.target.value);
                 }}
-                className={styles["edit__input"]}
+                className={`${styles["edit__input"]} ${isDarkMode && styles['dark']}`}
               ></input>
             </label>
             <label className={styles["edit__label"]}>
@@ -175,7 +178,7 @@ export default function EditProjectModal({
                 onChange={(e) => {
                   setRole(e.target.value);
                 }}
-                className={styles["edit__input"]}
+                className={`${styles["edit__input"]} ${isDarkMode && styles['dark']}`}
               ></input>
             </label>
             {thumbnail && (

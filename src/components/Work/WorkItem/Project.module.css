@@ -5,6 +5,10 @@
   position: relative;
 }
 
+.project.dark{
+  color: white;
+}
+
 .edit__button{
   transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
   z-index: 2;
@@ -23,6 +27,10 @@
   border: 2px solid black;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.edit__button.dark{
+  filter: invert(1)
 }
 
 .edit__button::after{
@@ -66,6 +74,10 @@
   justify-content: center;
   align-items: center;
   background-image: url('../../../assets/images/trash-can.svg')
+}
+
+.delete__button.dark{
+  filter: invert(1);
 }
 
 .delete__button:hover{
@@ -119,6 +131,11 @@
   width: fit-content;
   height: fit-content;
   filter: drop-shadow(0 0 5px #00000095);
+}
+
+.project__info_container.dark{
+  background-color: #0e1521;
+  filter: drop-shadow(0 0 5px #cacacaa4);
 }
 
 .project__info_title {

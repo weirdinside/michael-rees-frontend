@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./DeleteProjectModal.module.css";
 import { getSiteData, setSiteData, deleteProject, deleteThumbnail } from "../../../utils/api";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 export default function DeleteProjectModal({
   projectToDelete,
@@ -17,7 +18,6 @@ export default function DeleteProjectModal({
   // -------------------------------- //
 
   const [isDeleting, setDeleting] = useState<boolean>(false);
-
 
   // -------------------------------- //
   //          EVENT HANDLERS          //
@@ -67,6 +67,8 @@ export default function DeleteProjectModal({
     return window.removeEventListener("keydown", handleEscClose);
   }, [activeModal]);
 
+  const {isDarkMode} = useContext(ThemeContext);
+
   // -------------------------------- //
   //         COMPONENT RETURN         //
   // -------------------------------- //
@@ -77,7 +79,7 @@ export default function DeleteProjectModal({
         activeModal === "delete" ? styles["active"] : ""
       }`}
     >
-      <div className={styles["deletemodal__content"]}>
+      <div className={`${styles["deletemodal__content"]} ${isDarkMode && styles['dark']}`}>
         <h1 className={styles["deletemodal__heading"]}>
           hold up. are you sure?
         </h1>

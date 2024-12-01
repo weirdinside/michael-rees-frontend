@@ -13,12 +13,28 @@
   transition: 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
+.background {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: white;
+  color: black;
+}
+
+.background.dark {
+  background-color: #0e1521;
+  color: white;
+}
+
 .header {
   position: absolute;
   width: 340px;
   top: 10vh;
   height: auto;
   background-color: white;
+  color: black;
   text-wrap: wrap;
   text-align: center;
   margin: 0;
@@ -27,8 +43,15 @@
   cursor: pointer;
 }
 
+.header.dark {
+  filter: drop-shadow(0 0 5px #cacacaa4);
+}
+
+.header.dark:hover {
+  filter: drop-shadow(0 0 20px #828282);
+}
+
 .header__text {
-  color: black;
   margin: 8px;
   padding: 0;
   font-family: "Schibsted Grotesk", sans-serif;
@@ -46,8 +69,6 @@
 }
 
 .button {
-  background-color: white;
-  color: black;
   font-size: 30px;
   font-weight: 800;
   padding: 10px 25px;
@@ -68,10 +89,8 @@
 
 .button:hover {
   border: none;
-  background: black;
-  color: white;
   cursor: pointer;
-  filter: drop-shadow(0 0 0 #000000);
+  filter: invert(1) drop-shadow(0 0 0 #000000);
   transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
@@ -79,6 +98,18 @@
   right: 20vw;
   max-width: 200px;
   top: 25%;
+}
+
+.button.dark {
+  background-color: #0e1521;
+  color: white;
+  filter: drop-shadow(0 0 5px #cacacaa4);
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.button.dark:hover {
+  filter: invert(1) drop-shadow(0 0 20px #828282);
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 .rees__peek {
@@ -93,6 +124,15 @@
   bottom: 30vh;
 }
 
+@media screen and (max-width: 600px) and (max-height: 1000px) {
+  .rees__peek{
+    bottom: -30vh;
+  }
+  
+  .rees__peek.active {
+    bottom: 7vh;
+  }
+}
 
 @media screen and (max-width: 600px) {
   .rocks {
@@ -109,11 +149,9 @@
     top: 50%;
     left: calc(50vw - 98px);
   }
-
-  .rees__peek.active {
-    bottom: 10vh;
-  }
 }
+
+
 
 @media screen and (min-height: 1600px) and (max-height: 3000px) and (min-width: 1500px) {
   .rees__peek.active {
