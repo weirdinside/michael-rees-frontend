@@ -145,7 +145,7 @@ export default function EditProjectModal({
               <input
                 value={title}
                 onChange={(e) => {
-                  setTitle(e.target.value);
+                  setTitle(e.target.value.toUpperCase());
                 }}
                 className={`${styles["edit__input"]} ${isDarkMode && styles['dark']}`}
               ></input>
@@ -176,7 +176,7 @@ export default function EditProjectModal({
               <input
                 value={role}
                 onChange={(e) => {
-                  setRole(e.target.value);
+                  setRole(e.target.value.toUpperCase());
                 }}
                 className={`${styles["edit__input"]} ${isDarkMode && styles['dark']}`}
               ></input>

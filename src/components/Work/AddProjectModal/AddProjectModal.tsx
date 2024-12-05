@@ -10,7 +10,8 @@ export default function AddProjectModal({ activeModal, closeModal }: {activeModa
   //         STATES / VARIABLES       //
   // -------------------------------- //
   
-  // the following can be minimized with useReducer
+  // use a hook to minimize these instead
+
   const [title, setTitle] = useState<string>("");
   const [showTitle, setShowTitle] = useState<boolean>(false);
   const [thumbnail, setThumbnail] = useState<string>("");
@@ -97,7 +98,7 @@ export default function AddProjectModal({ activeModal, closeModal }: {activeModa
     return window.removeEventListener('keydown', ()=>{
       closeModal();
     })
-  }, [])
+  }, [closeModal])
 
   const {isDarkMode} = useContext(ThemeContext);
 

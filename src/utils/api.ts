@@ -67,6 +67,7 @@ export async function editProject(
       },
       body: JSON.stringify({ _id, title, showTitle, link, role, thumbnail }),
     });
+    console.log(res);
     const responseData = await checkResponse(res);
     return responseData;
   } catch (err) {

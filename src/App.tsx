@@ -13,7 +13,7 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import { signIn, register } from "./utils/auth";
 import Contact from "./components/Contact/Contact";
 
-import { ThemeContext, ThemeProvider } from "./contexts/ThemeProvider";
+import { ThemeContext } from "./contexts/ThemeProvider";
 
 export default function App() {
   // -------------------------------- //

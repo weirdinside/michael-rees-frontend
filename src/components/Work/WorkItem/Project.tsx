@@ -14,7 +14,6 @@ export default function Project({
   handleDeleteClick?: (projectData: ProjectInfo) => void;
   handleEditClick?: (projectData: ProjectInfo) => void;
 }) {
-
   // -------------------------------- //
   //         STATES / VARIABLES       //
   // -------------------------------- //
@@ -27,6 +26,8 @@ export default function Project({
     link: "",
     thumbnail: "",
   });
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const [videoMarkup, setVideoMarkup] = useState(<></>);
 
@@ -41,7 +42,11 @@ export default function Project({
     [projectInfo],
   );
 
-  const {isDarkMode} = useContext(ThemeContext)
+  useEffect(() => {
+    console.log();
+  }, [isLoading]);
+
+  const { isDarkMode } = useContext(ThemeContext);
 
   // -------------------------------- //
   //    CONDITIONAL MARKUP RETURN     //
@@ -56,7 +61,13 @@ export default function Project({
             target="_blank"
             to={data.link}
           >
+            {isLoading && (
+              <div className={styles["thumbnail__loading"]}>⬤⬤⬤</div>
+            )}
             <div
+              onLoad={() => {
+                setIsLoading(false);
+              }}
               className={styles["thumbnail"]}
               style={{
                 backgroundImage: `url(http://localhost:3001/${data.thumbnail})`,
@@ -76,8 +87,14 @@ export default function Project({
         const slug = data.link.split("/").pop();
         setVideoMarkup(
           <>
+            {isLoading && (
+              <div className={styles["thumbnail__loading"]}>⬤⬤⬤</div>
+            )}
             <div style={{ padding: "56.25% 0 0 0", position: "relative" }}>
               <iframe
+                onLoad={() => {
+                  setIsLoading(false);
+                }}
                 src={`https://player.vimeo.com/video/${slug}?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479`}
                 frameBorder="0"
                 allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
@@ -105,16 +122,27 @@ export default function Project({
         }
 
         setVideoMarkup(
-          <iframe
-            width="100%"
-            height="100%"
-            src={`https://www.youtube.com/embed/${slug}`}
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen={true}
-          ></iframe>,
+          <>
+            {isLoading && (
+              <div className={styles["thumbnail__loading"]}>⬤⬤⬤</div>
+            )}
+            <iframe
+              style={{ position: "relative" }}
+              onLoad={(e) => {
+                setIsLoading(() => {
+                  return false;
+                });
+              }}
+              width="100%"
+              height="100%"
+              src={`https://www.youtube.com/embed/${slug}`}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen={true}
+            ></iframe>
+          </>,
         );
       } else {
         setVideoMarkup(<></>);
@@ -128,13 +156,15 @@ export default function Project({
   // -------------------------------- //
 
   return (
-    <div className={`${styles["project"]} ${isDarkMode && styles['dark']}`}>
+    <div className={`${styles["project"]} ${isDarkMode && styles["dark"]}`}>
       {isLoggedIn && handleEditClick && (
         <div
           onClick={() => {
             handleEditClick(data);
           }}
-          className={`${styles["edit__button"]} ${isDarkMode && styles['dark']}`}
+          className={`${styles["edit__button"]} ${
+            isDarkMode && styles["dark"]
+          }`}
         ></div>
       )}
       {isLoggedIn && handleDeleteClick && (
@@ -142,7 +172,9 @@ export default function Project({
           onClick={() => {
             handleDeleteClick(data);
           }}
-          className={`${styles["delete__button"]} ${isDarkMode && styles['dark']}`}
+          className={`${styles["delete__button"]} ${
+            isDarkMode && styles["dark"]
+          }`}
         ></div>
       )}
       <div className={styles["project__content"]}>{videoMarkup}</div>
@@ -154,7 +186,9 @@ export default function Project({
               ? { opacity: "1" }
               : { opacity: "0" }
           }
-          className={`${styles["project__info_container"]} ${isDarkMode && styles['dark']}`}
+          className={`${styles["project__info_container"]} ${
+            isDarkMode && styles["dark"]
+          }`}
         >
           {projectInfo.showTitle ? (
             <span className={styles["project__info_title"]}>

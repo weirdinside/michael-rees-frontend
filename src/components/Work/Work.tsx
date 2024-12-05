@@ -143,20 +143,20 @@ export default function Work({ isLoggedIn }: { isLoggedIn: boolean }) {
           );
         })}
       </main>
-      {isLoggedIn ? (
+      {isLoggedIn &&  (
         <div
           onClick={() => setActiveModal("add")}
           className={`${styles["add__project"]} ${isDarkMode && styles['dark']}`}
         >
           +
         </div>
-      ) : null}
-      {isLoggedIn ? (
+      )}
+      {isLoggedIn && (
         <div
           onClick={() => setActiveModal("order")}
           className={`${styles["reorder__button"]} ${isDarkMode && styles['dark']}`}
         ></div>
-      ) : null}
+      )}
 
       {/* 
   // -------------------------------- //
