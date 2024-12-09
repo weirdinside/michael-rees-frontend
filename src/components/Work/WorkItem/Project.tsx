@@ -101,7 +101,7 @@ export default function Project({
   useEffect(
     function setVideoPlayer() {
       if (data.thumbnail) {
-        console.log(data.thumbnail)
+        console.log(`${baseUrl}/${data.thumbnail}`)
         setVideoMarkup(
           <Link
             style={{ textDecoration: "none" }}
