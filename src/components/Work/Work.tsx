@@ -240,7 +240,7 @@ export default function Work({ isLoggedIn }: { isLoggedIn: boolean }) {
                 </span>
               </Link>
             </p>
-            <img style={{ width: "100%", height: "30%" }} src={bearPNG}></img>
+            <img style={{ marginTop: 'auto', objectFit: 'contain', width: "100%", height: "30%" }} src={bearPNG}></img>
           </div>
         )}
         {projects.map((projectInfo) => {

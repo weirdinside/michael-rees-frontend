@@ -1,6 +1,11 @@
 @font-face {
     font-family: 'Alte Haas Grotesk';
-    src: url('./assets/fonts/Alte-Haas-Grotesk.woff');
+    src: url('./assets/fonts/Alte-Haas-Grotesk-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Alte Haas Grotesk';
+    src: url('./assets/fonts/Alte-Haas-Grotesk-Bold.ttf')
 }
 
 body{
