@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import styles from "./Project.module.css";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../../contexts/ThemeProvider";
+import { baseUrl } from "../../../utils/constants";
 
 export default function Project({
   searchTerm,
@@ -112,7 +113,7 @@ export default function Project({
               style={{
                 zIndex: '3',
                 opacity: '1',
-                backgroundImage: `url(http://localhost:3001/${data.thumbnail})`,
+                backgroundImage: `url(${baseUrl}/${data.thumbnail})`,
               }}
             >
               <div className={styles["thumbnail__title"]}>
