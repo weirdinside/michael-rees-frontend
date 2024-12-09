@@ -417,6 +417,7 @@
 
   .header__smallcontact:hover {
     filter: invert(1);
+    opacity: 0.8;
     transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
   }
 
