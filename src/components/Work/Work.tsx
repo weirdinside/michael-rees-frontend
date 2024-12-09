@@ -11,6 +11,10 @@ import DeleteProjectModal from "./DeleteProjectModal/DeleteProjectModal";
 import EditProjectModal from "./EditProjectModal/EditProjectModal";
 import { ThemeContext } from "../../contexts/ThemeProvider";
 
+import bearPNG from "../../assets/images/bear.png";
+import Filter from "./Filter/Filter";
+import { active } from "sortablejs";
+
 export default function Work({ isLoggedIn }: { isLoggedIn: boolean }) {
   // -------------------------------- //
   //         STATES / VARIABLES       //
@@ -19,8 +23,20 @@ export default function Work({ isLoggedIn }: { isLoggedIn: boolean }) {
   const [projects, setProjects] = useState<ProjectInfo[]>([]);
   const [activeModal, setActiveModal] = useState<string>("");
   const [gettingProjects, setLoading] = useState<boolean>(true);
-
+  const [isError, setIsError] = useState<boolean>(false);
   const [selectedProject, setSelectedProject] = useState<ProjectInfo>();
+  const [showFilters, setShowFilters] = useState<boolean>(false);
+
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
+
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  const [filters, setFilters] = useState<object>({
+    director: false,
+    editor: false,
+    writer: false,
+    producer: false,
+  });
 
   // -------------------------------- //
   //           EVENT HANDLERS         //
@@ -28,6 +44,13 @@ export default function Work({ isLoggedIn }: { isLoggedIn: boolean }) {
 
   function closeModal() {
     setActiveModal("");
+    setSelectedProject(undefined);
+  }
+
+  function toggleFilter(filter: keyof typeof filters) {
+    setFilters((prev) => {
+      return { ...prev, [filter]: !filters[filter] };
+    });
   }
 
   function handleDeleteClick(projectData: ProjectInfo) {
@@ -54,7 +77,8 @@ export default function Work({ isLoggedIn }: { isLoggedIn: boolean }) {
         );
         setProjects(sortedProjects);
       } catch (err) {
-        console.error(err);
+        setIsError(true);
+        console.log(err);
       } finally {
         setLoading(false);
       }
@@ -71,20 +95,38 @@ export default function Work({ isLoggedIn }: { isLoggedIn: boolean }) {
     getAndOrderProjects();
   }, [activeModal, getAndOrderProjects]);
 
-  const {isDarkMode} = useContext(ThemeContext)
+  const { isDarkMode } = useContext(ThemeContext);
+
+  useEffect(()=>{
+    const newActiveFilters = (
+      Object.keys(filters) as Array<keyof typeof filters>
+    ).filter((key: keyof typeof filters) => {
+      if (filters[key] === true) {
+        return String(key).toUpperCase();
+      }
+    });
+
+    setActiveFilters(newActiveFilters);
+  }, [filters])
 
   // -------------------------------- //
   //         COMPONENT RETURN         //
   // -------------------------------- //
 
   return (
-    <div className={`${styles["work"]} ${isDarkMode && styles['dark']}`}>
+    <div className={`${styles["work"]} ${isDarkMode && styles["dark"]}`}>
       {gettingProjects ? (
-        <div className={`${styles["work__loading"]} ${isDarkMode && styles['dark']}`}>
+        <div
+          className={`${styles["work__loading"]} ${
+            isDarkMode && styles["dark"]
+          }`}
+        >
           <p className={styles["loading__text"]}>loading work...</p>
         </div>
       ) : null}
-      <div className={`${styles["work__header"]} ${isDarkMode && styles['dark']}`}>
+      <div
+        className={`${styles["work__header"]} ${isDarkMode && styles["dark"]}`}
+      >
         <Link
           style={{
             display: "flex",
@@ -96,14 +138,26 @@ export default function Work({ isLoggedIn }: { isLoggedIn: boolean }) {
           to="/contact"
         >
           <button
-            className={`${styles["header__contact"]}  ${styles["button"]} ${isDarkMode && styles['dark']}`}
+            className={`${styles["header__contact"]}  ${styles["button"]} ${
+              isDarkMode && styles["dark"]
+            }`}
           >
             CONTACT
           </button>
         </Link>
-        <h1 className={`${styles["header__title"]} ${isDarkMode && styles['dark']}`}>PROJECTS</h1>
+        <h1
+          onClick={()=>{setShowFilters(prev=>!prev)}}
+          className={`${styles["header__title"]} ${
+            isDarkMode && styles["dark"]
+          }`}
+        >
+          PROJECTS
+          <span className={`${styles['show']} ${showFilters && styles['hide']}`}>⌄</span>
+        </h1>
         <Link
-          className={`${styles["header__smallcontact_parent"]} ${isDarkMode && styles['dark']}`}
+          className={`${styles["header__smallcontact_parent"]} ${
+            isDarkMode && styles["dark"]
+          }`}
           style={{
             display: "flex",
             justifyContent: "center",
@@ -113,7 +167,11 @@ export default function Work({ isLoggedIn }: { isLoggedIn: boolean }) {
           }}
           to="/contact"
         >
-          <button className={`${styles["header__smallcontact"]} ${isDarkMode && styles['dark']}`}></button>
+          <button
+            className={`${styles["header__smallcontact"]} ${
+              isDarkMode && styles["dark"]
+            }`}
+          ></button>
         </Link>
         <Link
           style={{
@@ -125,15 +183,72 @@ export default function Work({ isLoggedIn }: { isLoggedIn: boolean }) {
           }}
           to="/"
         >
-          <button className={`${styles["header__home"]} ${styles["button"]} ${isDarkMode && styles['dark']}`}>
+          <button
+            className={`${styles["header__home"]} ${styles["button"]} ${
+              isDarkMode && styles["dark"]
+            }`}
+          >
             HOME
           </button>
         </Link>
       </div>
+      <div style={showFilters ? {opacity: '1', visibility: 'visible', maxHeight: '100%'} : {opacity: '0', visibility: 'hidden', maxHeight: '0%'}} className={styles["filters"]}>
+        <h1 className={styles['filters__heading']}>LOOKING FOR SOMETHING IN PARTICULAR?</h1>
+        <div className={styles['filter__options']}>
+        {(Object.keys(filters) as Array<keyof typeof filters>).map(
+          (filter: keyof typeof filters) => (
+            <Filter
+              key={filter}
+              filters={filters}
+              toggleFilter={toggleFilter}
+              name={filter}
+            />
+          ),
+        )}
+        </div>
+       
+        <input
+          placeholder="search"
+          type="text"
+          className={`${styles["search"]} ${isDarkMode && styles["dark"]}`}
+          onChange={(e) => {
+            e.preventDefault();
+            const sanitizedInput = e.target.value.replace(
+              /[^a-zA-Z0-9() ]/g,
+              "",
+            );
+            setSearchTerm(sanitizedInput);
+          }}
+        ></input>
+      </div>
       <main className={styles["work__main"]}>
+        {isError && (
+          <div className={styles["error"]}>
+            <p className={styles["error__heading"]}>
+              we're sorry, something went wrong
+            </p>
+            <p className={styles["error__subheading"]}>
+              try again later, or{" "}
+              <Link
+                style={isDarkMode ? { color: "white" } : { color: "black" }}
+                to="/contact"
+              >
+                <span
+                  className={styles["error__contactme"]}
+                  style={{ fontWeight: "800" }}
+                >
+                  contact me
+                </span>
+              </Link>
+            </p>
+            <img style={{ width: "100%", height: "30%" }} src={bearPNG}></img>
+          </div>
+        )}
         {projects.map((projectInfo) => {
           return (
             <Project
+              searchTerm={searchTerm}
+              activeFilters={activeFilters}
               key={projectInfo._id}
               handleEditClick={handleEditClick}
               handleDeleteClick={handleDeleteClick}
@@ -143,10 +258,12 @@ export default function Work({ isLoggedIn }: { isLoggedIn: boolean }) {
           );
         })}
       </main>
-      {isLoggedIn &&  (
+      {isLoggedIn && (
         <div
           onClick={() => setActiveModal("add")}
-          className={`${styles["add__project"]} ${isDarkMode && styles['dark']}`}
+          className={`${styles["add__project"]} ${
+            isDarkMode && styles["dark"]
+          }`}
         >
           +
         </div>
@@ -154,7 +271,9 @@ export default function Work({ isLoggedIn }: { isLoggedIn: boolean }) {
       {isLoggedIn && (
         <div
           onClick={() => setActiveModal("order")}
-          className={`${styles["reorder__button"]} ${isDarkMode && styles['dark']}`}
+          className={`${styles["reorder__button"]} ${
+            isDarkMode && styles["dark"]
+          }`}
         ></div>
       )}
 

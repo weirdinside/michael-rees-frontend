@@ -73,7 +73,6 @@ export default function EditProjectModal({
     if (projectToEdit && projectToEdit._id) {
       try {
         let newThumbnail = thumbnail;
-        console.log(file);
         if (
           initialData &&
           initialData.thumbnail &&

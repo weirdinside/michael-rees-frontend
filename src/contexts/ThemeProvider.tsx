@@ -9,22 +9,22 @@ type ThemeProviderProps = {
   children: React.ReactNode;
 };
 
-const getInitialTheme = (): boolean => {
-  const savedTheme = localStorage.getItem("theme");
-  if (savedTheme) return savedTheme === "dark";
+// const getInitialTheme = (): boolean => {
+//   const savedTheme = localStorage.getItem("theme");
+//   if (savedTheme) return savedTheme === "dark";
 
-  return window.matchMedia("(prefers-color-scheme: dark)").matches;
-};
+//   return window.matchMedia("(prefers-color-scheme: dark)").matches;
+// };
 
 const defaultContext: ThemeContextType = {
-  isDarkMode: getInitialTheme(),
+  isDarkMode: false,
   toggleColorMode: () => {},
 };
 
 export const ThemeContext = createContext<ThemeContextType>(defaultContext);
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-  const [isDarkMode, setDarkMode] = useState<boolean>(getInitialTheme);
+  const [isDarkMode, setDarkMode] = useState<boolean>(false);
 
   useEffect(
     function setThemeToStorage() {

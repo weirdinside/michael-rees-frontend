@@ -1,0 +1,61 @@
+.filter__option {
+  border: 2px solid black;
+  font-family: "Alte Haas Grotesk", sans-serif;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  font-size: clamp(10px, 3cqw, 25px);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  margin: 0;
+  position: relative;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.filter__option.dark {
+  border: 2px solid white;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.filter__option.checked {
+  background-color: black;
+  color: white;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.filter__option.checked:hover {
+  background-color: black;
+}
+
+.filter__option.dark.checked {
+  background-color: white;
+  color: #0e1521;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.filter__option.dark.checked:hover {
+  border: 2px solid white;
+  background-color: white;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.filter__option:hover {
+  background-color: rgba(0, 0, 0, 0.509);
+  color: white;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.filter__option.dark:hover {
+  background-color: rgba(255, 255, 255, 0.572);
+  color: black;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.filter__input {
+  visibility: hidden;
+  height: 0px;
+  width: 0px;
+  position: absolute;
+}

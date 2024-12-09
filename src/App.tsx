@@ -28,6 +28,8 @@ export default function App() {
 
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const [error, setError] = useState('');
+
   // -------------------------------- //
   //          EVENT HANDLERS          //
   // -------------------------------- //
@@ -97,9 +99,9 @@ export default function App() {
 
   return (
       <div className={styles["page"]}>
-        <div onClick={()=>{
+        {/* <div onClick={()=>{
           toggleColorMode();
-        }} className={`${styles['theme__toggle']} ${isDarkMode && styles['dark']}`}></div>
+        }} className={`${styles['theme__toggle']} ${isDarkMode && styles['dark']}`}></div> */}
         <div
           className={`${styles["login__notification"]} ${
             isPopupActive ? styles["active"] : ""

@@ -3,6 +3,7 @@
   max-width: 800px;
   margin: 10px;
   position: relative;
+  transition: 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 .project.dark{
@@ -10,7 +11,7 @@
 }
 
 .edit__button{
-  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+  transition: 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
   z-index: 2;
   display: flex;
   justify-content: center;
@@ -120,7 +121,7 @@
 .thumbnail__loading{
   z-index: 0;
   font-family: 'Alte Haas Grotesk';
-  font-size: 15cqw;
+  font-size: 5cqw;
   font-weight: 800;
   display: flex;
   justify-content: center;
@@ -150,6 +151,7 @@
 }
 
 .project__content {
+  max-height: fit-content;
   position: relative;
   margin: 10px;
   aspect-ratio: 16 / 9;

@@ -77,9 +77,29 @@
   filter: drop-shadow(0 0 5px #00000095);
   border-radius: 0;
   cursor: pointer;
+  rotate: 0deg;
   border: none;
   box-sizing: border-box;
   transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+  animation: buttonWiggle 2s cubic-bezier(0.075, 0.82, 0.165, 1) infinite;
+}
+
+@keyframes buttonWiggle {
+  0%{
+    rotate: 0deg;
+  }
+  5%{
+    rotate: 2deg;
+  }
+  10%{
+    rotate: -2deg;
+  }
+  15%{
+    rotate: 0deg;
+  }
+  100%{
+    rotate: 0deg;
+  }
 }
 
 .button__work {

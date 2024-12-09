@@ -2,13 +2,18 @@ import { Link } from "react-router-dom";
 import styles from "./Project.module.css";
 import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../../contexts/ThemeProvider";
+import { active } from "sortablejs";
 
 export default function Project({
+  searchTerm,
+  activeFilters,
   projectInfo,
   isLoggedIn = false,
   handleDeleteClick,
   handleEditClick,
 }: {
+  searchTerm?: string;
+  activeFilters?: Array<string>;
   isLoggedIn?: boolean;
   projectInfo: ProjectInfo;
   handleDeleteClick?: (projectData: ProjectInfo) => void;
@@ -28,8 +33,57 @@ export default function Project({
   });
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isVisible, setIsVisible] = useState<boolean>(true);
 
   const [videoMarkup, setVideoMarkup] = useState(<></>);
+
+  function checkFilter() {
+    
+    function searchCheck() {
+      if (searchTerm) {
+        if (
+          projectInfo.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          projectInfo.role.toLowerCase().includes(searchTerm.toLowerCase())
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return true;
+      }
+    }
+
+    // if no filters and no search, this is useless
+    if (!activeFilters && !searchTerm){
+
+      return setIsVisible(true);
+    }
+
+    if(activeFilters && (activeFilters.length === 0) && !searchTerm){
+
+      return setIsVisible(true);
+    }
+
+    // if every value in filters is false, set everything to visible
+    if (!activeFilters && searchTerm) {
+      return setIsVisible(searchCheck());
+    }
+
+    // maps through the active filters and checks the role for inclusivity
+    if(activeFilters){
+      console.log('there are active filters')
+      if(activeFilters.length > 0){
+        const isVisible = activeFilters?.some((filter)=>{
+          const roleMatchesFilter = projectInfo.role.toLowerCase().includes(filter)
+          return roleMatchesFilter && searchCheck();   
+        })
+        return setIsVisible(isVisible)
+      } else {
+        return setIsVisible(searchCheck());
+      }
+    }
+  }
 
   // -------------------------------- //
   //               HOOKS              //
@@ -43,8 +97,8 @@ export default function Project({
   );
 
   useEffect(() => {
-    console.log();
-  }, [isLoading]);
+    checkFilter();
+  }, [activeFilters, searchTerm]);
 
   const { isDarkMode } = useContext(ThemeContext);
 
@@ -55,21 +109,18 @@ export default function Project({
   useEffect(
     function setVideoPlayer() {
       if (data.thumbnail) {
+        console.log(data.thumbnail)
         setVideoMarkup(
           <Link
             style={{ textDecoration: "none" }}
             target="_blank"
             to={data.link}
           >
-            {isLoading && (
-              <div className={styles["thumbnail__loading"]}>⬤⬤⬤</div>
-            )}
             <div
-              onLoad={() => {
-                setIsLoading(false);
-              }}
               className={styles["thumbnail"]}
               style={{
+                zIndex: '3',
+                opacity: '1',
                 backgroundImage: `url(http://localhost:3001/${data.thumbnail})`,
               }}
             >
@@ -145,7 +196,7 @@ export default function Project({
           </>,
         );
       } else {
-        setVideoMarkup(<></>);
+        setVideoMarkup(<>sorry, this link doesn't work</>);
       }
     },
     [data.link, data.thumbnail],
@@ -156,7 +207,21 @@ export default function Project({
   // -------------------------------- //
 
   return (
-    <div className={`${styles["project"]} ${isDarkMode && styles["dark"]}`}>
+    <div
+      style={
+        isVisible
+          ? { transition: '1s cubic-bezier(0.075, 0.82, 0.165, 1)', visibility: "visible", opacity: "1" }
+          : {
+              maxHeight: '0%',
+              visibility: "hidden",
+              margin: '0',
+              padding: '0',
+              opacity: "0",
+              transition: '0.5s cubic-bezier(0.075, 0.82, 0.165, 1)'
+            }
+      }
+      className={`${styles["project"]} ${isDarkMode && styles["dark"]}`}
+    >
       {isLoggedIn && handleEditClick && (
         <div
           onClick={() => {

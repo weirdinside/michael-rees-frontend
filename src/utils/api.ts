@@ -33,7 +33,6 @@ export async function addProject(
   role: string,
   thumbnail?: string,
 ) {
-  console.log(title, showTitle, link, role, thumbnail);
   try {
     const res = await fetch(`${baseUrl}/portfolio`, {
       method: "POST",
@@ -94,7 +93,6 @@ export async function deleteThumbnail(filename: string) {
 }
 
 export async function deleteProject(id: string) {
-  console.log(id);
   try {
     const res = await fetch(`${baseUrl}/portfolio/${id}`, {
       method: "DELETE",
@@ -118,7 +116,6 @@ export async function uploadThumbnail(file: File) {
 
   const formData = new FormData();
   formData.append("file", file);
-  console.log(formData);
 
   try {
     const res = await fetch(`${baseUrl}/api/upload`, {
