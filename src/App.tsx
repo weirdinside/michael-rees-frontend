@@ -28,8 +28,6 @@ export default function App() {
 
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const [error, setError] = useState('');
-
   // -------------------------------- //
   //          EVENT HANDLERS          //
   // -------------------------------- //
@@ -43,7 +41,7 @@ export default function App() {
       setPopupActive(false);
       setPopupMessage("");
     }, 2000);
-  }, [isLoggedIn]);
+  }, []);
 
   const handleSignIn = async (name: string, password: string) => {
     setIsPending(true);
@@ -89,13 +87,19 @@ export default function App() {
   // -------------------------------- //
 
   const navigate = useNavigate();
-  const {isDarkMode, toggleColorMode} = useContext(ThemeContext)
+  const { isDarkMode } = useContext(ThemeContext)
 
   useEffect(() => {
     if (localStorage.token) {
       setLoggedIn(true);
     }
   }, []);
+
+  useEffect(()=>{
+    if(isLoggedIn){
+      setPopup();
+    }
+  }, [setPopup, isLoggedIn])
 
   return (
       <div className={styles["page"]}>

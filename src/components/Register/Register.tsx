@@ -1,9 +1,15 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Register.module.css";
 import { ThemeContext } from "../../contexts/ThemeProvider";
 
-export default function Register({ handleRegister, isPending }: {handleRegister: (name: string, password: string, secret: string)=>{}, isPending: boolean}) {
+export default function Register({
+  handleRegister,
+  isPending,
+}: {
+  handleRegister: (name: string, password: string, secret: string) => void;
+  isPending: boolean;
+}) {
   const [name, setName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [verifyPassword, setVerifyPassword] = useState<string>("");
@@ -19,28 +25,28 @@ export default function Register({ handleRegister, isPending }: {handleRegister:
     return handleRegister(name, password, secret);
   }
 
-  function checkFormValidity() {
+  const checkFormValidity = useCallback(() => {
     if (name.length > 2 && password.length > 2 && secret.length > 2) {
       if (password === verifyPassword && password !== "") {
         return setFormValid(true);
       }
     }
     return setFormValid(false);
-  }
+  }, [password, verifyPassword, name.length, secret.length]);
 
   useEffect(
     function checkValidityOnChange() {
       checkFormValidity();
     },
-    [name, password, verifyPassword, secret],
+    [checkFormValidity, name, password, verifyPassword, secret],
   );
 
-  const {isDarkMode} = useContext(ThemeContext);
+  const { isDarkMode } = useContext(ThemeContext);
 
   return (
     <div
       style={isPending ? { opacity: "0.5" } : { opacity: "1" }}
-      className={`${styles["register"]} ${isDarkMode && styles['dark']}`}
+      className={`${styles["register"]} ${isDarkMode && styles["dark"]}`}
     >
       <Link style={{ color: "black", textDecoration: "none" }} to="/">
         <div className={styles["back"]}>⬅</div>
@@ -58,7 +64,9 @@ export default function Register({ handleRegister, isPending }: {handleRegister:
             }}
             placeholder="name"
             type="text"
-            className={`${styles["register__input"]} ${isDarkMode && styles['dark']}`}
+            className={`${styles["register__input"]} ${
+              isDarkMode && styles["dark"]
+            }`}
           ></input>
         </label>
         <label className={styles["register__field"]}>
@@ -70,7 +78,9 @@ export default function Register({ handleRegister, isPending }: {handleRegister:
             }}
             type={showPasswords ? "text" : "password"}
             placeholder="password"
-            className={`${styles["register__input"]} ${isDarkMode && styles['dark']}`}
+            className={`${styles["register__input"]} ${
+              isDarkMode && styles["dark"]
+            }`}
           ></input>
         </label>
         <label className={styles["register__field"]}>
@@ -82,7 +92,9 @@ export default function Register({ handleRegister, isPending }: {handleRegister:
             }}
             type={showPasswords ? "text" : "password"}
             placeholder="verify password"
-            className={`${styles["register__input"]} ${isDarkMode && styles['dark']}`}
+            className={`${styles["register__input"]} ${
+              isDarkMode && styles["dark"]
+            }`}
           ></input>
         </label>
         <label className={styles["register__field"]}>
@@ -94,7 +106,9 @@ export default function Register({ handleRegister, isPending }: {handleRegister:
             }}
             type={showPasswords ? "text" : "password"}
             placeholder="secret phrase"
-            className={`${styles["register__input"]} ${isDarkMode && styles['dark']}`}
+            className={`${styles["register__input"]} ${
+              isDarkMode && styles["dark"]
+            }`}
           ></input>
         </label>
         <label>
@@ -116,7 +130,7 @@ export default function Register({ handleRegister, isPending }: {handleRegister:
           }`}
           onClick={handleSubmit}
         >
-          {isPending ? 'registering...' : 'register'}
+          {isPending ? "registering..." : "register"}
         </button>
       </form>
       <Link style={{ textDecoration: "none", color: "black" }} to="/login">

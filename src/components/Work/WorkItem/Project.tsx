@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 import styles from "./Project.module.css";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../../contexts/ThemeProvider";
-import { active } from "sortablejs";
 
 export default function Project({
   searchTerm,
@@ -37,7 +36,7 @@ export default function Project({
 
   const [videoMarkup, setVideoMarkup] = useState(<></>);
 
-  function checkFilter() {
+  const checkFilter = useCallback(() => {
     
     function searchCheck() {
       if (searchTerm) {
@@ -53,26 +52,18 @@ export default function Project({
         return true;
       }
     }
-
-    // if no filters and no search, this is useless
     if (!activeFilters && !searchTerm){
-
       return setIsVisible(true);
     }
 
     if(activeFilters && (activeFilters.length === 0) && !searchTerm){
-
       return setIsVisible(true);
     }
-
-    // if every value in filters is false, set everything to visible
     if (!activeFilters && searchTerm) {
       return setIsVisible(searchCheck());
     }
 
-    // maps through the active filters and checks the role for inclusivity
     if(activeFilters){
-      console.log('there are active filters')
       if(activeFilters.length > 0){
         const isVisible = activeFilters?.some((filter)=>{
           const roleMatchesFilter = projectInfo.role.toLowerCase().includes(filter)
@@ -83,7 +74,7 @@ export default function Project({
         return setIsVisible(searchCheck());
       }
     }
-  }
+  }, [activeFilters, projectInfo.role, projectInfo.title, searchTerm]);
 
   // -------------------------------- //
   //               HOOKS              //
@@ -98,7 +89,7 @@ export default function Project({
 
   useEffect(() => {
     checkFilter();
-  }, [activeFilters, searchTerm]);
+  }, [checkFilter, activeFilters, searchTerm]);
 
   const { isDarkMode } = useContext(ThemeContext);
 
@@ -179,7 +170,7 @@ export default function Project({
             )}
             <iframe
               style={{ position: "relative" }}
-              onLoad={(e) => {
+              onLoad={() => {
                 setIsLoading(() => {
                   return false;
                 });
@@ -199,7 +190,7 @@ export default function Project({
         setVideoMarkup(<>sorry, this link doesn't work</>);
       }
     },
-    [data.link, data.thumbnail],
+    [data.title, isLoading, data.link, data.thumbnail],
   );
 
   // -------------------------------- //

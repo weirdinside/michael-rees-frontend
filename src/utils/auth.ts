@@ -1,7 +1,7 @@
 import { checkResponse } from "./api";
 import { baseUrl } from "./constants";
 
-async function signIn(name, password) {
+async function signIn(name: string, password: string) {
   try {
     const res = await fetch(`${baseUrl}/signin`, {
       method: "POST",
@@ -23,7 +23,7 @@ async function signIn(name, password) {
   }
 }
 
-async function register(name, password, secret) {
+async function register(name: string, password: string, secret: string) {
   try{
     const res = await fetch(`${baseUrl}/register`, {
       method: "POST",

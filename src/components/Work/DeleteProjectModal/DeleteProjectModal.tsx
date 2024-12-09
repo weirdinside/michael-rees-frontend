@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import styles from "./DeleteProjectModal.module.css";
 import { getSiteData, setSiteData, deleteProject, deleteThumbnail } from "../../../utils/api";
 import { ThemeContext } from "../../../contexts/ThemeProvider";
@@ -23,11 +23,11 @@ export default function DeleteProjectModal({
   //          EVENT HANDLERS          //
   // -------------------------------- //
 
-  function handleEscClose(e: KeyboardEvent) {
+  const handleEscClose = useCallback((e: KeyboardEvent) => {
     if (e.key === "Escape") {
       closeModal();
     }
-  }
+  }, [closeModal])
 
   async function handleDelete(e: React.MouseEvent) {
     e.preventDefault();
@@ -65,7 +65,7 @@ export default function DeleteProjectModal({
     }
 
     return window.removeEventListener("keydown", handleEscClose);
-  }, [activeModal]);
+  }, [handleEscClose, activeModal]);
 
   const {isDarkMode} = useContext(ThemeContext);
 

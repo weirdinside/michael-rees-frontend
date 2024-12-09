@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext } from "react";
 import styles from "./Filter.module.css";
 import { ThemeContext } from "../../../contexts/ThemeProvider";
 
@@ -22,7 +22,7 @@ export default function Filter({
     >
       {String(name).toUpperCase()}
       <input
-        onChange={(e) => {
+        onChange={() => {
           toggleFilter(name)
         }}
         checked={filters[name]}

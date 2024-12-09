@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import styles from "./Login.module.css";
 import { Link } from "react-router-dom";
 import { ThemeContext } from "../../contexts/ThemeProvider";
@@ -22,16 +22,16 @@ export default function Login({
     handleSignIn(name, password);
   }
 
-  function checkFormValidity() {
+  const checkFormValidity = useCallback(() => {
     if (name.length > 2 && password.length > 2) {
       return setFormValidity(true);
     }
     return setFormValidity(false);
-  }
+  }, [name.length, password.length]);
 
   useEffect(() => {
     checkFormValidity();
-  }, [password, name]);
+  }, [checkFormValidity, password, name]);
 
   const { isDarkMode } = useContext(ThemeContext);
 

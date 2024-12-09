@@ -13,7 +13,6 @@ import { ThemeContext } from "../../contexts/ThemeProvider";
 
 import bearPNG from "../../assets/images/bear.png";
 import Filter from "./Filter/Filter";
-import { active } from "sortablejs";
 
 export default function Work({ isLoggedIn }: { isLoggedIn: boolean }) {
   // -------------------------------- //
