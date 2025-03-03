@@ -1,0 +1,377 @@
+.page {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  --off-white: #e3e2db;
+  height: 100svh;
+  overflow: hidden;
+  width: 100vw;
+  max-height: 100svh;
+  position: relative;
+}
+
+.page__content {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  --off-white: #e3e2db;
+  height: 100svh;
+  overflow: hidden;
+  width: 100vw;
+  max-height: 100svh;
+  max-width: 1500px;
+  position: relative;
+}
+
+.page.blue {
+  background-color: #002db3;
+  color: var(--off-white);
+
+  .header {
+    border-bottom: 1px solid var(--off-white);
+  }
+
+  .theme-picker {
+    color: var(--off-white);
+    border: 2px solid var(--off-white);
+  }
+
+  .hamburger {
+    border: 2px solid var(--off-white);
+  }
+
+  .ham {
+    background-color: var(--off-white);
+  }
+
+  .button {
+    color: var(--off-white);
+    border: 2px solid var(--off-white);
+  }
+
+  .menu {
+    background-color: #00000065;
+  }
+}
+
+.page.dark {
+  background-color: #0f0f0f;
+  color: white;
+
+  .header {
+    border-bottom: 1px solid white;
+  }
+
+  .theme-picker {
+    color: white;
+    border: 2px solid white;
+  }
+
+  .ham {
+    background-color: white;
+  }
+
+  .hamburger {
+    border: 2px solid white;
+  }
+
+  .button {
+    color: white;
+    border: 2px solid white;
+  }
+
+  .menu {
+    background-color: #00000065;
+  }
+}
+
+.header {
+  margin: 3% 3% 0 3%;
+  height: auto;
+  padding: 5px 5px 10px;
+  border-bottom: 1px solid black;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  flex: 0 1 auto;
+}
+
+.header__main {
+  font-weight: 500;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  font-size: clamp(15px, 8vw, 50px);
+}
+
+.header__sub {
+  font-weight: 400;
+  font-size: clamp(10px, 4vw, 40px);
+  margin: 0;
+  padding: 0;
+}
+
+.sub1 {
+  padding: 0px 3%;
+  margin: 0;
+}
+
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 25px;
+  aspect-ratio: 1/1;
+  width: auto;
+  border: 2px solid black;
+  border-radius: 50px;
+  padding: 5px;
+  position: relative;
+  z-index: 10;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.menu.open .menu__option {
+  opacity: 1;
+  transform: translateX(0px);
+}
+
+.menu.open .menu__option:nth-child(1) {
+  transition: 0.5s opacity cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+  transition: 0.5s transform cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.menu.open .menu__option:nth-child(2) {
+  transition: 0.5s opacity cubic-bezier(0.075, 0.82, 0.165, 1) 0.1s;
+  transition: 0.5s transform cubic-bezier(0.075, 0.82, 0.165, 1) 0.1s;
+}
+
+.menu.open .menu__option:nth-child(3) {
+  transition: 0.5s opacity cubic-bezier(0.075, 0.82, 0.165, 1) 0.2s;
+  transition: 0.5s transform cubic-bezier(0.075, 0.82, 0.165, 1) 0.2s;
+}
+.menu.open .menu__option:nth-child(4) {
+  transition: 0.5s opacity cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
+  transition: 0.5s transform cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
+}
+
+.ham {
+  height: 2px;
+  width: 80%;
+  background-color: black;
+  color: black;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.ham.one.open {
+  position: absolute;
+  rotate: 225deg;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.ham.three.open {
+  rotate: -225deg;
+  position: absolute;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.ham.two.open {
+  max-width: 0;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.buttons {
+  display: flex;
+  height: auto;
+  gap: 15px;
+  margin: auto 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.button {
+  border: 2px solid black;
+  border-radius: 50px;
+  background: transparent;
+  color: black;
+  height: 100%;
+  font-size: clamp(10px, 3vw, 40px);
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.button.cta {
+  height: auto;
+  margin: 0 auto 0 0;
+  cursor: pointer;
+
+  font-family: "Space Grotesk";
+  width: fit-content;
+}
+
+.menu {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0px 3%;
+  height: 100%;
+  width: 100%;
+  background-color: #ffffff65;
+  gap: 20px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+  backdrop-filter: blur(4px);
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.menu.open {
+  z-index: 10;
+  opacity: 1;
+  pointer-events: all;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.body {
+  z-index: 1;
+  height: 100%;
+  padding: 0 3%;
+  font-size: clamp(30px, 4em, 50px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  flex: 1 1 auto;
+}
+
+.body__about {
+  text-align: left;
+  margin-right: auto;
+}
+
+.body__work {
+  text-align: left;
+  margin-right: auto;
+}
+
+.footer {
+  z-index: 1;
+  height: 40px;
+  font-size: 15px;
+  padding: 0 15px;
+  opacity: 0.3;
+  margin-bottom: 5%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex: 1 1 auto;
+}
+
+.footer-copyright-slider {
+  visibility: hidden;
+  display: none;
+}
+
+.menu__option {
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  font-size: clamp(40px, 3em, 80px);
+  transform: translateX(-200px);
+  transition: 0.5s transform cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.theme-picker {
+  position: absolute;
+  bottom: 3%;
+  right: 20px;
+  font-size: 20px;
+  border: 2px solid black;
+  padding: 5px;
+  border-radius: 50px;
+  z-index: 20;
+  cursor: pointer;
+}
+
+@media screen and (pointer: fine) {
+  .button:hover {
+    background-color: black;
+    color: white;
+  }
+
+  .theme-picker:hover {
+    background-color: black;
+    color: white;
+  }
+
+  .page.dark {
+    .button:hover {
+      background-color: white;
+      color: black;
+    }
+
+    .theme-picker:hover {
+      background-color: white;
+      color: black;
+    }
+  }
+
+  .page.blue {
+    .button:hover {
+      background-color: var(--off-white);
+      color: black;
+    }
+
+    .theme-picker:hover {
+      background-color: var(--off-white);
+      color: black;
+    }
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .buttons {
+    visibility: hidden;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    position: absolute;
+    z-index: -20;
+  }
+
+  .hamburger {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .footer {
+    padding: 0 15px;
+    margin-bottom: 3%;
+  }
+
+  .body {
+    font-size: 25px;
+  }
+
+  .footer-copyright-slider {
+    visibility: visible;
+    display: inline;
+  }
+
+  .theme-picker {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .button.cta {
+    font-size: 25px;
+  }
+}
