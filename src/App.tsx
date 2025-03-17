@@ -3,7 +3,7 @@ import styles from "./App.module.css";
 import { ThemeContext } from "./contexts/ThemeProvider";
 import TextTransition, { presets } from "react-text-transition";
 import Marquee from "react-fast-marquee";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, useLocation } from "react-router-dom";
 import Work from "./components/Work/Work";
 import About from "./components/About/About";
 import Contact from "./components/Contact/Contact";
@@ -12,6 +12,8 @@ export default function App() {
   const { theme, toggleColorMode } = useContext(ThemeContext);
 
   const [backgroundColor, setBackgroundColor] = useState<string>("");
+
+  const location = useLocation();
 
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
@@ -43,14 +45,14 @@ export default function App() {
   useEffect(function initialize() {
     const occInterval = setInterval(
       () => setOccIndex((index) => index + 1),
-      3000,
+      3000
     );
 
     const cliIndex = setInterval(() => setCliIndex((index) => index + 1), 2400);
 
     const locInterval = setInterval(
       () => setLocIndex((index) => index + 1),
-      4000,
+      4000
     );
 
     return () => {
@@ -74,8 +76,24 @@ export default function App() {
         >
           Theme
         </div>
-        <div className={`${styles["menu"]} ${menuOpen && styles["open"]}`}>
-          <h2 className={styles["menu__option"]}>
+        <div
+          onClick={(e) => {
+            const target = e.target as HTMLElement;
+            if (
+              target.classList.contains(styles["menu"]) &&
+              target.classList.contains(styles["open"])
+            ) {
+              setMenuOpen(false);
+            }
+          }}
+          className={`${styles["menu"]} ${menuOpen && styles["open"]}`}
+        >
+          <h2
+            style={
+              location.pathname === "/" ? { textDecoration: "underline" } : {}
+            }
+            className={styles["menu__option"]}
+          >
             <Link
               onClick={() => {
                 setMenuOpen(false);
@@ -85,7 +103,14 @@ export default function App() {
               Home
             </Link>
           </h2>
-          <h2 className={styles["menu__option"]}>
+          <h2
+            style={
+              location.pathname === "/work"
+                ? { textDecoration: "underline" }
+                : {}
+            }
+            className={styles["menu__option"]}
+          >
             <Link
               onClick={() => {
                 setMenuOpen(false);
@@ -95,7 +120,14 @@ export default function App() {
               Work
             </Link>
           </h2>
-          <h2 className={styles["menu__option"]}>
+          <h2
+            style={
+              location.pathname === "/about"
+                ? { textDecoration: "underline" }
+                : {}
+            }
+            className={styles["menu__option"]}
+          >
             <Link
               onClick={() => {
                 setMenuOpen(false);
@@ -105,7 +137,14 @@ export default function App() {
               About
             </Link>
           </h2>
-          <h2 className={styles["menu__option"]}>
+          <h2
+            style={
+              location.pathname === "/contact"
+                ? { textDecoration: "underline" }
+                : {}
+            }
+            className={styles["menu__option"]}
+          >
             <Link
               onClick={() => {
                 setMenuOpen(false);
@@ -143,17 +182,15 @@ export default function App() {
             />
           </div>
           <div className={styles["buttons"]}>
-            <button className={styles["button"]}>
-              <Link to="/work">Work</Link>
-            </button>
-            <button className={styles["button"]}>
-              {" "}
-              <Link to="/about">About</Link>
-            </button>
-            <button className={styles["button"]}>
-              {" "}
-              <Link to="/contact">Contact</Link>
-            </button>
+            <Link to="/work">
+              <button className={styles["button"]}>Work</button>
+            </Link>
+            <Link to="/about">
+              <button className={styles["button"]}> About</button>
+            </Link>
+            <Link to="/contact">
+              <button className={styles["button"]}> Contact</button>
+            </Link>
           </div>
         </header>
         <Routes>
@@ -179,7 +216,7 @@ export default function App() {
                     {clients[cliIndex % clients.length]}
                   </TextTransition>
                 </div>
-                <div className={styles["body__work"]}>
+                <div className={styles["body__cta"]}>
                   Click{" "}
                   <span className={`${styles["button"]} ${styles["cta"]}`}>
                     <Link
@@ -217,6 +254,23 @@ export default function App() {
         <div onClick={toggleColorMode} className={styles["theme-picker"]}>
           Theme
         </div>
+        <div className={styles["audio-button"]} />
+        {/* <div className={styles["audio-player"]}>
+          <h1 className={styles["audio-player__heading"]}>Ambiance</h1>
+          <div className={styles["audio-player__settings"]}>
+            <div className={styles['audio-player__select']}>
+              <p className={styles['select__title']}>where would you like to be?</p>
+            <select className={styles["select__picker"]}>
+              
+              <option className={styles['select__option']} disabled value={"default"}>select an ambiance...</option>
+              <option className={styles['select__option']} value={"forest"}>Forest</option>
+              <option className={styles['select__option']} value={"campfire"}>Campfire</option>
+              <option className={styles['select__option']} value={"forest"}>Cafe</option>
+            </select>
+            </div>
+           
+          </div>
+        </div> */}
       </div>
     </div>
   );
