@@ -11,6 +11,40 @@
   position: relative;
 }
 
+.logout {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  font-size: 30px;
+  height: 35px;
+  padding-right: 12px;
+  font-family: inherit;
+  width: 20px;
+  z-index: 20;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom: 2px solid black;
+  border-right: 2px solid black;
+  border-top: 2px solid black;
+  cursor: pointer;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.logout:hover {
+  background-color: black;
+  color: white;
+  border-radius: 10px;
+  width: 150px;
+  padding-left: 10px;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.logout:hover::before {
+  font-weight: 700;
+  color: white;
+  content: "LOGOUT";
+}
+
 .page__content {
   margin: 0;
   display: flex;
@@ -342,7 +376,7 @@
   text-align: left;
 }
 
-.audio-player__settings{
+.audio-player__settings {
   width: 100%;
 }
 
@@ -354,7 +388,7 @@
   font-size: clamp(20px, 4vw, 40px);
 }
 
-.audio-player__option{
+.audio-player__option {
   font-size: clamp(20px, 5vw, 40px);
 }
 

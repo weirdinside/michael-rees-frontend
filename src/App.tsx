@@ -1,21 +1,35 @@
-import { useContext, useState, useEffect } from "react";
-import styles from "./App.module.css";
-import { ThemeContext } from "./contexts/ThemeProvider";
-import TextTransition, { presets } from "react-text-transition";
+import { useContext, useEffect, useLayoutEffect, useState } from "react";
 import Marquee from "react-fast-marquee";
-import { Routes, Route, Link, useLocation } from "react-router-dom";
-import Work from "./components/Work/Work";
+import {
+  Link,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+import TextTransition, { presets } from "react-text-transition";
+import styles from "./App.module.css";
 import About from "./components/About/About";
 import Contact from "./components/Contact/Contact";
+import Login from "./components/Login/Login";
+import Work from "./components/Work/Work";
+import { ThemeContext } from "./contexts/ThemeProvider";
+import { signIn } from "./utils/auth";
 
 export default function App() {
   const { theme, toggleColorMode } = useContext(ThemeContext);
+  const navigate = useNavigate();
 
   const [backgroundColor, setBackgroundColor] = useState<string>("");
 
   const location = useLocation();
 
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
+
+  const [isPending, setIsPending] = useState(false);
+  const [isLoggedIn, setLoggedIn] = useState(false);
+
+  const [activeModal, setActiveModal] = useState<string>("");
 
   const occupations = ["a director", "an editor", "a filmmaker", "a writer"];
   const locations = ["New York", "Los Angeles"];
@@ -34,7 +48,39 @@ export default function App() {
   const [occIndex, setOccIndex] = useState(0);
   const [locIndex, setLocIndex] = useState(0);
   const [cliIndex, setCliIndex] = useState(0);
-  6;
+
+  function closeModal() {
+    setActiveModal("");
+  }
+
+  const handleSignIn = async (name: string, password: string) => {
+    setIsPending(true);
+    try {
+      await signIn(name, password);
+      setLoggedIn(true);
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsPending(false);
+    }
+  };
+
+  function handleSignOut(e: React.MouseEvent) {
+    e.preventDefault();
+    localStorage.removeItem("token");
+
+    console.log(localStorage.getItem("token"));
+    setLoggedIn(false);
+
+    navigate("/login");
+  }
+
+  useLayoutEffect(() => {
+    if (localStorage.token) {
+      setLoggedIn(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (theme === "light") setBackgroundColor("white");
@@ -61,6 +107,8 @@ export default function App() {
       clearTimeout(cliIndex);
     };
   }, []);
+
+  
 
   return (
     <div className={`${styles["page"]} ${styles[theme]}`}>
@@ -195,6 +243,18 @@ export default function App() {
         </header>
         <Routes>
           <Route
+            path="/login"
+            element={
+              <Login
+                handleSignOut={handleSignOut}
+                isLoggedIn={isLoggedIn}
+                isPending={isPending}
+                handleSignIn={handleSignIn}
+              />
+            }
+          ></Route>
+          <Route path="*" element={<>not found</>}></Route>
+          <Route
             path="/"
             element={
               <main className={styles["body"]}>
@@ -233,7 +293,17 @@ export default function App() {
               </main>
             }
           />
-          <Route path="/work" element={<Work />} />
+          <Route
+            path="/work"
+            element={
+              <Work
+                activeModal={activeModal}
+                closeModal={closeModal}
+                setActiveModal={setActiveModal}
+                isLoggedIn={isLoggedIn}
+              />
+            }
+          />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
@@ -251,6 +321,18 @@ export default function App() {
             {Array(7).fill("Michael Rees 2025 ©").join(" ")}
           </Marquee>
         </footer>
+        {isLoggedIn ? (
+          <>
+            <div
+              onClick={(e) => {
+                handleSignOut(e);
+              }}
+              className={`${styles["logout"]}`}
+            >
+              ➔
+            </div>
+          </>
+        ) : null}
         <div onClick={toggleColorMode} className={styles["theme-picker"]}>
           Theme
         </div>

@@ -1,14 +1,32 @@
-import { useContext, useState } from "react";
+import { useQueryState } from "nuqs";
+import { useCallback, useContext, useState } from "react";
 import { ThemeContext } from "../../contexts/ThemeProvider";
+import { getProjects, getSiteData } from "../../utils/api";
+import PersonalWork from "./PersonalWork/PersonalWork";
+import ReorderProjectsModal from "./ReorderProjectsModal/ReorderProjectsModal";
 import styles from "./Work.module.css";
 import WorkCategory from "./WorkCategory/WorkCategory";
-import { useQueryState } from "nuqs";
-import Filter from "./Filter/Filter";
+import AddProjectModal from "./AddProjectModal/AddProjectModal";
+import EditProjectModal from "./EditProjectModal/EditProjectModal";
+import DeleteProjectModal from "./DeleteProjectModal/DeleteProjectModal";
+import ClientWork from "./ClientWork/ClientWork";
 
-export default function Work() {
+export default function Work({
+  isLoggedIn,
+  activeModal,
+  setActiveModal,
+  closeModal,
+}: {
+  isLoggedIn: boolean;
+  activeModal: string;
+  setActiveModal: (modal: string) => void;
+  closeModal: () => void;
+}) {
   const { theme } = useContext(ThemeContext);
   const [mousedOverHeading, setMousedOverHeading] = useState("");
   const [activeBlock, setActiveBlock] = useQueryState("tab");
+  const [category, setCategory] = useState<"personal" | "client" | undefined>();
+  const [selectedProject, setSelectedProject] = useState<ProjectInfo>();
 
   function clickHeading(heading: string) {
     if (activeBlock === heading) setActiveBlock(null);
@@ -23,7 +41,6 @@ export default function Work() {
     producer: false,
   });
 
-
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   function toggleFilter(filter: keyof typeof filters) {
@@ -31,6 +48,28 @@ export default function Work() {
       return { ...prev, [filter]: !filters[filter] };
     });
   }
+
+  const getAndOrderProjects = useCallback(
+    async ({ category }: { category: "personal" | "client" }) => {
+      try {
+        const siteData = await getSiteData();
+        const order = siteData[0][`${category}WorkOrder`].reverse();
+        const projects = await getProjects();
+        const filteredProjects = projects.filter((project: ProjectInfo) => {
+          return project.category === category;
+        });
+        const sortedProjects = filteredProjects.sort(
+          (a: ProjectInfo, b: ProjectInfo) => {
+            return order.indexOf(a._id) - order.indexOf(b._id);
+          }
+        );
+        return sortedProjects;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    []
+  );
 
   return (
     <div className={`${styles["page"]} ${styles[theme]}`}>
@@ -44,14 +83,14 @@ export default function Work() {
           mousedOverHeading={mousedOverHeading}
           setMousedOverHeading={setMousedOverHeading}
         >
-          <p className={styles["description__text"]}>
-            This is work I've written, directed and sometimes shot and edited.
-            This is a placeholder description, but can potentially be pretty
-            long. Check out some of my work below.
-          </p>
-          <div className={styles["work__body"]}>
-            <div className={styles["work"]}></div>
-          </div>
+          <PersonalWork
+            setCategory={setCategory}
+            setSelectedProject={setSelectedProject}
+            activeModal={activeModal}
+            setActiveModal={setActiveModal}
+            getAndOrderProjects={getAndOrderProjects}
+            isLoggedIn={isLoggedIn}
+          />
         </WorkCategory>
         <WorkCategory
           headingName="client"
@@ -62,7 +101,14 @@ export default function Work() {
           mousedOverHeading={mousedOverHeading}
           setMousedOverHeading={setMousedOverHeading}
         >
-          this is the stuff in client work
+          <ClientWork
+            setCategory={setCategory}
+            setSelectedProject={setSelectedProject}
+            activeModal={activeModal}
+            setActiveModal={setActiveModal}
+            getAndOrderProjects={getAndOrderProjects}
+            isLoggedIn={isLoggedIn}
+          />
         </WorkCategory>
         <WorkCategory
           headingName="veronika"
@@ -87,6 +133,23 @@ export default function Work() {
           this is the stuff in ensurance work
         </WorkCategory>
       </ul>
+      <ReorderProjectsModal
+        getAndOrderProjects={getAndOrderProjects}
+        category={category}
+        activeModal={activeModal}
+        closeModal={closeModal}
+      />
+      <AddProjectModal activeModal={activeModal} closeModal={closeModal} />
+      <EditProjectModal
+        projectToEdit={selectedProject}
+        activeModal={activeModal}
+        closeModal={closeModal}
+      />
+      <DeleteProjectModal
+        projectToDelete={selectedProject}
+        activeModal={activeModal}
+        closeModal={closeModal}
+      />
     </div>
   );
 }

@@ -1,0 +1,165 @@
+import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { baseUrl } from "../../../utils/constants";
+import styles from "./Project.module.css";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
+
+export default function Project({
+  handleEditClick,
+  handleDeleteClick,
+  idx,
+  isLoggedIn = false,
+  isPreview = false,
+  project,
+
+}: {
+  handleDeleteClick?: (arg0: ProjectInfo) => void;
+  handleEditClick?: (arg0: ProjectInfo) => void;
+  isLoggedIn?: boolean;
+  idx?: number;
+  isPreview?: boolean;
+  project: ProjectInfo;
+}) {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [videoMarkup, setVideoMarkup] = useState(<></>);
+
+  const { theme } = useContext(ThemeContext);
+
+  useEffect(
+    function setVideoPlayer() {
+      if (project.thumbnail) {
+        setVideoMarkup(
+          <Link
+            style={{ textDecoration: "none" }}
+            target="_blank"
+            to={project.link}
+          >
+            <div
+              className={styles["thumbnail"]}
+              style={{
+                position: 'relative',
+                zIndex: "3",
+                opacity: "1",
+                backgroundImage: `url(${baseUrl}/${project.thumbnail})`,
+              }}
+            >
+               {isLoading && (
+              <div style={{zIndex: '0'}} className={styles["thumbnail__loading"]}>⬤⬤⬤</div>
+            )}
+              <div className={styles["thumbnail__title"]}>click to watch</div>
+            </div>
+          </Link>
+        );
+      } else if (project?.link.toLowerCase().includes("vimeo.com")) {
+        const slug = project.link.split("/").pop();
+        setVideoMarkup(
+          <>
+            <div style={{ padding: "56.25% 0 0 0", position: "relative" }}>
+              <iframe
+                onLoad={() => {
+                  setIsLoading(false);
+                }}
+                onLoadedData={() => {
+                  setIsLoading(false);
+                }}
+                src={`https://player.vimeo.com/video/${slug}?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479`}
+                frameBorder="0"
+                allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+                style={{
+                  position: "absolute",
+                  top: "0",
+                  left: "0",
+                  width: "100%",
+                  height: "100%",
+                }}
+                title={project.title}
+              ></iframe>
+            </div>
+            <script src="https://player.vimeo.com/api/player.js"></script>
+          </>
+        );
+      } else if (project?.link.toLowerCase().includes("youtu.be")) {
+        let slug;
+        if (project.link.toLowerCase().includes("youtu.be")) {
+          slug = project.link.substring(
+            project.link.indexOf(".be/") + 3,
+            project.link.indexOf("?")
+          );
+          slug = slug + "?si=nulltracker";
+        }
+
+        setVideoMarkup(
+          <>
+           {isLoading && (
+              <div className={styles["thumbnail__loading"]}>⬤⬤⬤</div>
+            )}
+            <div style={{ padding: "56.25% 0 0 0", position: "relative" }}>
+              <iframe
+                style={{
+                  position: "absolute",
+                  top: "0",
+                  left: "0",
+                  width: "100%",
+                  height: "100%",
+                }}
+                onLoad={() => {
+                  setIsLoading(false);
+                  console.log("loaded");
+                }}
+                onLoadedData={() => {
+                  setIsLoading(false);
+                }}
+                src={`https://www.youtube.com/embed/${slug}`}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen={true}
+              />
+               
+            </div>
+          </>
+        );
+      } else {
+        setVideoMarkup(<>sorry, this link doesn't work</>);
+      }
+    },
+    [project]
+  );
+
+  return (
+    <li
+      key={idx}
+      style={isPreview ? { width: "100%", maxWidth: "500px" } : {}}
+      className={`${styles["work__item"]} ${styles[theme]}`}
+    >
+      <h1 className={styles["item__title"]}>{project.title}</h1>
+      <h3 className={styles["item__roles"]}>{project.role}</h3>
+      {videoMarkup}
+      <div className={styles["description"]}>
+        {project.description ? project.description : "A film by Michael Rees"}
+      </div>
+      {isLoggedIn && !isPreview && handleDeleteClick && handleEditClick && (
+        <div className={styles["title__box"]}>
+          <div className={styles["options"]}>
+            <button
+              onClick={() => {
+                handleEditClick(project);
+              }}
+              className={styles["option"]}
+            >
+              edit
+            </button>
+            <button
+              onClick={() => {
+                handleDeleteClick(project);
+              }}
+              className={styles["option"]}
+            >
+              delete
+            </button>
+          </div>
+        </div>
+      )}
+    </li>
+  );
+}

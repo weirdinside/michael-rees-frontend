@@ -1,0 +1,155 @@
+.client-work {
+  height: auto;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.client-work.dark {
+  .options__button {
+    border: 1px solid white;
+  }
+}
+
+.client-work.blue {
+  .options__button {
+    border: 1px solid white;
+  }
+}
+.filters{
+  padding-top: 1%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: max-content;
+  gap: 20px;
+  font-size: (12px, 3cqw, 30px);
+  max-width: max-content;
+  padding-bottom: 10px;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.search{
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid black;
+  color: black;
+  font-size: 20px;
+  text-align: left;
+  padding: 5px;
+  width: 100%;
+}
+
+.filter__options{
+  max-width: 100%;
+  display: flex;
+  gap: 5px;
+  justify-content: space-between;
+}
+
+.filters__heading{
+  font-family: 'Alte Haas Grotesk', sans-serif;
+  font-size: clamp(14px, 4cqw, 30px);
+  margin: 0;
+  padding: 0;
+  text-align: center;
+
+}
+
+.description__text {
+  text-align: left;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  font-size: clamp(15px, 3vw, 30px);
+}
+
+.work {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(450px, auto));
+}
+
+.work__item {
+  width: 100%;
+}
+
+.work__body {
+  height: max-content;
+}
+
+.options {
+  position: relative;
+  z-index: 4;
+  font-weight: 600;
+  border: 10px solid red;
+  padding: 10px;
+  width: calc(94% - 20px);
+  border-radius: 18px;
+  display: flex;
+  margin-bottom: 20px;
+  font-family: monospace;
+  flex-direction: column;
+}
+
+.options__text {
+  text-align: left;
+  margin: 0 0 20px 0;
+  font-size: clamp(15px, 2.3vw, 30px);
+  text-decoration: underline;
+}
+
+.options__buttons {
+  display: flex;
+  width: 100%;
+  gap: 20px;
+  justify-content: flex-start;
+}
+
+.options__button {
+  width: 100%;
+  font-size: clamp(15px, 2vw, 30px);
+  background-color: transparent;
+  color: inherit;
+  border: 2px solid black;
+  padding: 10px;
+  border-radius: 10px;
+  font-family: monospace;
+}
+
+@media screen and (pointer: fine) {
+  .options__button:hover {
+    cursor: pointer;
+    color: white;
+    background-color: black;
+  }
+
+  .client-work.dark {
+    .options__button:hover {
+      color: black;
+      background-color: white;
+    }
+  }
+
+  .client-work.blue {
+    .options__button:hover {
+      color: black;
+      background-color: white;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .work {
+    grid-template-columns: repeat(auto-fill, minmax(300px, auto));
+  }
+
+  .options {
+    width: calc(94% - 20px);
+  }
+  .options__buttons {
+    flex-direction: column;
+    gap: 5px;
+  }
+}

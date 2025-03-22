@@ -1,11 +1,14 @@
 .page {
   width: 100%;
+  overflow-y: hidden;
+  overflow-x: hidden;
   height: 100%;
 }
 
 .list {
   list-style-type: none;
   width: 94%;
+  height: 100%;
   margin: 0 3% 0 3%;
   padding: 0;
 }
@@ -26,7 +29,7 @@
   transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
-.search{
+.search {
   background-color: transparent;
   border: none;
   border-bottom: 2px solid black;
@@ -46,14 +49,6 @@
   transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
-.description__text {
-  text-align: left;
-  width: 100%;
-  padding: 0;
-  margin: 0 0 20px 0;
-  font-size: clamp(15px, 3vw, 30px);
-}
-
 .list__item {
   display: flex;
   flex-direction: row;
@@ -65,12 +60,12 @@
   transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
-.filter{
+.filter {
   display: flex;
   flex-direction: row;
 }
 
-.filter__options{
+.filter__options {
   display: flex;
   flex-direction: row;
   font-size: clamp(14px, 3cqw, 25px);

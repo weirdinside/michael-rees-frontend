@@ -26,12 +26,13 @@ export default function WorkCategory({
   const { theme } = useContext(ThemeContext);
 
   return (
-    <>
+    <div className={styles['category']}>
       <li
         style={
           activeBlock === headingName || activeBlock === null
             ? { maxHeight: "100px" }
             : {
+                minHeight: '0px',
                 maxHeight: "0px",
                 padding: "0",
                 border: "none",
@@ -75,13 +76,13 @@ export default function WorkCategory({
       <div
         style={
           activeBlock === headingName
-            ? { maxHeight: "max-content", opacity: "1" }
+            ? { maxHeight: "min-content", opacity: "1" }
             : { maxHeight: "0px", margin: "0", opacity: "0" }
         }
         className={styles["content"]}
       >
         {children}
       </div>
-    </>
+    </div>
   );
 }

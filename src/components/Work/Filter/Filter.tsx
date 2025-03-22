@@ -7,23 +7,22 @@ export default function Filter({
   toggleFilter,
   filters,
 }: {
-  filters: object,
-  toggleFilter: (filter: keyof typeof filters)=>void
-  name: keyof typeof filters
+  filters: object;
+  toggleFilter: (filter: keyof typeof filters) => void;
+  name: keyof typeof filters;
 }) {
-
-  const { isDarkMode } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
 
   return (
     <label
       className={`${styles["filter__option"]} ${
         filters[name] && styles["checked"]
-      } ${isDarkMode && styles["dark"]}`}
+      } ${styles[theme]}`}
     >
       {String(name).toUpperCase()}
       <input
         onChange={() => {
-          toggleFilter(name)
+          toggleFilter(name);
         }}
         checked={filters[name]}
         type="checkbox"

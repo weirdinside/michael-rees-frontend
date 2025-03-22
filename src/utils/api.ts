@@ -9,14 +9,29 @@ export async function getSiteData() {
   return await checkResponse(res);
 }
 
-export function setSiteData(order: ProjectInfo[], lastEdited: string) {
+export function setSiteData({
+  order,
+  personalWorkOrder,
+  clientWorkOrder,
+  lastEdited,
+}: {
+  order?: ProjectInfo[];
+  personalWorkOrder?: ProjectInfo[];
+  clientWorkOrder?: ProjectInfo[];
+  lastEdited: string;
+}) {
   return fetch(`${baseUrl}/data`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
       authorization: `Bearer ${localStorage.getItem("token")}`,
     },
-    body: JSON.stringify({ order, lastEdited }),
+    body: JSON.stringify({
+      order,
+      personalWorkOrder,
+      clientWorkOrder,
+      lastEdited,
+    }),
   });
 }
 
@@ -26,14 +41,21 @@ export function getProjects() {
   });
 }
 
-export async function addProject(
-  category: string,
-  title: string,
-  showTitle: boolean,
-  link: string,
-  role: string,
-  thumbnail?: string,
-) {
+export async function addProject({
+  category,
+  description,
+  title,
+  link,
+  role,
+  thumbnail,
+}: {
+  category: string;
+  description: string;
+  title: string;
+  link: string;
+  role: string;
+  thumbnail?: string;
+}) {
   try {
     const res = await fetch(`${baseUrl}/portfolio`, {
       method: "POST",
@@ -41,7 +63,14 @@ export async function addProject(
         "Content-Type": "application/json",
         authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-      body: JSON.stringify({ category, title, showTitle, link, role, thumbnail }),
+      body: JSON.stringify({
+        category,
+        description,
+        title,
+        link,
+        role,
+        thumbnail,
+      }),
     });
     const responseData = await checkResponse(res);
     return responseData;
@@ -50,14 +79,23 @@ export async function addProject(
   }
 }
 
-export async function editProject(
-  _id: string,
-  title: string,
-  showTitle: boolean,
-  link: string,
-  role: string,
-  thumbnail: string | undefined,
-) {
+export async function editProject({
+  description,
+  category,
+  _id,
+  title,
+  link,
+  role,
+  thumbnail,
+}: {
+  description: string;
+  category: string;
+  _id: string;
+  title: string;
+  link: string;
+  role: string;
+  thumbnail: string | undefined;
+}) {
   try {
     const res = await fetch(`${baseUrl}/portfolio/${_id}`, {
       method: "PATCH",
@@ -65,7 +103,15 @@ export async function editProject(
         "Content-Type": "application/json",
         authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-      body: JSON.stringify({ _id, title, showTitle, link, role, thumbnail }),
+      body: JSON.stringify({
+        category,
+        description,
+        _id,
+        title,
+        link,
+        role,
+        thumbnail,
+      }),
     });
     console.log(res);
     const responseData = await checkResponse(res);
