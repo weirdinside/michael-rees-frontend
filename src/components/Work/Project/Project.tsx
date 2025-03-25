@@ -1,18 +1,21 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { baseUrl } from "../../../utils/constants";
 import styles from "./Project.module.css";
 import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 export default function Project({
+  searchTerm,
+  activeFilters,
   handleEditClick,
   handleDeleteClick,
   idx,
   isLoggedIn = false,
   isPreview = false,
   project,
-
 }: {
+  searchTerm?: string;
+  activeFilters?: Array<string>;
   handleDeleteClick?: (arg0: ProjectInfo) => void;
   handleEditClick?: (arg0: ProjectInfo) => void;
   isLoggedIn?: boolean;
@@ -22,8 +25,32 @@ export default function Project({
 }) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [videoMarkup, setVideoMarkup] = useState(<></>);
+  const [isVisible, setIsVisible] = useState<boolean>(true);
 
   const { theme } = useContext(ThemeContext);
+
+  const checkFilter = useCallback(() => {
+    if (!searchTerm && (!activeFilters || activeFilters.length === 0)) {
+      return setIsVisible(true);
+    }
+
+    const matchesSearch =
+      !searchTerm ||
+      project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      project.role.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesFilters =
+      !activeFilters ||
+      activeFilters.length === 0 ||
+      activeFilters.some((filter) =>
+        project.role.toLowerCase().includes(filter.toLowerCase())
+      );
+
+    setIsVisible(matchesSearch && matchesFilters);
+  }, [activeFilters, project.role, project.title, searchTerm]);
+  useEffect(() => {
+    checkFilter();
+  }, [checkFilter, activeFilters, searchTerm]);
 
   useEffect(
     function setVideoPlayer() {
@@ -37,15 +64,20 @@ export default function Project({
             <div
               className={styles["thumbnail"]}
               style={{
-                position: 'relative',
+                position: "relative",
                 zIndex: "3",
                 opacity: "1",
                 backgroundImage: `url(${baseUrl}/${project.thumbnail})`,
               }}
             >
-               {isLoading && (
-              <div style={{zIndex: '0'}} className={styles["thumbnail__loading"]}>⬤⬤⬤</div>
-            )}
+              {isLoading && (
+                <div
+                  style={{ zIndex: "0" }}
+                  className={styles["thumbnail__loading"]}
+                >
+                  ⬤⬤⬤
+                </div>
+              )}
               <div className={styles["thumbnail__title"]}>click to watch</div>
             </div>
           </Link>
@@ -90,7 +122,7 @@ export default function Project({
 
         setVideoMarkup(
           <>
-           {isLoading && (
+            {isLoading && (
               <div className={styles["thumbnail__loading"]}>⬤⬤⬤</div>
             )}
             <div style={{ padding: "56.25% 0 0 0", position: "relative" }}>
@@ -115,7 +147,6 @@ export default function Project({
                 referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen={true}
               />
-               
             </div>
           </>
         );
@@ -129,8 +160,20 @@ export default function Project({
   return (
     <li
       key={idx}
-      style={isPreview ? { width: "100%", maxWidth: "500px" } : {}}
-      className={`${styles["work__item"]} ${styles[theme]}`}
+      style={
+        isVisible
+          ? { transition: '1s cubic-bezier(0.075, 0.82, 0.165, 1)', visibility: "visible", opacity: "1" }
+          : {
+              maxHeight: '0%',
+              display: 'none',
+              visibility: "hidden",
+              margin: '0',
+              padding: '0',
+              opacity: "0",
+              transition: '0.5s cubic-bezier(0.075, 0.82, 0.165, 1)'
+            }
+      }
+      className={`${styles["work__item"]} ${styles[theme]} ${isPreview && styles['preview']}`}
     >
       <h1 className={styles["item__title"]}>{project.title}</h1>
       <h3 className={styles["item__roles"]}>{project.role}</h3>

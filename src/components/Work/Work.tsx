@@ -10,6 +10,7 @@ import AddProjectModal from "./AddProjectModal/AddProjectModal";
 import EditProjectModal from "./EditProjectModal/EditProjectModal";
 import DeleteProjectModal from "./DeleteProjectModal/DeleteProjectModal";
 import ClientWork from "./ClientWork/ClientWork";
+import HealthEnsurance from "./HealthEnsurance/HealthEnsurance";
 
 export default function Work({
   isLoggedIn,
@@ -65,7 +66,7 @@ export default function Work({
         );
         return sortedProjects;
       } catch (err) {
-        console.log(err);
+       console.error(err)
       }
     },
     []
@@ -130,7 +131,7 @@ export default function Work({
           mousedOverHeading={mousedOverHeading}
           setMousedOverHeading={setMousedOverHeading}
         >
-          this is the stuff in ensurance work
+         <HealthEnsurance/>
         </WorkCategory>
       </ul>
       <ReorderProjectsModal

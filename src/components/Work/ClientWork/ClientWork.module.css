@@ -8,11 +8,21 @@
   .options__button {
     border: 1px solid white;
   }
+
+  .search{
+    border-bottom: 2px solid white;
+    color: white;
+  }
 }
 
 .client-work.blue {
   .options__button {
     border: 1px solid white;
+  }
+
+  .search{
+    border-bottom: 2px solid white;
+    color: white;
   }
 }
 .filters{
@@ -22,8 +32,9 @@
   justify-content: space-between;
   width: max-content;
   gap: 20px;
-  font-size: (12px, 3cqw, 30px);
-  max-width: max-content;
+  margin-top: 10px;
+  width: 100%;
+  font-size: clamp(12px, 3cqw, 25px);
   padding-bottom: 10px;
   transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
@@ -33,14 +44,15 @@
   border: none;
   border-bottom: 2px solid black;
   color: black;
-  font-size: 20px;
+  font-size: clamp(14px, 2cqw, 30px);
   text-align: left;
   padding: 5px;
-  width: 100%;
+  width: calc(100% - 10px);
 }
 
 .filter__options{
   max-width: 100%;
+  width: 100%;
   display: flex;
   gap: 5px;
   justify-content: space-between;
@@ -48,11 +60,11 @@
 
 .filters__heading{
   font-family: 'Alte Haas Grotesk', sans-serif;
-  font-size: clamp(14px, 4cqw, 30px);
-  margin: 0;
+  font-size: clamp(14px, 3cqw, 25px);
+  margin: 10px 0 0 0;
   padding: 0;
-  text-align: center;
-
+  text-align: left;
+  font-weight: 400;
 }
 
 .description__text {
@@ -60,7 +72,7 @@
   width: 100%;
   padding: 0;
   margin: 0;
-  font-size: clamp(15px, 3vw, 30px);
+  font-size: clamp(15px, 3vw, 25px);
 }
 
 .work {
@@ -151,5 +163,12 @@
   .options__buttons {
     flex-direction: column;
     gap: 5px;
+  }
+}
+
+
+@media screen and (min-width: 820px){
+  .filters{
+    flex-direction: row;
   }
 }

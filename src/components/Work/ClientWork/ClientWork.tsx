@@ -26,6 +26,7 @@ export default function ClientWork({
 }) {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [projects, setProjects] = useState<ProjectInfo[]>([]);
+  const [isError, setIsError] = useState<boolean>(false);
 
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
 
@@ -34,8 +35,8 @@ export default function ClientWork({
   const [filters, setFilters] = useState<object>({
     director: false,
     editor: false,
-    writer: false,
     producer: false,
+    VFX: false,
   });
 
   function toggleFilter(filter: keyof typeof filters) {
@@ -57,12 +58,25 @@ export default function ClientWork({
   const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
+    const newActiveFilters = (
+      Object.keys(filters) as Array<keyof typeof filters>
+    ).filter((key: keyof typeof filters) => {
+      if (filters[key] === true) {
+        return String(key).toUpperCase();
+      }
+    });
+
+    setActiveFilters(newActiveFilters);
+  }, [filters]);
+
+  useEffect(() => {
     getAndOrderProjects({ category: "client" })
       .then((data) => {
         if (data) setProjects(data);
       })
       .catch((err) => {
         console.error(err);
+        setIsError(true);
       })
       .finally(() => {
         setLoading(false);
@@ -107,12 +121,9 @@ export default function ClientWork({
       <p className={styles["description__text"]}>
         This is work I've done for others.
       </p>
-      <div
-        className={styles["filters"]}
-      >
-        <h1 className={styles["filters__heading"]}>
-        LOOKING FOR SOMETHING IN PARTICULAR?
-        </h1>
+      <h1 className={styles["filters__heading"]}>
+      </h1>
+      <div className={styles["filters"]}>
         <div className={styles["filter__options"]}>
           {(Object.keys(filters) as Array<keyof typeof filters>).map(
             (filter: keyof typeof filters) => (
@@ -127,7 +138,7 @@ export default function ClientWork({
         </div>
 
         <input
-          placeholder="search"
+          placeholder="or search for a specific term"
           type="text"
           className={`${styles["search"]} ${styles[theme]}`}
           onChange={(e) => {
@@ -140,25 +151,33 @@ export default function ClientWork({
           }}
         ></input>
       </div>
-      <div className={styles["work__body"]}>
-        {isLoading ? (
-          <>loading...</>
-        ) : (
-          <ul className={styles["work"]}>
-            {projects.map((project, idx) => {
-              return (
-                <Project
-                  handleDeleteClick={handleDeleteClick}
-                  handleEditClick={handleEditClick}
-                  isLoggedIn={isLoggedIn}
-                  idx={idx}
-                  project={project}
-                />
-              );
-            })}
-          </ul>
-        )}
-      </div>
+      {!isError ? (
+        <div className={styles["work__body"]}>
+          {isLoading ? (
+            <>loading...</>
+          ) : (
+            <ul className={styles["work"]}>
+              {projects.map((project, idx) => {
+                return (
+                  <Project
+                    activeFilters={activeFilters}
+                    searchTerm={searchTerm}
+                    handleDeleteClick={handleDeleteClick}
+                    handleEditClick={handleEditClick}
+                    isLoggedIn={isLoggedIn}
+                    idx={idx}
+                    project={project}
+                  />
+                );
+              })}
+            </ul>
+          )}
+        </div>
+      ) : (
+        <div className={styles["error"]}>
+          sorry, there was an error in the database. contact me!
+        </div>
+      )}
     </div>
   );
 }

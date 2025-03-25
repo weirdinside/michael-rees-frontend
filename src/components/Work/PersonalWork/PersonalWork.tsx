@@ -26,6 +26,7 @@ export default function PersonalWork({
 }) {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [projects, setProjects] = useState<ProjectInfo[]>([]);
+  const [isError, setIsError] = useState<boolean>(false);
 
   function handleDeleteClick(projectData: ProjectInfo) {
     setSelectedProject(projectData);
@@ -46,6 +47,7 @@ export default function PersonalWork({
       })
       .catch((err) => {
         console.error(err);
+        setIsError(true);
       })
       .finally(() => {
         setLoading(false);
@@ -92,25 +94,31 @@ export default function PersonalWork({
         is a placeholder description, but can potentially be pretty long. Check
         out some of my work below.
       </p>
-      <div className={styles["work__body"]}>
-        {isLoading ? (
-          <>loading...</>
-        ) : (
-          <ul className={styles["work"]}>
-            {projects.map((project, idx) => {
-              return (
-                <Project
-                  handleDeleteClick={handleDeleteClick}
-                  handleEditClick={handleEditClick}
-                  isLoggedIn={isLoggedIn}
-                  idx={idx}
-                  project={project}
-                />
-              );
-            })}
-          </ul>
-        )}
-      </div>
+      {!isError ? (
+        <div className={styles["work__body"]}>
+          {isLoading ? (
+            <>loading...</>
+          ) : (
+            <ul className={styles["work"]}>
+              {projects.map((project, idx) => {
+                return (
+                  <Project
+                    handleDeleteClick={handleDeleteClick}
+                    handleEditClick={handleEditClick}
+                    isLoggedIn={isLoggedIn}
+                    idx={idx}
+                    project={project}
+                  />
+                );
+              })}
+            </ul>
+          )}
+        </div>
+      ) : (
+        <div className={styles["error"]}>
+          sorry, there was an error in the database. contact me!
+        </div>
+      )}
     </div>
   );
 }

@@ -81,7 +81,7 @@ export default function WorkCategory({
         }
         className={styles["content"]}
       >
-        {children}
+        {activeBlock === headingName && children}
       </div>
     </div>
   );

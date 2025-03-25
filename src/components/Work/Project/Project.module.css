@@ -21,6 +21,11 @@
   text-align: left;
 }
 
+.work__item.preview {
+  width: "100%";
+  max-width: "500px";
+}
+
 .item__roles {
   width: 100%;
   margin: 0 0 10px 0;
@@ -327,6 +332,6 @@
     .option:hover {
       color: white;
       background-color: black;
-    } 
+    }
   }
 }
