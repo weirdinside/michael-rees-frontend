@@ -1,0 +1,154 @@
+.vwork {
+  width: 100%;
+  height: auto;
+
+  display: flex;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  flex-direction: column;
+}
+
+.description {
+  margin: 0 0 15px 0;
+  text-align: left;
+  width: 100%;
+  font-size: clamp(15px, 2.5vw, 25px);
+}
+
+.main-skit {
+  width: auto;
+  max-height: 100%;
+}
+
+.other-skits {
+  display: flex;
+  flex-direction: row;
+  width: auto;
+  gap: 20px;
+  height: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
+  min-height: 500px;
+}
+
+.delete {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  background-color: black;
+  width: 50px;
+  font-size: 32px;
+  height: 50px;
+  color: white;
+  border-radius: 50px;
+  border: 2px solid black;
+  cursor: pointer;
+
+  filter: drop-shadow(0px 0px 20px black);
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.delete:hover {
+  background-color: red;
+  border: 2px solid red;
+  color: white;
+  z-index: 3;
+  scale: 1.2;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.delete:hover::before {
+  position: absolute;
+  text-wrap: nowrap;
+  content: "DELETE ✕";
+  left: -120px;
+  z-index: 0;
+  border-radius: 50px;
+  padding: 10px 20px;
+  background-color: red;
+}
+
+.options {
+  font-weight: 600;
+  border: 10px solid red;
+  padding: 10px;
+  width: calc(94% - 20px);
+  border-radius: 18px;
+  display: flex;
+  margin-bottom: 20px;
+  font-family: monospace;
+  flex-direction: column;
+}
+
+.options__text {
+  text-align: left;
+  margin: 0 0 20px 0;
+  font-size: clamp(15px, 2vw, 28px);
+  text-decoration: underline;
+}
+
+.options__buttons {
+  display: flex;
+  width: 100%;
+  gap: 20px;
+  justify-content: flex-start;
+}
+
+.options__button {
+  width: 100%;
+  font-size: clamp(12px, 1.5vw, 20px);
+  background-color: transparent;
+  color: inherit;
+  border: 2px solid black;
+  padding: 10px;
+  border-radius: 10px;
+  font-family: monospace;
+}
+
+@media screen and (max-width: 600px) {
+  .options {
+    width: calc(94% - 20px);
+  }
+  .options__buttons {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+.vwork.dark {
+  .options__button {
+    border: 1px solid white;
+  }
+}
+
+.vwork.blue {
+  .options__button {
+    border: 1px solid white;
+  }
+}
+@media screen and (pointer: fine) {
+  .options__button:hover {
+    cursor: pointer;
+    color: white;
+    background-color: black;
+  }
+
+  .vwork.dark {
+    .options__button:hover {
+      color: black;
+      background-color: white;
+    }
+  }
+
+  .vwork.blue {
+    .options__button:hover {
+      color: black;
+      background-color: white;
+    }
+  }
+}

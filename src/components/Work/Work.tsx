@@ -11,6 +11,8 @@ import EditProjectModal from "./EditProjectModal/EditProjectModal";
 import DeleteProjectModal from "./DeleteProjectModal/DeleteProjectModal";
 import ClientWork from "./ClientWork/ClientWork";
 import HealthEnsurance from "./HealthEnsurance/HealthEnsurance";
+import VeronikaWork from "../VeronikaWork/VeronikaWork";
+import ManageVeronikaModal from "./ManageVeronikaModal/ManageVeronikaModal";
 
 export default function Work({
   isLoggedIn,
@@ -35,21 +37,6 @@ export default function Work({
     return;
   }
 
-  const [filters, setFilters] = useState<object>({
-    director: false,
-    editor: false,
-    writer: false,
-    producer: false,
-  });
-
-  const [searchTerm, setSearchTerm] = useState<string>("");
-
-  function toggleFilter(filter: keyof typeof filters) {
-    setFilters((prev) => {
-      return { ...prev, [filter]: !filters[filter] };
-    });
-  }
-
   const getAndOrderProjects = useCallback(
     async ({ category }: { category: "personal" | "client" }) => {
       try {
@@ -66,7 +53,7 @@ export default function Work({
         );
         return sortedProjects;
       } catch (err) {
-       console.error(err)
+        console.error(err);
       }
     },
     []
@@ -120,7 +107,11 @@ export default function Work({
           mousedOverHeading={mousedOverHeading}
           setMousedOverHeading={setMousedOverHeading}
         >
-          this is the stuff in veronika work
+          <VeronikaWork
+            activeModal={activeModal}
+            setActiveModal={setActiveModal}
+            isLoggedIn={isLoggedIn}
+          />
         </WorkCategory>
         <WorkCategory
           headingName="health"
@@ -131,7 +122,7 @@ export default function Work({
           mousedOverHeading={mousedOverHeading}
           setMousedOverHeading={setMousedOverHeading}
         >
-         <HealthEnsurance/>
+          <HealthEnsurance />
         </WorkCategory>
       </ul>
       <ReorderProjectsModal
@@ -151,6 +142,7 @@ export default function Work({
         activeModal={activeModal}
         closeModal={closeModal}
       />
+      <ManageVeronikaModal activeModal={activeModal} closeModal={closeModal} />
     </div>
   );
 }

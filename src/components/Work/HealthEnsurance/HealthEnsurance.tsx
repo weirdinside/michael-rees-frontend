@@ -183,7 +183,7 @@ export default function HealthEnsurance() {
       {events.reverse().map((event, idx) => {
         if (event.title)
           return (
-            <div className={styles["event"]}>
+            <div key={idx} className={styles["event"]}>
               <h1 className={styles["event__title"]}>
                 {event.title?.toUpperCase()}
               </h1>

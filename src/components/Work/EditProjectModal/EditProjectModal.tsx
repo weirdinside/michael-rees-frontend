@@ -168,15 +168,18 @@ export default function EditProjectModal({
               ></input>
             </label>
 
-            <label className={styles["edit__label"]}>
+            <label
+              className={`${styles["edit__label"]}`}
+            >
               description
-              <input
+              <textarea
+              rows={4}
                 value={description}
                 onChange={(e) => {
                   setDescription(e.target.value);
                 }}
-                className={`${styles["edit__input"]} `}
-              ></input>
+                className={`${styles["edit__input"]} ${styles["description"]}`}
+              ></textarea>
             </label>
 
             <label className={styles["edit__label"]}>
@@ -231,7 +234,14 @@ export default function EditProjectModal({
             )}
             <label
               style={
-                !thumbnail ? { opacity: "1" } : { height: "0px", opacity: "0" }
+                !thumbnail
+                  ? { opacity: "1" }
+                  : {
+                      pointerEvents: "none",
+                      height: "0px",
+                      padding: "0px",
+                      opacity: "0",
+                    }
               }
               className={`${styles["edit__label"]} ${styles["fileupload"]}`}
             >

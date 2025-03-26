@@ -11,6 +11,30 @@
   position: relative;
 }
 
+.logout-sandwich{
+  position: absolute;
+  bottom: 3%;
+  left: 20px;
+  font-size: 20px;
+  border: 2px solid black;
+  padding: 5px;
+  border-radius: 50px;
+  z-index: 20;
+  cursor: pointer;
+}
+
+.clients-sandwich{
+  position: absolute;
+  bottom: 3%;
+  left: 115px;
+  font-size: 20px;
+  border: 2px solid black;
+  padding: 5px;
+  border-radius: 50px;
+  z-index: 20;
+  cursor: pointer;
+}
+
 .logout {
   position: absolute;
   right: 5px;
@@ -72,6 +96,27 @@
     border: 2px solid var(--off-white);
   }
 
+  .login {
+    color: var(--off-white);
+    border: 2px solid var(--off-white);
+  }
+
+  .logout-sandwich{
+    color: var(--off-white);
+    border: 2px solid var(--off-white);
+  }
+
+  .clients-sandwich{
+    color: var(--off-white);
+    border: 2px solid var(--off-white);
+  }
+
+  .edit-clients {
+    color: var(--off-white);
+    border: 2px solid var(--off-white);
+  }
+
+
   .hamburger {
     border: 2px solid var(--off-white);
   }
@@ -98,12 +143,32 @@
     border-bottom: 1px solid white;
   }
 
-  .logout {
+  .login {
+    color: var(--off-white);
+    border: 2px solid var(--off-white);
+  }
 
+  .logout-sandwich{
+    color: white;
+    border: 2px solid white;
+  }
+
+  .clients-sandwich{
+    color: white;
+    border: 2px solid white;
+  }
+
+
+  .edit-clients {
+    color: var(--off-white);
+    border: 2px solid var(--off-white);
+  }
+
+
+  .logout {
     border-bottom: 2px solid white;
     border-right: 2px solid white;
     border-top: 2px solid white;
-
   }
 
   .logout:hover {
@@ -120,7 +185,6 @@
     color: black;
     content: "LOGOUT";
   }
-  
 
   .theme-picker {
     color: white;
@@ -322,6 +386,7 @@
   text-align: left;
   margin-right: auto;
   opacity: 0;
+  user-select: none;
   animation: 0.7s fadeIn cubic-bezier(0.075, 0.82, 0.165, 1) 0s forwards;
 }
 
@@ -329,7 +394,7 @@
   text-align: left;
   margin-right: auto;
   opacity: 0;
-
+  user-select: none;
   animation: 0.7s fadeIn cubic-bezier(0.075, 0.82, 0.165, 1) 0.4s forwards;
 }
 
@@ -372,6 +437,30 @@
   position: absolute;
   bottom: 3%;
   right: 20px;
+  font-size: 20px;
+  border: 2px solid black;
+  padding: 5px;
+  border-radius: 50px;
+  z-index: 20;
+  cursor: pointer;
+}
+
+.login {
+  position: absolute;
+  bottom: 3%;
+  left: 20px;
+  font-size: 20px;
+  border: 2px solid black;
+  padding: 5px;
+  border-radius: 50px;
+  z-index: 20;
+  cursor: pointer;
+}
+
+.edit-clients {
+  position: absolute;
+  bottom: 3%;
+  left: 100px;
   font-size: 20px;
   border: 2px solid black;
   padding: 5px;
@@ -434,6 +523,11 @@
     color: white;
   }
 
+  .login:hover {
+    background-color: black;
+    color: white;
+  }
+
   .page.dark {
     .button:hover {
       background-color: white;
@@ -441,6 +535,15 @@
     }
 
     .theme-picker:hover {
+      background-color: white;
+      color: black;
+    }
+
+    .login:hover {
+      background-color: white;
+      color: black;
+    }
+    .edit-clients:hover {
       background-color: white;
       color: black;
     }
@@ -453,6 +556,14 @@
     }
 
     .theme-picker:hover {
+      background-color: var(--off-white);
+      color: black;
+    }
+    .login:hover {
+      background-color: var(--off-white);
+      color: black;
+    }
+    .edit-clients:hover {
       background-color: var(--off-white);
       color: black;
     }
@@ -494,7 +605,24 @@
     pointer-events: none;
   }
 
+  .login {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .edit-clients {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
   .button.cta {
     font-size: 25px;
+  }
+
+  .logout {
+    visibility: hidden;
+    opacity: 0;
+    z-index: -20;
+    pointer-events: none;
   }
 }

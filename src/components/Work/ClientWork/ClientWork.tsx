@@ -21,7 +21,7 @@ export default function ClientWork({
   getAndOrderProjects: ({
     category,
   }: {
-    category: "client" | "client";
+    category: "client" | "personal";
   }) => Promise<ProjectInfo[] | undefined>;
 }) {
   const [isLoading, setLoading] = useState<boolean>(true);
@@ -81,7 +81,7 @@ export default function ClientWork({
       .finally(() => {
         setLoading(false);
       });
-  }, [activeModal]);
+  }, [activeModal, getAndOrderProjects]);
 
   return (
     <div className={`${styles["client-work"]} ${styles[theme]}`}>
@@ -121,8 +121,7 @@ export default function ClientWork({
       <p className={styles["description__text"]}>
         This is work I've done for others.
       </p>
-      <h1 className={styles["filters__heading"]}>
-      </h1>
+      <h1 className={styles["filters__heading"]}></h1>
       <div className={styles["filters"]}>
         <div className={styles["filter__options"]}>
           {(Object.keys(filters) as Array<keyof typeof filters>).map(

@@ -9,7 +9,7 @@ import { NuqsAdapter } from "nuqs/adapters/react";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <NuqsAdapter>
-      <BrowserRouter>
+      <BrowserRouter basename="/michael-rees-frontend/">
         <ThemeProvider>
           <App />
         </ThemeProvider>

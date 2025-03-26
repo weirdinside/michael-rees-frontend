@@ -1,6 +1,7 @@
 import { useCallback, useContext, useState, useEffect } from "react";
 import { ThemeContext } from "../../contexts/ThemeProvider";
 import styles from "./Login.module.css";
+import { Link } from "react-router-dom";
 
 export default function Login({
   handleSignOut,
@@ -45,10 +46,11 @@ export default function Login({
           <h1 className={styles["login__heading"]}>
             welcome back, <span style={{ fontWeight: "600" }}>michael</span>
           </h1>
+          <Link to="/register">need to register instead? click here.</Link>
           <form
-            onSubmit={(e) => {
-              handleSubmit(e);
-            }}
+          onSubmit={(e)=>{
+            e.preventDefault();
+          }}
             className={styles["login__form"]}
           >
             <input

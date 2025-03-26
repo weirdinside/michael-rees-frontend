@@ -52,7 +52,7 @@ export default function PersonalWork({
       .finally(() => {
         setLoading(false);
       });
-  }, [activeModal]);
+  }, [activeModal, getAndOrderProjects]);
 
   return (
     <div className={`${styles["personal-work"]} ${styles[theme]}`}>

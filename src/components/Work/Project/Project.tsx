@@ -65,7 +65,7 @@ export default function Project({
               className={styles["thumbnail"]}
               style={{
                 position: "relative",
-                zIndex: "3",
+                zIndex: "10",
                 opacity: "1",
                 backgroundImage: `url(${baseUrl}/${project.thumbnail})`,
               }}

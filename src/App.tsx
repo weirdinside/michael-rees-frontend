@@ -15,6 +15,10 @@ import Login from "./components/Login/Login";
 import Work from "./components/Work/Work";
 import { ThemeContext } from "./contexts/ThemeProvider";
 import { signIn } from "./utils/auth";
+import EditClientsModal from "./components/EditClientsModal/EditClientsModal";
+import { getSiteData } from "./utils/api";
+// import Register from "./components/Register/Register";
+import { register } from "./utils/auth";
 
 export default function App() {
   const { theme, toggleColorMode } = useContext(ThemeContext);
@@ -32,8 +36,9 @@ export default function App() {
   const [activeModal, setActiveModal] = useState<string>("");
 
   const occupations = ["a director", "an editor", "a filmmaker", "a writer"];
-  const locations = ["New York", "Los Angeles"];
-  const clients = [
+  // const locations = ["New York", "Los Angeles"];
+
+  const [clients, setClients] = useState<string[]>([
     "Mercedes Benz",
     "Drake",
     "Kanye West",
@@ -43,15 +48,29 @@ export default function App() {
     "Billie Eilish",
     "Cardi B",
     "Mulherin",
-  ];
+  ]);
 
   const [occIndex, setOccIndex] = useState(0);
-  const [locIndex, setLocIndex] = useState(0);
+  // const [locIndex, setLocIndex] = useState(0);
   const [cliIndex, setCliIndex] = useState(0);
 
   function closeModal() {
     setActiveModal("");
   }
+
+  const handleRegister = async (
+    name: string,
+    password: string,
+    secret: string
+  ) => {
+    try {
+      const signedUpUser = await register(name, password, secret);
+      const signedInUser = await handleSignIn(signedUpUser.name, password);
+      console.log(signedInUser);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const handleSignIn = async (name: string, password: string) => {
     setIsPending(true);
@@ -72,6 +91,7 @@ export default function App() {
 
     console.log(localStorage.getItem("token"));
     setLoggedIn(false);
+    closeModal();
 
     navigate("/login");
   }
@@ -80,6 +100,9 @@ export default function App() {
     if (localStorage.token) {
       setLoggedIn(true);
     }
+    getSiteData().then((res) => {
+      setClients(res[0].homeClientList);
+    });
   }, []);
 
   useEffect(() => {
@@ -96,19 +119,17 @@ export default function App() {
 
     const cliIndex = setInterval(() => setCliIndex((index) => index + 1), 2400);
 
-    const locInterval = setInterval(
-      () => setLocIndex((index) => index + 1),
-      4000
-    );
+    // const locInterval = setInterval(
+    //   () => setLocIndex((index) => index + 1),
+    //   4000
+    // );
 
     return () => {
       clearTimeout(occInterval);
-      clearTimeout(locInterval);
+      // clearTimeout(locInterval);
       clearTimeout(cliIndex);
     };
   }, []);
-
-  
 
   return (
     <div className={`${styles["page"]} ${styles[theme]}`}>
@@ -123,6 +144,34 @@ export default function App() {
           className={styles["theme-picker"]}
         >
           Theme
+        </div>
+        <div
+          onClick={(e) => {
+            handleSignOut(e);
+            setMenuOpen(false);
+          }}
+          style={
+            menuOpen && isLoggedIn
+              ? { visibility: `visible`, pointerEvents: "all" }
+              : { visibility: `hidden`, pointerEvents: "none" }
+          }
+          className={styles["logout-sandwich"]}
+        >
+          Log out
+        </div>
+        <div
+          onClick={() => {
+            setActiveModal("client-edit");
+            setMenuOpen(false);
+          }}
+          style={
+            menuOpen && isLoggedIn
+              ? { visibility: `visible`, pointerEvents: "all" }
+              : { visibility: `hidden`, pointerEvents: "none" }
+          }
+          className={styles["clients-sandwich"]}
+        >
+          Edit Clients
         </div>
         <div
           onClick={(e) => {
@@ -253,6 +302,12 @@ export default function App() {
               />
             }
           ></Route>
+          {/* <Route
+            path="/register"
+            element={
+              <Register handleRegister={handleRegister} isPending={isPending} />
+            }
+          ></Route> */}
           <Route path="*" element={<>not found</>}></Route>
           <Route
             path="/"
@@ -264,11 +319,10 @@ export default function App() {
                     {occupations[occIndex % occupations.length]}
                   </TextTransition>
                   <br />
-                  living in{" "}
-                  <TextTransition inline springConfig={presets.slow}>
+                  living in New York.
+                  {/* <TextTransition inline springConfig={presets.slow}>
                     {locations[locIndex % locations.length]}
-                  </TextTransition>
-                  .
+                  </TextTransition> */}
                 </div>
                 <div className={styles["body__work"]}>
                   He has worked with many artists and companies, including{" "}
@@ -336,23 +390,49 @@ export default function App() {
         <div onClick={toggleColorMode} className={styles["theme-picker"]}>
           Theme
         </div>
+        <Link to="/login">
+          <div className={styles["login"]}>Log In</div>
+        </Link>
+        {isLoggedIn && (
+          <div
+            onClick={() => {
+              setActiveModal("client-edit");
+            }}
+            className={styles["edit-clients"]}
+          >
+            Edit clients
+          </div>
+        )}
         <div className={styles["audio-button"]} />
-        {/* <div className={styles["audio-player"]}>
+        <EditClientsModal activeModal={activeModal} closeModal={closeModal} />
+        <div className={styles["audio-player"]}>
           <h1 className={styles["audio-player__heading"]}>Ambiance</h1>
           <div className={styles["audio-player__settings"]}>
-            <div className={styles['audio-player__select']}>
-              <p className={styles['select__title']}>where would you like to be?</p>
-            <select className={styles["select__picker"]}>
-              
-              <option className={styles['select__option']} disabled value={"default"}>select an ambiance...</option>
-              <option className={styles['select__option']} value={"forest"}>Forest</option>
-              <option className={styles['select__option']} value={"campfire"}>Campfire</option>
-              <option className={styles['select__option']} value={"forest"}>Cafe</option>
-            </select>
+            <div className={styles["audio-player__select"]}>
+              <p className={styles["select__title"]}>
+                where would you like to be?
+              </p>
+              <select className={styles["select__picker"]}>
+                <option
+                  className={styles["select__option"]}
+                  disabled
+                  value={"default"}
+                >
+                  select an ambiance...
+                </option>
+                <option className={styles["select__option"]} value={"forest"}>
+                  Forest
+                </option>
+                <option className={styles["select__option"]} value={"campfire"}>
+                  Campfire
+                </option>
+                <option className={styles["select__option"]} value={"forest"}>
+                  Cafe
+                </option>
+              </select>
             </div>
-           
           </div>
-        </div> */}
+        </div>
       </div>
     </div>
   );

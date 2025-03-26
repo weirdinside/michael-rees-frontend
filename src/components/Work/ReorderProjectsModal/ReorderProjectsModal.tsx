@@ -16,10 +16,11 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useContext, useLayoutEffect, useState } from "react";
 import { setSiteData } from "../../../utils/api";
 
 import styles from "./ReorderProjectsModal.module.css";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 function SortableItem({
   project,
@@ -72,7 +73,7 @@ export default function ReorderProjectsModal({
   getAndOrderProjects: ({
     category,
   }: {
-    category: "personal" | "client" ;
+    category: "personal" | "client";
   }) => Promise<ProjectInfo[] | undefined>;
   activeModal: string;
   category: "personal" | "client" | undefined;
@@ -92,6 +93,8 @@ export default function ReorderProjectsModal({
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
+
+  const { theme } = useContext(ThemeContext);
 
   // -------------------------------- //
   //          EVENT HANDLERS          //
@@ -145,8 +148,8 @@ export default function ReorderProjectsModal({
   // -------------------------------- //
 
   useLayoutEffect(() => {
-    if(!category) return;
-    console.log(category)
+    if (!category) return;
+    console.log(category);
     getAndOrderProjects({ category })
       .then((projects) => {
         if (projects) setOrderedProjects(projects);
@@ -168,7 +171,7 @@ export default function ReorderProjectsModal({
     <div
       className={`${styles["rpmodal"]} ${
         activeModal === "order" && styles["active"]
-      }`}
+      } ${styles[theme]}`}
     >
       <div className={`${styles["rpmodal__content"]} `}>
         <h1 className={styles["rpmodal__title"]}>re-order work</h1>

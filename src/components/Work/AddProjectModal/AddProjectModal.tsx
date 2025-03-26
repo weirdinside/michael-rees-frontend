@@ -138,7 +138,7 @@ export default function AddProjectModal({
     return window.removeEventListener("keydown", () => {
       closeModal();
     });
-  }, []);
+  }, [closeModal]);
 
   const { theme } = useContext(ThemeContext);
 

@@ -14,11 +14,15 @@ export function setSiteData({
   personalWorkOrder,
   clientWorkOrder,
   lastEdited,
+  homeClientList,
+  veronikaVideos,
 }: {
   order?: ProjectInfo[];
   personalWorkOrder?: ProjectInfo[];
   clientWorkOrder?: ProjectInfo[];
   lastEdited: string;
+  homeClientList?: string[];
+  veronikaVideos?: string[];
 }) {
   return fetch(`${baseUrl}/data`, {
     method: "PATCH",
@@ -31,6 +35,8 @@ export function setSiteData({
       personalWorkOrder,
       clientWorkOrder,
       lastEdited,
+      homeClientList,
+      veronikaVideos,
     }),
   });
 }

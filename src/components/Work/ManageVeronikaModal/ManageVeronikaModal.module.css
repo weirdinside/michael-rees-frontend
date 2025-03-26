@@ -1,0 +1,80 @@
+.modal {
+  backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.337);
+  width: 100vw;
+  z-index: -4;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  opacity: 0;
+  pointer-events: none;
+  left: 0;
+  transition: 0.5s opacity cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.modal.active {
+  opacity: 1;
+  z-index: 3;
+  pointer-events: all;
+  transition: 0.5s opacity cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.modal__content {
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+  background-color: white;
+  width: max-content;
+  height: max-content;
+  min-width: 200px;
+  min-height: 200px;
+  max-width: 90vw;
+  max-height: 100svw;
+  position: relative;
+  border-radius: 20px;
+}
+
+.heading {
+  color: black;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.subheading {
+  color: black;
+  font-size: 20px;
+  padding-top: 0;
+  text-align: left;
+}
+
+.close {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  height: 30px;
+  width: 30px;
+  border-radius: 50px;
+  background-image: url("../../../assets/images/close-button.png");
+  background-position: center;
+  background-size: 70%;
+  background-repeat: no-repeat;
+  background-color: white;
+  rotate: 0deg;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.submit {
+  width: 100%;
+  font-size: clamp(15px, 1.5vw, 20px);
+  background-color: transparent;
+  color: black;
+  width: max-content;
+  margin: 10px auto;
+  border: 2px solid black;
+  padding: 10px 50px;
+  border-radius: 10px;
+}
