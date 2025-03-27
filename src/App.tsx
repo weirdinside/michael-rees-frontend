@@ -55,6 +55,8 @@ export default function App() {
   // const [locIndex, setLocIndex] = useState(0);
   const [cliIndex, setCliIndex] = useState(0);
 
+  const [lastEdited, setLastEdited] = useState<string>("");
+
   function closeModal() {
     setActiveModal("");
   }
@@ -98,6 +100,32 @@ export default function App() {
   }
 
   useLayoutEffect(() => {
+    getSiteData().then((res) => {
+      const timestamp = res[0].lastEdited / 1000; // Convert from microseconds to milliseconds
+      const date = new Date(timestamp * 1000); // Create a Date object
+      
+      const months = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+      ];
+      
+      const getOrdinalSuffix = (day: number): string => {
+        if (day >= 11 && day <= 13) return "th"; // Special case for 11th, 12th, 13th
+        switch (day % 10) {
+          case 1: return "st";
+          case 2: return "nd";
+          case 3: return "rd";
+          default: return "th";
+        }
+      };
+      
+      const month = months[date.getUTCMonth()];
+      const day = date.getUTCDate();
+      const year = date.getUTCFullYear();
+      const formattedDate = `${month} ${day}${getOrdinalSuffix(day)}, ${year}`;
+      setLastEdited(formattedDate)
+    });
+
     if (localStorage.token) {
       setLoggedIn(true);
     }
@@ -138,8 +166,8 @@ export default function App() {
         <div
           style={
             menuOpen
-              ? { visibility: `visible`, pointerEvents: "all" }
-              : { visibility: `hidden`, pointerEvents: "none" }
+              ? { bottom: '20px', visibility: `visible`, pointerEvents: "all" }
+              : { bottom: '20px', visibility: `hidden`, pointerEvents: "none" }
           }
           onClick={toggleColorMode}
           className={styles["theme-picker"]}
@@ -387,7 +415,7 @@ export default function App() {
             speed={20}
             pauseOnHover
           >
-            {Array(7).fill("Michael Rees 2025 ©").join(" ")}
+            {Array(7).fill(`Michael Rees 2025 © Last Edited: ${lastEdited} ◑ `).join(" ")}
           </Marquee>
         </footer>
         {isLoggedIn ? (
@@ -405,13 +433,18 @@ export default function App() {
         <div onClick={toggleColorMode} className={styles["theme-picker"]}>
           Theme
         </div>
-        <div onClick={()=>{
-          setActiveModal('audio')
-        }} className={styles["audio-button"]}>
+        <div
+          onClick={() => {
+            setActiveModal("audio");
+          }}
+          className={styles["audio-button"]}
+        >
           <LuAudioLines size={50} />
         </div>
         <Link to="/login">
-          <div className={styles["login"]}>{isLoggedIn ? "Log out" : "Log in"}</div>
+          <div className={styles["login"]}>
+            {isLoggedIn ? "Log out" : "Log in"}
+          </div>
         </Link>
         {isLoggedIn && (
           <div
