@@ -2,7 +2,7 @@ import styles from "./VeronikaWork.module.css";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ThemeContext } from "../../contexts/ThemeProvider";
-import { getSiteData } from "../../utils/api";
+import { getSiteData, setSiteData } from "../../utils/api";
 
 // this is just to fix ts2339; Property 'instgrm' does not exist on type 'Window & typeof globalThis'.
 declare global {
@@ -12,15 +12,19 @@ declare global {
 }
 
 const InstagramEmbed = ({
+  deleteProject,
   url,
   isLoggedIn,
 }: {
+  deleteProject: ({url}: {url: string})=> void;
   url: string;
   isLoggedIn: boolean;
 }) => {
   return (
     <div style={{ flexShrink: "1", position: "relative" }}>
-      {isLoggedIn && <div className={styles["delete"]}>✕</div>}
+      {isLoggedIn && <div onClick={()=>{
+        deleteProject({url})
+      }} className={styles["delete"]}>✕</div>}
       <blockquote
         style={{ height: "465px" }}
         className="instagram-media"
@@ -43,6 +47,15 @@ export default function VeronikaWork({
   setActiveModal: (arg0: string) => void;
 }) {
   const [links, setLinks] = useState<string[]>([]);
+
+  function deleteProject({ url }: { url: string }) {
+    setSiteData({
+      veronikaVideos: links.filter((item) => {
+        item != url;
+      }),
+      lastEdited: Date.now().toString(),
+    });
+  }
 
   const { theme } = useContext(ThemeContext);
 
@@ -106,7 +119,7 @@ export default function VeronikaWork({
         {links.map((link, idx) => {
           return (
             <div key={idx} className={styles["subskit"]}>
-              <InstagramEmbed isLoggedIn={isLoggedIn} url={link} />
+              <InstagramEmbed deleteProject={deleteProject} isLoggedIn={isLoggedIn} url={link} />
             </div>
           );
         })}

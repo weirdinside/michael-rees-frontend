@@ -3,14 +3,78 @@
   height: 100%;
   overflow-y: auto;
 }
+
 .gap {
-  height: 3%;
+  height: 4%;
   width: 100%;
+}
+
+.gap2 {
+  height: 15vh;
+  width: 100%;
+}
+
+.fadegradient {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  bottom: 0;
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0) 11%,
+    rgba(255, 255, 255, 0) 89%,
+    rgba(255, 255, 255, 1) 100%
+  );
+}
+
+.fadegradient.dark {
+  background: rgb(15, 15, 15);
+  background: linear-gradient(
+    90deg,
+    rgba(15, 15, 15, 1) 0%,
+    rgba(15, 15, 15, 0) 11%,
+    rgba(15, 15, 15, 0) 89%,
+    rgba(15, 15, 15, 1) 100%
+  );
+}
+
+.fadegradient.blue {
+  background: rgb(0, 45, 179);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 45, 179, 1) 0%,
+    rgba(0, 45, 179, 0) 10%,
+    rgba(0, 45, 179, 0) 90%,
+    rgba(0, 45, 179, 1) 100%
+  );
 }
 
 .about__text {
   margin: 0 3%;
   text-align: left;
   overflow-y: auto;
-  font-size: clamp(16px, 2vw, 40px);
+  font-size: clamp(18px, 2vw, 40px);
+}
+
+.rocks {
+  bottom: 0;
+  height: 100%;
+  background-size: cover;
+  background-position: top;
+  background-repeat: no-repeat;
+  opacity: 1;
+  background-image: url("../../assets/images/ROCKS.webp");
+} 
+
+.rocks__container {
+  z-index: 2;
+  bottom: 0;
+  width: 100%;
+  height: 20vh;
+  position: absolute;
+  bottom: 0;
+  transition: 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
 }

@@ -11,14 +11,15 @@ import TextTransition, { presets } from "react-text-transition";
 import styles from "./App.module.css";
 import About from "./components/About/About";
 import Contact from "./components/Contact/Contact";
+import EditClientsModal from "./components/EditClientsModal/EditClientsModal";
 import Login from "./components/Login/Login";
 import Work from "./components/Work/Work";
 import { ThemeContext } from "./contexts/ThemeProvider";
-import { signIn } from "./utils/auth";
-import EditClientsModal from "./components/EditClientsModal/EditClientsModal";
 import { getSiteData } from "./utils/api";
+import { signIn } from "./utils/auth";
 // import Register from "./components/Register/Register";
-import { register } from "./utils/auth";
+import { LuAudioLines } from "react-icons/lu";
+import AudioPlayer from "./components/AudioPlayer/AudioPlayer";
 
 export default function App() {
   const { theme, toggleColorMode } = useContext(ThemeContext);
@@ -58,19 +59,19 @@ export default function App() {
     setActiveModal("");
   }
 
-  const handleRegister = async (
-    name: string,
-    password: string,
-    secret: string
-  ) => {
-    try {
-      const signedUpUser = await register(name, password, secret);
-      const signedInUser = await handleSignIn(signedUpUser.name, password);
-      console.log(signedInUser);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // const handleRegister = async (
+  //   name: string,
+  //   password: string,
+  //   secret: string
+  // ) => {
+  //   try {
+  //     const signedUpUser = await register(name, password, secret);
+  //     const signedInUser = await handleSignIn(signedUpUser.name, password);
+  //     console.log(signedInUser);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
   const handleSignIn = async (name: string, password: string) => {
     setIsPending(true);
@@ -158,6 +159,20 @@ export default function App() {
           className={styles["logout-sandwich"]}
         >
           Log out
+        </div>
+        <div
+        onClick={()=>{
+          setMenuOpen(false)
+          setActiveModal('audio')
+        }}
+          style={
+            menuOpen
+              ? { visibility: `visible`, pointerEvents: "all" }
+              : { visibility: `hidden`, pointerEvents: "none" }
+          }
+          className={styles["audio-sandwich"]}
+        >
+          <LuAudioLines size={20} />
         </div>
         <div
           onClick={() => {
@@ -405,35 +420,8 @@ export default function App() {
         )}
         <div className={styles["audio-button"]} />
         <EditClientsModal activeModal={activeModal} closeModal={closeModal} />
-        <div className={styles["audio-player"]}>
-          <h1 className={styles["audio-player__heading"]}>Ambiance</h1>
-          <div className={styles["audio-player__settings"]}>
-            <div className={styles["audio-player__select"]}>
-              <p className={styles["select__title"]}>
-                where would you like to be?
-              </p>
-              <select className={styles["select__picker"]}>
-                <option
-                  className={styles["select__option"]}
-                  disabled
-                  value={"default"}
-                >
-                  select an ambiance...
-                </option>
-                <option className={styles["select__option"]} value={"forest"}>
-                  Forest
-                </option>
-                <option className={styles["select__option"]} value={"campfire"}>
-                  Campfire
-                </option>
-                <option className={styles["select__option"]} value={"forest"}>
-                  Cafe
-                </option>
-              </select>
-            </div>
-          </div>
-        </div>
       </div>
+      <AudioPlayer activeModal={activeModal} closeModal={closeModal} />
     </div>
   );
 }

@@ -11,9 +11,9 @@
   position: relative;
 }
 
-.logout-sandwich{
+.logout-sandwich {
   position: absolute;
-  bottom: 3%;
+  top: 3%;
   left: 20px;
   font-size: 20px;
   border: 2px solid black;
@@ -23,10 +23,27 @@
   cursor: pointer;
 }
 
-.clients-sandwich{
+.audio-sandwich {
   position: absolute;
   bottom: 3%;
-  left: 115px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 20px;
+  font-size: 20px;
+  border: 2px solid black;
+  padding: 5px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50px;
+  z-index: 20;
+  cursor: pointer;
+}
+
+.clients-sandwich {
+  position: absolute;
+  bottom: 3%;
+  left: 70px;
   font-size: 20px;
   border: 2px solid black;
   padding: 5px;
@@ -101,12 +118,12 @@
     border: 2px solid var(--off-white);
   }
 
-  .logout-sandwich{
+  .logout-sandwich {
     color: var(--off-white);
     border: 2px solid var(--off-white);
   }
 
-  .clients-sandwich{
+  .clients-sandwich {
     color: var(--off-white);
     border: 2px solid var(--off-white);
   }
@@ -115,7 +132,6 @@
     color: var(--off-white);
     border: 2px solid var(--off-white);
   }
-
 
   .hamburger {
     border: 2px solid var(--off-white);
@@ -133,6 +149,9 @@
   .menu {
     background-color: #00000065;
   }
+  .audio-sandwich {
+    border: 2px solid white;
+  }
 }
 
 .page.dark {
@@ -148,22 +167,20 @@
     border: 2px solid var(--off-white);
   }
 
-  .logout-sandwich{
+  .logout-sandwich {
     color: white;
     border: 2px solid white;
   }
 
-  .clients-sandwich{
+  .clients-sandwich {
     color: white;
     border: 2px solid white;
   }
-
 
   .edit-clients {
     color: var(--off-white);
     border: 2px solid var(--off-white);
   }
-
 
   .logout {
     border-bottom: 2px solid white;
@@ -206,6 +223,10 @@
 
   .menu {
     background-color: #00000065;
+  }
+
+  .audio-sandwich {
+    border: 2px solid white;
   }
 }
 
@@ -424,6 +445,8 @@
   display: none;
 }
 
+
+
 .menu__option {
   margin: 0;
   padding: 0;
@@ -469,49 +492,6 @@
   cursor: pointer;
 }
 
-.audio-player {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 94%;
-  height: 94%;
-  backdrop-filter: blur(4px);
-  background-color: #0000003e;
-  z-index: 20;
-  padding: 3%;
-  font-size: clamp(20px, 4vw, 40px);
-}
-
-.select__title {
-  margin: 0 10px 0 0;
-  text-align: left;
-}
-
-.audio-player__settings {
-  width: 100%;
-}
-
-.audio-player__select {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  font-size: clamp(20px, 4vw, 40px);
-}
-
-.audio-player__option {
-  font-size: clamp(20px, 5vw, 40px);
-}
-
-.audio-player__heading {
-  width: 100%;
-  text-align: left;
-  margin: 20px 3%;
-  font-size: clamp(25px, 8vw, 50px);
-}
-
 @media screen and (pointer: fine) {
   .button:hover {
     background-color: black;
@@ -524,6 +504,11 @@
   }
 
   .login:hover {
+    background-color: black;
+    color: white;
+  }
+
+  .edit-clients:hover {
     background-color: black;
     color: white;
   }
@@ -547,6 +532,7 @@
       background-color: white;
       color: black;
     }
+    
   }
 
   .page.blue {

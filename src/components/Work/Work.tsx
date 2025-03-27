@@ -1,5 +1,6 @@
 import { useQueryState } from "nuqs";
 import { useCallback, useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import { ThemeContext } from "../../contexts/ThemeProvider";
 import { getProjects, getSiteData } from "../../utils/api";
 import PersonalWork from "./PersonalWork/PersonalWork";
@@ -124,6 +125,12 @@ export default function Work({
         >
           <HealthEnsurance />
         </WorkCategory>
+        <div className={styles["cta"]}>
+          want to make something cool?{" "}
+          <Link to="/contact">
+            <button className={styles["cta-button"]}>contact me</button>
+          </Link>
+        </div>
       </ul>
       <ReorderProjectsModal
         getAndOrderProjects={getAndOrderProjects}
