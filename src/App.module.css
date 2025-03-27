@@ -117,6 +117,10 @@
     color: var(--off-white);
     border: 2px solid var(--off-white);
   }
+  .audio-button {
+    color: var(--off-white);
+    border: 2px solid var(--off-white);
+  }
 
   .logout-sandwich {
     color: var(--off-white);
@@ -167,6 +171,10 @@
     border: 2px solid var(--off-white);
   }
 
+  .audio-button {
+    color: var(--off-white);
+    border: 2px solid var(--off-white);
+  }
   .logout-sandwich {
     color: white;
     border: 2px solid white;
@@ -445,8 +453,6 @@
   display: none;
 }
 
-
-
 .menu__option {
   margin: 0;
   padding: 0;
@@ -458,9 +464,9 @@
 
 .theme-picker {
   position: absolute;
-  bottom: 3%;
+  bottom: 2cqw;
   right: 20px;
-  font-size: 20px;
+  font-size: clamp(20px, 3vw, 30px);
   border: 2px solid black;
   padding: 5px;
   border-radius: 50px;
@@ -470,9 +476,27 @@
 
 .login {
   position: absolute;
-  bottom: 3%;
+  bottom: 2cqw;
+  left: 260px;
+  font-size: clamp(20px, 3vw, 30px);
+  border: 2px solid black;
+  padding: 5px;
+  border-radius: 50px;
+  z-index: 20;
+  cursor: pointer;
+}
+
+.audio-button {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  bottom: 2cqw;
   left: 20px;
-  font-size: 20px;
+  height: clamp(30px, 3vw, 40px);
+  z-index: 3;
+  width: clamp(30px, 3vw, 40px);
+  font-size: clamp(20px, 3vw, 30px);
   border: 2px solid black;
   padding: 5px;
   border-radius: 50px;
@@ -482,9 +506,9 @@
 
 .edit-clients {
   position: absolute;
-  bottom: 3%;
-  left: 100px;
-  font-size: 20px;
+  bottom: 2cqw;
+  left: 80px;
+  font-size: clamp(20px, 3vw, 30px);
   border: 2px solid black;
   padding: 5px;
   border-radius: 50px;
@@ -504,6 +528,11 @@
   }
 
   .login:hover {
+    background-color: black;
+    color: white;
+  }
+
+  .audio-button:hover {
     background-color: black;
     color: white;
   }
@@ -528,11 +557,14 @@
       background-color: white;
       color: black;
     }
+    .audio-button:hover {
+      background-color: white;
+      color: black;
+    }
     .edit-clients:hover {
       background-color: white;
       color: black;
     }
-    
   }
 
   .page.blue {
@@ -546,6 +578,10 @@
       color: black;
     }
     .login:hover {
+      background-color: var(--off-white);
+      color: black;
+    }
+    .audio-button:hover {
       background-color: var(--off-white);
       color: black;
     }
@@ -596,6 +632,10 @@
     pointer-events: none;
   }
 
+  .audio-button {
+    visibility: hidden;
+    pointer-events: none;
+  }
   .edit-clients {
     visibility: hidden;
     pointer-events: none;

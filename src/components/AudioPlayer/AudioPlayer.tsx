@@ -18,7 +18,7 @@ export default function AudioPlayer({
   const webAudioSound = useRef<Howl>(null);
   const { theme } = useContext(ThemeContext);
 
-  const [volume, setVolume] = useState<number>(1);
+  const [volume, setVolume] = useState<number>(0.5);
 
   useEffect(
     function initializeHowl() {

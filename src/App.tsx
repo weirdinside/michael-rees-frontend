@@ -161,10 +161,10 @@ export default function App() {
           Log out
         </div>
         <div
-        onClick={()=>{
-          setMenuOpen(false)
-          setActiveModal('audio')
-        }}
+          onClick={() => {
+            setMenuOpen(false);
+            setActiveModal("audio");
+          }}
           style={
             menuOpen
               ? { visibility: `visible`, pointerEvents: "all" }
@@ -405,8 +405,13 @@ export default function App() {
         <div onClick={toggleColorMode} className={styles["theme-picker"]}>
           Theme
         </div>
+        <div onClick={()=>{
+          setActiveModal('audio')
+        }} className={styles["audio-button"]}>
+          <LuAudioLines size={50} />
+        </div>
         <Link to="/login">
-          <div className={styles["login"]}>Log In</div>
+          <div className={styles["login"]}>{isLoggedIn ? "Log out" : "Log in"}</div>
         </Link>
         {isLoggedIn && (
           <div
@@ -418,7 +423,6 @@ export default function App() {
             Edit clients
           </div>
         )}
-        <div className={styles["audio-button"]} />
         <EditClientsModal activeModal={activeModal} closeModal={closeModal} />
       </div>
       <AudioPlayer activeModal={activeModal} closeModal={closeModal} />
