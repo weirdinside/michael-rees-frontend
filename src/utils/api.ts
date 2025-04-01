@@ -16,6 +16,9 @@ export function setSiteData({
   lastEdited,
   homeClientList,
   veronikaVideos,
+  personalWorkDescription,
+  clientWorkDescription,
+  veronikaWorkDescription,
 }: {
   order?: ProjectInfo[];
   personalWorkOrder?: ProjectInfo[];
@@ -23,6 +26,9 @@ export function setSiteData({
   lastEdited: string;
   homeClientList?: string[];
   veronikaVideos?: string[];
+  personalWorkDescription?: string;
+  clientWorkDescription?: string;
+  veronikaWorkDescription?: string;
 }) {
   return fetch(`${baseUrl}/data`, {
     method: "PATCH",
@@ -37,6 +43,9 @@ export function setSiteData({
       lastEdited,
       homeClientList,
       veronikaVideos,
+      personalWorkDescription,
+      clientWorkDescription,
+      veronikaWorkDescription,
     }),
   });
 }
@@ -119,7 +128,7 @@ export async function editProject({
         thumbnail,
       }),
     });
-    console.log(res);
+
     const responseData = await checkResponse(res);
     return responseData;
   } catch (err) {
@@ -138,7 +147,6 @@ export async function deleteThumbnail(filename: string) {
       },
     });
     const responseData = await checkResponse(res);
-    console.log(responseData);
     return responseData;
   } catch (err) {
     console.error("Error deleting image from storage:", err);
@@ -181,7 +189,6 @@ export async function uploadThumbnail(file: File) {
 
     if (res.ok) {
       const result = await res.json();
-      console.log(result.filePath);
       return result.filePath;
     } else {
       console.error("failed to upload file:", res.statusText);

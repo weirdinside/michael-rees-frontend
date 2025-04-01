@@ -20,8 +20,7 @@ export default function EditClientsModal({
       homeClientList: clientList.split(", "),
       lastEdited: Date.now().toString(),
     })
-      .then((res) => {
-        console.log(res);
+      .then(() => {
         closeModal();
       })
       .catch((err) => {

@@ -62,7 +62,7 @@ export default function DeleteProjectModal({
         const res = deleteThumbnail(deletedProject.thumbnail);
         console.log(res);
       } else {
-        console.log("There was no thumbnail to delete");
+        console.error("There was no thumbnail to delete");
       }
       console.log(response);
       closeModal();

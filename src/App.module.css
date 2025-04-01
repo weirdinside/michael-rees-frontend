@@ -4,6 +4,7 @@
   justify-content: center;
   padding: 0;
   --off-white: #e3e2db;
+  --blue: #002db3;
   height: 100svh;
   overflow: hidden;
   width: 100vw;
@@ -150,6 +151,11 @@
     border: 2px solid var(--off-white);
   }
 
+  .button.active {
+    color: var(--blue);
+    background-color: var(--off-white);
+  }
+
   .menu {
     background-color: #00000065;
   }
@@ -227,6 +233,11 @@
   .button {
     color: white;
     border: 2px solid white;
+  }
+
+  .button.active {
+    color: black;
+    background-color: white;
   }
 
   .menu {
@@ -354,6 +365,11 @@
   font-size: clamp(10px, 3vw, 37px);
   padding: 5px 10px;
   cursor: pointer;
+}
+
+.button.active {
+  color: white;
+  background-color: black;
 }
 
 .button.cta {

@@ -84,7 +84,6 @@ export default function AddProjectModal({
 
       if (file) {
         const customThumbnail = await uploadThumbnail(file);
-        console.log(customThumbnail);
         newThumbnail = customThumbnail;
       }
 
@@ -97,24 +96,21 @@ export default function AddProjectModal({
         thumbnail: newThumbnail,
       });
 
-      console.log(projectAdded);
       const idToAdd = projectAdded.data._id;
       const oldSiteData = await getSiteData();
       const order = oldSiteData[0].order;
       order.push(idToAdd);
-      let res;
       if (category === "") return;
       if (category === "personal")
-        res = await setSiteData({
+        setSiteData({
           personalWorkOrder: order,
           lastEdited: String(Date.now()),
         });
       if (category === "client")
-        res = await setSiteData({
+        setSiteData({
           clientWorkOrder: order,
           lastEdited: String(Date.now()),
         });
-      console.log(res);
       closeModal();
       clearFields();
     } catch (error) {
@@ -128,17 +124,20 @@ export default function AddProjectModal({
   //               HOOKS              //
   // -------------------------------- //
 
-  useEffect(function handleEscClose() {
-    window.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        closeModal();
-      }
-    });
+  useEffect(
+    function handleEscClose() {
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closeModal();
+        }
+      });
 
-    return window.removeEventListener("keydown", () => {
-      closeModal();
-    });
-  }, [closeModal]);
+      return window.removeEventListener("keydown", () => {
+        closeModal();
+      });
+    },
+    [closeModal]
+  );
 
   const { theme } = useContext(ThemeContext);
 
@@ -184,13 +183,13 @@ export default function AddProjectModal({
             <label className={styles["additem__label"]}>
               category?*
               <select
+                defaultValue={""}
                 onChange={(e) => {
-                  console.log(e.target.value as "personal" | "client" | "");
                   setCategory(e.target.value as "personal" | "client" | "");
                 }}
                 className={styles["additem__select"]}
               >
-                <option selected disabled value={""}>
+                <option disabled value={""}>
                   Select a category...
                 </option>
                 <option value={"personal"}>Personal</option>
@@ -247,10 +246,7 @@ export default function AddProjectModal({
           </form>
           {activeModal === "add" && (
             <div className={styles["preview"]}>
-              <Project
-                isPreview={true}
-                project={data}
-              ></Project>
+              <Project isPreview={true} project={data} />
             </div>
           )}
         </div>

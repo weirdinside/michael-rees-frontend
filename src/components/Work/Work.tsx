@@ -125,12 +125,15 @@ export default function Work({
         >
           <HealthEnsurance />
         </WorkCategory>
-        <div className={styles["cta"]}>
-          want to make something cool?{" "}
-          <Link to="/contact">
-            <button className={styles["cta-button"]}>contact me</button>
-          </Link>
-        </div>
+        {activeBlock === "" ||
+          (activeBlock === null && (
+            <div className={styles["cta"]}>
+              want to make something cool?{" "}
+              <Link to="/contact">
+                <button className={styles["cta-button"]}>contact me</button>
+              </Link>
+            </div>
+          ))}
       </ul>
       <ReorderProjectsModal
         getAndOrderProjects={getAndOrderProjects}

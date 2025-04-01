@@ -98,7 +98,7 @@ export default function EditProjectModal({
           newThumbnail = customThumbnail;
         }
         if (!category) return;
-        const res = await editProject({
+        editProject({
           category: category,
           description: description,
           _id: projectToEdit._id,
@@ -107,7 +107,6 @@ export default function EditProjectModal({
           role: role,
           thumbnail: newThumbnail,
         });
-        console.log(res);
         closeModal();
       } catch (err) {
         console.error(err);
@@ -186,7 +185,6 @@ export default function EditProjectModal({
               category?*
               <select
                 onChange={(e) => {
-                  console.log(e.target.value as "personal" | "client" | "");
                   setCategory(e.target.value as "personal" | "client" | "");
                 }}
                 className={styles["edit__select"]}

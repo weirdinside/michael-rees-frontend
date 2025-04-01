@@ -1,6 +1,6 @@
-import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { ThemeContext } from "../../../contexts/ThemeProvider";
+import { getSiteData } from "../../../utils/api";
 import Project from "../Project/Project";
 import styles from "./PersonalWork.module.css";
 
@@ -27,6 +27,7 @@ export default function PersonalWork({
   const [isLoading, setLoading] = useState<boolean>(true);
   const [projects, setProjects] = useState<ProjectInfo[]>([]);
   const [isError, setIsError] = useState<boolean>(false);
+  const [description, setDescription] = useState<string>("");
 
   function handleDeleteClick(projectData: ProjectInfo) {
     setSelectedProject(projectData);
@@ -39,6 +40,12 @@ export default function PersonalWork({
   }
 
   const { theme } = useContext(ThemeContext);
+
+  useLayoutEffect(() => {
+    getSiteData().then((res) => {
+      if (res) setDescription(res[0].personalWorkDescription);
+    });
+  }, [activeModal]);
 
   useEffect(() => {
     getAndOrderProjects({ category: "personal" })
@@ -79,21 +86,20 @@ export default function PersonalWork({
             >
               Add a project
             </button>
-            <Link
-              style={{ width: "100%" }}
-              target="_blank"
-              to="https://breathedreamgo.com/wp-content/uploads/2023/05/iStock-1064552606-2.jpg"
+
+            <button
+              onClick={() => {
+                setActiveModal("edit-desc");
+              }}
+              className={styles["options__button"]}
             >
-              <button className={styles["options__button"]}>Feel Loved!</button>
-            </Link>
+              Edit Description
+            </button>
           </div>
         </div>
       )}
-      <p className={styles["description__text"]}>
-        This is work I've written, directed and sometimes shot and edited. This
-        is a placeholder description, but can potentially be pretty long. Check
-        out some of my work below.
-      </p>
+
+      <p className={styles["description__text"]}>{description}</p>
       {!isError ? (
         <div className={styles["work__body"]}>
           {isLoading ? (
@@ -103,6 +109,7 @@ export default function PersonalWork({
               {projects.map((project, idx) => {
                 return (
                   <Project
+                    key={`parent${idx}`}
                     handleDeleteClick={handleDeleteClick}
                     handleEditClick={handleEditClick}
                     isLoggedIn={isLoggedIn}

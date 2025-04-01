@@ -8,32 +8,9 @@
   position: absolute;
   top: 0;
   opacity: 0;
+  color: black;
   z-index: -4;
   transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
-}
-
-.rpmodal.dark {
-  .rpmodal__content {
-    background-color: #0e1521;
-    filter: drop-shadow(0 0 5px #cacacaa4);
-    color: white;
-  }
-
-  .draggable__project {
-    background-color: #0e1521;
-    color: white;
-  }
-}
-
-.rpmodal.blue {
-  .rpmodal__content {
-    color: black;
-  }
-
-  .draggable__project {
-    background-color: #0e1521;
-    color: white;
-  }
 }
 
 .rpmodal.active {

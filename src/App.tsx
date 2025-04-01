@@ -20,6 +20,7 @@ import { signIn } from "./utils/auth";
 // import Register from "./components/Register/Register";
 import { LuAudioLines } from "react-icons/lu";
 import AudioPlayer from "./components/AudioPlayer/AudioPlayer";
+import EditDescriptionModal from "./components/Work/EditDescriptionModal/EditDescriptionModal";
 
 export default function App() {
   const { theme, toggleColorMode } = useContext(ThemeContext);
@@ -92,7 +93,6 @@ export default function App() {
     e.preventDefault();
     localStorage.removeItem("token");
 
-    console.log(localStorage.getItem("token"));
     setLoggedIn(false);
     closeModal();
 
@@ -101,29 +101,43 @@ export default function App() {
 
   useLayoutEffect(() => {
     getSiteData().then((res) => {
-      const timestamp = res[0].lastEdited / 1000; // Convert from microseconds to milliseconds
-      const date = new Date(timestamp * 1000); // Create a Date object
-      
+      const timestamp = res[0].lastEdited / 1000;
+      const date = new Date(timestamp * 1000);
+
       const months = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
       ];
-      
+
       const getOrdinalSuffix = (day: number): string => {
-        if (day >= 11 && day <= 13) return "th"; // Special case for 11th, 12th, 13th
+        if (day >= 11 && day <= 13) return "th";
         switch (day % 10) {
-          case 1: return "st";
-          case 2: return "nd";
-          case 3: return "rd";
-          default: return "th";
+          case 1:
+            return "st";
+          case 2:
+            return "nd";
+          case 3:
+            return "rd";
+          default:
+            return "th";
         }
       };
-      
+
       const month = months[date.getUTCMonth()];
       const day = date.getUTCDate();
       const year = date.getUTCFullYear();
       const formattedDate = `${month} ${day}${getOrdinalSuffix(day)}, ${year}`;
-      setLastEdited(formattedDate)
+      setLastEdited(formattedDate);
     });
 
     if (localStorage.token) {
@@ -166,8 +180,8 @@ export default function App() {
         <div
           style={
             menuOpen
-              ? { bottom: '20px', visibility: `visible`, pointerEvents: "all" }
-              : { bottom: '20px', visibility: `hidden`, pointerEvents: "none" }
+              ? { bottom: "20px", visibility: `visible`, pointerEvents: "all" }
+              : { bottom: "20px", visibility: `hidden`, pointerEvents: "none" }
           }
           onClick={toggleColorMode}
           className={styles["theme-picker"]}
@@ -323,13 +337,33 @@ export default function App() {
           </div>
           <div className={styles["buttons"]}>
             <Link to="/work">
-              <button className={styles["button"]}>Work</button>
+              <button
+                className={`${styles["button"]} ${
+                  location.pathname === "/work" && styles["active"]
+                }`}
+              >
+                Work
+              </button>
             </Link>
             <Link to="/about">
-              <button className={styles["button"]}> About</button>
+              <button
+                className={`${styles["button"]} ${
+                  location.pathname === "/about" && styles["active"]
+                }`}
+              >
+                {" "}
+                About
+              </button>
             </Link>
             <Link to="/contact">
-              <button className={styles["button"]}> Contact</button>
+              <button
+                className={`${styles["button"]} ${
+                  location.pathname === "/contact" && styles["active"]
+                }`}
+              >
+                {" "}
+                Contact
+              </button>
             </Link>
           </div>
         </header>
@@ -344,7 +378,7 @@ export default function App() {
                 handleSignIn={handleSignIn}
               />
             }
-          ></Route>
+          />
           {/* <Route
             path="/register"
             element={
@@ -357,7 +391,7 @@ export default function App() {
             element={
               <main className={styles["body"]}>
                 <div className={styles["body__about"]}>
-                  Michael Rees is{" "}
+                 <Link to="/about">Michael Rees</Link> is{" "}
                   <TextTransition inline springConfig={presets.slow}>
                     {occupations[occIndex % occupations.length]}
                   </TextTransition>
@@ -368,7 +402,7 @@ export default function App() {
                   </TextTransition> */}
                 </div>
                 <div className={styles["body__work"]}>
-                  He has worked with many artists and companies, including{" "}
+                  He has worked with many artists and brands, including{" "}
                   <TextTransition inline springConfig={presets.slow}>
                     {clients[cliIndex % clients.length]}
                   </TextTransition>
@@ -415,7 +449,9 @@ export default function App() {
             speed={20}
             pauseOnHover
           >
-            {Array(7).fill(`Michael Rees 2025 © Last Edited: ${lastEdited} ◑ `).join(" ")}
+            {Array(7)
+              .fill(`Michael Rees 2025 © Last Edited: ${lastEdited} ◑ `)
+              .join(" ")}
           </Marquee>
         </footer>
         {isLoggedIn ? (
@@ -459,6 +495,7 @@ export default function App() {
         <EditClientsModal activeModal={activeModal} closeModal={closeModal} />
       </div>
       <AudioPlayer activeModal={activeModal} closeModal={closeModal} />
+      <EditDescriptionModal activeModal={activeModal} closeModal={closeModal} />
     </div>
   );
 }

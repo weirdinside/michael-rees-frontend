@@ -1,8 +1,8 @@
-import styles from "./VeronikaWork.module.css";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ThemeContext } from "../../contexts/ThemeProvider";
 import { getSiteData, setSiteData } from "../../utils/api";
+import styles from "./VeronikaWork.module.css";
 
 // this is just to fix ts2339; Property 'instgrm' does not exist on type 'Window & typeof globalThis'.
 declare global {
@@ -12,19 +12,14 @@ declare global {
 }
 
 const InstagramEmbed = ({
-  deleteProject,
   url,
-  isLoggedIn,
 }: {
-  deleteProject: ({url}: {url: string})=> void;
+  deleteProject: ({ url }: { url: string }) => void;
   url: string;
   isLoggedIn: boolean;
 }) => {
   return (
     <div style={{ flexShrink: "1", position: "relative" }}>
-      {isLoggedIn && <div onClick={()=>{
-        deleteProject({url})
-      }} className={styles["delete"]}>✕</div>}
       <blockquote
         style={{ height: "465px" }}
         className="instagram-media"
@@ -47,13 +42,18 @@ export default function VeronikaWork({
   setActiveModal: (arg0: string) => void;
 }) {
   const [links, setLinks] = useState<string[]>([]);
+  const [desc, setDesc] = useState<string>("");
 
-  function deleteProject({ url }: { url: string }) {
+  async function deleteProject({ url }: { url: string }) {
     setSiteData({
       veronikaVideos: links.filter((item) => {
         item != url;
       }),
       lastEdited: Date.now().toString(),
+    });
+
+    getSiteData().then((res) => {
+      if (res) setLinks(res[0].veronikaVideos);
     });
   }
 
@@ -66,8 +66,10 @@ export default function VeronikaWork({
     document.body.appendChild(script);
 
     getSiteData().then((res) => {
-      console.log(res[0].veronikaVideos);
-      if (res) setLinks(res[0].veronikaVideos);
+      if (res) {
+        setDesc(res[0].veronikaWorkDescription)
+        setLinks(res[0].veronikaVideos);
+      }
     });
 
     script.onload = () => {
@@ -99,27 +101,35 @@ export default function VeronikaWork({
             >
               Add a post
             </button>
-            <Link
-              style={{ width: "100%" }}
-              target="_blank"
-              to="https://breathedreamgo.com/wp-content/uploads/2023/05/iStock-1064552606-2.jpg"
+
+            <button
+              onClick={() => {
+                setActiveModal("edit-desc");
+              }}
+              className={styles["options__button"]}
             >
-              <button className={styles["options__button"]}>Feel Loved!</button>
-            </Link>
+              Edit Description
+            </button>
           </div>
         </div>
       )}
 
       <p className={styles["description"]}>
-        These are skits and sketches I've filmed for Veronika Slowikowska and
-        Kyle Chase. Below are a couple of my favorite videos we've made
-        together. Follow @veronika_iscool on Instagram to keep up with The Lore.
+        {desc} Follow{" "}
+        <Link target="_blank" to={"https://www.instagram.com/veronika_iscool/"}>
+          @veronika_iscool on Instagram
+        </Link>{" "}
+        to keep up with what's going on.
       </p>
       <div className={styles["other-skits"]}>
         {links.map((link, idx) => {
           return (
             <div key={idx} className={styles["subskit"]}>
-              <InstagramEmbed deleteProject={deleteProject} isLoggedIn={isLoggedIn} url={link} />
+              <InstagramEmbed
+                deleteProject={deleteProject}
+                isLoggedIn={isLoggedIn}
+                url={link}
+              />
             </div>
           );
         })}

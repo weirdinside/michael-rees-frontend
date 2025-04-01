@@ -11,7 +11,6 @@
   width: 100%;
   height: 100%;
   display: flex;
-  font-family: "Alte Haas Grotesk", sans-serif;
   color: white;
   background-color: rgb(0, 0, 0);
 }
@@ -47,10 +46,10 @@
   animation: fadeIn 1s forwards;
 }
 
-.email-back-button{
+.email-back-button {
   display: flex;
   align-items: center;
-  justify-content: center;;
+  justify-content: center;
   position: absolute;
   top: 3%;
   left: 3%;
@@ -58,20 +57,21 @@
   background-color: transparent;
   border: 2px solid white;
   color: white;
-  font-size: 30px;
+  font-size: 25px;
   border-radius: 20px;
 }
 
-.email-back-button:hover{
+.email-back-button:hover {
   color: black;
   background-color: white;
 }
 
-.email__name{
+.email__name {
   margin: 10px;
+  font-size: clamp(28px, 3vw, 30px);
 }
 
-.email__text{
+.email__text {
   font-size: 20px;
   margin: 0;
   padding: 0;
@@ -89,7 +89,7 @@
   width: clamp(25px, 1.5cqw, 35px);
   font-size: clamp(20px, 1.2cqw, 30px);
   transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
-  animation: fadeIn 1s forwards 2s;
+  animation: fadeIn 1s forwards 1s;
 }
 
 .back:visited {
@@ -133,7 +133,6 @@
 .reachout__heading {
   font-size: clamp(30px, 2cqw, 50px);
   font-style: italic;
-  font-family: "Alte Haas Grotesk", sans-serif;
   font-weight: 400;
   font-weight: 800;
   padding-bottom: 50px;
@@ -142,7 +141,7 @@
   animation: fadeIn 0.5s forwards 0.4s;
 }
 
-.non-email{
+.non-email {
   transition: 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
@@ -160,7 +159,7 @@
   background-size: cover;
   transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
   background-color: #00000000;
-  animation: fadeIn 0.5s forwards 1.2s;
+  animation: fadeIn 0.5s forwards 0.4s;
 }
 
 .icons__mail:visited {
@@ -211,7 +210,7 @@
   background-size: 90%;
   transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
   background-color: #00000000;
-  animation: fadeIn 0.5s forwards 1.4s;
+  animation: fadeIn 0.5s forwards 0.6s;
 }
 
 .icons__instagram:hover {
@@ -255,7 +254,7 @@
   background-size: cover;
   transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
   background-color: #00000000;
-  animation: fadeIn 0.5s forwards 1.6s;
+  animation: fadeIn 0.5s forwards 0.8s;
 }
 
 .icons__vimeo:hover {
@@ -311,4 +310,22 @@ transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
   background-color: white;
   color: black;
   filter: invert(1);
+}
+
+@media screen and (max-width: 800px) and (max-height: 800px) {
+  .email-back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 3%;
+    left: 3%;
+    rotate: 180deg;
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+    font-size: 15px;
+    border-radius: 20px;
+    width: 20px;
+  }
 }

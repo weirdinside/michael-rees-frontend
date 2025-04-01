@@ -1,9 +1,9 @@
-import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { ThemeContext } from "../../../contexts/ThemeProvider";
+import { getSiteData } from "../../../utils/api";
+import Filter from "../Filter/Filter";
 import Project from "../Project/Project";
 import styles from "./ClientWork.module.css";
-import Filter from "../Filter/Filter";
 
 export default function ClientWork({
   setCategory,
@@ -27,6 +27,7 @@ export default function ClientWork({
   const [isLoading, setLoading] = useState<boolean>(true);
   const [projects, setProjects] = useState<ProjectInfo[]>([]);
   const [isError, setIsError] = useState<boolean>(false);
+  const [description, setDescription] = useState<string>("");
 
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
 
@@ -56,6 +57,12 @@ export default function ClientWork({
   }
 
   const { theme } = useContext(ThemeContext);
+
+  useLayoutEffect(() => {
+    getSiteData().then((res) => {
+      if (res) setDescription(res[0].clientWorkDescription);
+    });
+  }, [activeModal]);
 
   useEffect(() => {
     const newActiveFilters = (
@@ -108,19 +115,19 @@ export default function ClientWork({
             >
               Add a project
             </button>
-            <Link
-              style={{ width: "100%" }}
-              target="_blank"
-              to="https://breathedreamgo.com/wp-content/uploads/2023/05/iStock-1064552606-2.jpg"
+            <button
+              onClick={() => {
+                setActiveModal("edit-desc");
+              }}
+              className={styles["options__button"]}
             >
-              <button className={styles["options__button"]}>Feel Loved!</button>
-            </Link>
+              Edit Description
+            </button>
           </div>
         </div>
       )}
-      <p className={styles["description__text"]}>
-        This is work I've done for others.
-      </p>
+      <div className={styles["description__modal"]}></div>
+      <p className={styles["description__text"]}>{description}</p>
       <h1 className={styles["filters__heading"]}></h1>
       <div className={styles["filters"]}>
         <div className={styles["filter__options"]}>

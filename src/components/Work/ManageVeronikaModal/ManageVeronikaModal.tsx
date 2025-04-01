@@ -14,7 +14,6 @@ export default function ManageVeronikaModal({
 
   async function sendVideoLinks() {
     setIsLoading(true);
-    console.log(links.split(", "));
     setSiteData({
       veronikaVideos: links.split(", "),
       lastEdited: Date.now().toString(),

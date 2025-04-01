@@ -65,19 +65,11 @@ export default function Project({
               className={styles["thumbnail"]}
               style={{
                 position: "relative",
-                zIndex: "10",
+                zIndex: "2",
                 opacity: "1",
                 backgroundImage: `url(${baseUrl}/${project.thumbnail})`,
               }}
             >
-              {isLoading && (
-                <div
-                  style={{ zIndex: "0" }}
-                  className={styles["thumbnail__loading"]}
-                >
-                  ⬤⬤⬤
-                </div>
-              )}
               <div className={styles["thumbnail__title"]}>click to watch</div>
             </div>
           </Link>

@@ -23,7 +23,6 @@ export default function Contact() {
                 <Link to="/work">
                   <p className={styles["back"]}>⮐</p>
                 </Link>
-
                 <div
                   onClick={() => {
                     setIsMailOpen(true);

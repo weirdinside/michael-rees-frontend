@@ -122,19 +122,18 @@ export default function ReorderProjectsModal({
     setLoading(true);
     try {
       const reversedData: ProjectInfo[] = orderedProjects.reverse();
-      let res;
       if (category === "personal") {
-        res = await setSiteData({
+        setSiteData({
           personalWorkOrder: reversedData,
           lastEdited: String(Date.now()),
         });
       } else if (category === "client") {
-        res = await setSiteData({
+        setSiteData({
           clientWorkOrder: reversedData,
           lastEdited: String(Date.now()),
         });
       }
-      console.log(res);
+
       closeModal();
     } catch (err) {
       console.error(err);
@@ -149,11 +148,10 @@ export default function ReorderProjectsModal({
 
   useLayoutEffect(() => {
     if (!category) return;
-    console.log(category);
+
     getAndOrderProjects({ category })
       .then((projects) => {
         if (projects) setOrderedProjects(projects);
-        console.log(projects);
       })
       .catch((err) => {
         console.error(err);

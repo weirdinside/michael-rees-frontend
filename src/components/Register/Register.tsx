@@ -23,7 +23,6 @@ export default function Register({
 
   function handleSubmit(e: React.MouseEvent) {
     e.preventDefault();
-    console.log(handleRegister);
     return handleRegister(name, password, secret);
   }
 
@@ -109,7 +108,6 @@ export default function Register({
             checked={showPasswords}
             onChange={() => {
               setShowPasswords((prev) => !prev);
-              console.log(showPasswords);
             }}
             type="checkbox"
           ></input>
