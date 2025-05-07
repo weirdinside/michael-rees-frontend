@@ -152,7 +152,7 @@ export default function EditProjectModal({
         <button
           onClick={closeModal}
           className={`${styles["epmodal__close"]}`}
-        ></button>
+        />
         <h1 className={styles["epmodal__heading"]}>edit project</h1>
         <div className={styles["edit__container"]}>
           <div className={styles["edit__fields"]}>
@@ -167,12 +167,10 @@ export default function EditProjectModal({
               ></input>
             </label>
 
-            <label
-              className={`${styles["edit__label"]}`}
-            >
+            <label className={`${styles["edit__label"]}`}>
               description
               <textarea
-              rows={4}
+                rows={4}
                 value={description}
                 onChange={(e) => {
                   setDescription(e.target.value);
@@ -184,12 +182,13 @@ export default function EditProjectModal({
             <label className={styles["edit__label"]}>
               category?*
               <select
+                defaultValue={""}
                 onChange={(e) => {
                   setCategory(e.target.value as "personal" | "client" | "");
                 }}
                 className={styles["edit__select"]}
               >
-                <option selected disabled value={""}>
+                <option disabled value={""}>
                   Select a category...
                 </option>
                 <option value={"personal"}>Personal</option>

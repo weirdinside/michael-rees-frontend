@@ -47,14 +47,13 @@ export default function DeleteProjectModal({
       const order = siteData[0].order.filter((id: string) => {
         return id !== deletedProject._id;
       });
-      let response;
       if (projectToDelete.category === "personal")
-        response = await setSiteData({
+        setSiteData({
           personalWorkOrder: order,
           lastEdited: String(Date.now()),
         });
       if (projectToDelete.category === "client")
-        response = await setSiteData({
+        setSiteData({
           clientWorkOrder: order,
           lastEdited: String(Date.now()),
         });
@@ -64,7 +63,6 @@ export default function DeleteProjectModal({
       } else {
         console.error("There was no thumbnail to delete");
       }
-      console.log(response);
       closeModal();
     } catch (err) {
       console.error(err);

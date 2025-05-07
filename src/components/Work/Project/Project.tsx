@@ -128,7 +128,6 @@ export default function Project({
                 }}
                 onLoad={() => {
                   setIsLoading(false);
-                  console.log("loaded");
                 }}
                 onLoadedData={() => {
                   setIsLoading(false);

@@ -532,6 +532,12 @@
   cursor: pointer;
 }
 
+@media screen and (max-width: 1025px){
+  .body{
+    font-size: 40px;
+  }
+}
+
 @media screen and (pointer: fine) {
   .button:hover {
     background-color: black;
