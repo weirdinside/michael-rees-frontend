@@ -9,6 +9,7 @@ import HE6 from "../../../assets/health-ensurance-posters/HE6.png";
 import HE7 from "../../../assets/health-ensurance-posters/HE7.png";
 import HE7_1 from "../../../assets/health-ensurance-posters/HE7_1.png";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { getSiteData } from "../../../utils/api";
 
 export default function HealthEnsurance() {
   const events = [
@@ -69,6 +70,7 @@ export default function HealthEnsurance() {
 
   const marqueeRef = useRef<HTMLDivElement>(null);
   const animationFrameRef = useRef<number>(null);
+  const [description, setDescription] = useState<string>('');
 
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const [initialMousePos, setInitialMousePos] = useState<number>(0);
@@ -89,6 +91,9 @@ export default function HealthEnsurance() {
 
   useLayoutEffect(() => {
     calculateXPos();
+    getSiteData().then((res) => {
+      if (res) setDescription(res[0].healthEnsuranceDescription);
+    });
   }, []);
 
   useEffect(() => {
@@ -110,9 +115,7 @@ export default function HealthEnsurance() {
       });
       animationFrameRef.current = requestAnimationFrame(animate);
     };
-
     animationFrameRef.current = requestAnimationFrame(animate);
-
     return () => {
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
@@ -123,11 +126,7 @@ export default function HealthEnsurance() {
   return (
     <div className={styles["health-ensurance"]}>
       <p className={styles["description"]}>
-        Health Ensurance is a series of film screenings organized and
-        orchestrated by Michael Rees. They have taken place in Los Angeles and
-        New York at a variety of locations, and have featured the work of a
-        variety of filmmakers and friends. This description could probably
-        afford to be longer.
+        {description}
       </p>
       <div className={styles["draggable-marquee"]}>
         <div

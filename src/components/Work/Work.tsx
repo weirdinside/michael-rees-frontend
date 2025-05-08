@@ -1,19 +1,18 @@
 import { useQueryState } from "nuqs";
 import { useCallback, useContext, useState } from "react";
-import { Link } from "react-router-dom";
 import { ThemeContext } from "../../contexts/ThemeProvider";
 import { getProjects, getSiteData } from "../../utils/api";
+import VeronikaWork from "../VeronikaWork/VeronikaWork";
+import AddProjectModal from "./AddProjectModal/AddProjectModal";
+import ClientWork from "./ClientWork/ClientWork";
+import DeleteProjectModal from "./DeleteProjectModal/DeleteProjectModal";
+import EditProjectModal from "./EditProjectModal/EditProjectModal";
+import HealthEnsurance from "./HealthEnsurance/HealthEnsurance";
+import ManageVeronikaModal from "./ManageVeronikaModal/ManageVeronikaModal";
 import PersonalWork from "./PersonalWork/PersonalWork";
 import ReorderProjectsModal from "./ReorderProjectsModal/ReorderProjectsModal";
 import styles from "./Work.module.css";
 import WorkCategory from "./WorkCategory/WorkCategory";
-import AddProjectModal from "./AddProjectModal/AddProjectModal";
-import EditProjectModal from "./EditProjectModal/EditProjectModal";
-import DeleteProjectModal from "./DeleteProjectModal/DeleteProjectModal";
-import ClientWork from "./ClientWork/ClientWork";
-import HealthEnsurance from "./HealthEnsurance/HealthEnsurance";
-import VeronikaWork from "../VeronikaWork/VeronikaWork";
-import ManageVeronikaModal from "./ManageVeronikaModal/ManageVeronikaModal";
 
 export default function Work({
   isLoggedIn,
@@ -125,7 +124,7 @@ export default function Work({
         >
           <HealthEnsurance />
         </WorkCategory>
-        {activeBlock === "" ||
+        {/* {activeBlock === "" ||
           (activeBlock === null && (
             <div className={styles["cta"]}>
               want to make something cool?{" "}
@@ -133,7 +132,7 @@ export default function Work({
                 <button className={styles["cta-button"]}>contact me</button>
               </Link>
             </div>
-          ))}
+          ))} */}
       </ul>
       <ReorderProjectsModal
         getAndOrderProjects={getAndOrderProjects}

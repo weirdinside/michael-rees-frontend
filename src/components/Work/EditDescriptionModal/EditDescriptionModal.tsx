@@ -18,6 +18,7 @@ export default function EditDescriptionModal({
   const [cDesc, setCDesc] = useState<string>("");
   const [pDesc, setPDesc] = useState<string>("");
   const [vDesc, setVDesc] = useState<string>("");
+  const [eDesc, setEDesc] = useState<string>("");
 
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
 
@@ -30,6 +31,7 @@ export default function EditDescriptionModal({
             setCDesc(data.clientWorkDescription);
             setPDesc(data.personalWorkDescription);
             setVDesc(data.veronikaWorkDescription);
+            setEDesc(data.healthEnsuranceDescription);
           }
         })
         .finally(() => {
@@ -54,6 +56,7 @@ export default function EditDescriptionModal({
         veronikaWorkDescription: vDesc,
         clientWorkDescription: cDesc,
         personalWorkDescription: pDesc,
+        healthEnsuranceDescription: eDesc,
       })
         .then((res) => {
           if (res.ok) closeModal();
@@ -112,6 +115,16 @@ export default function EditDescriptionModal({
                   setVDesc(e.target.value);
                 }}
                 value={vDesc}
+              />
+            </label>
+            <label className={styles["input-label"]}>
+              Health Ensurance Description
+              <textarea
+                rows={5}
+                onChange={(e) => {
+                  setEDesc(e.target.value);
+                }}
+                value={eDesc}
               />
             </label>
             <button

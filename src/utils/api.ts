@@ -19,6 +19,7 @@ export function setSiteData({
   personalWorkDescription,
   clientWorkDescription,
   veronikaWorkDescription,
+  healthEnsuranceDescription,
 }: {
   order?: ProjectInfo[];
   personalWorkOrder?: ProjectInfo[];
@@ -29,6 +30,7 @@ export function setSiteData({
   personalWorkDescription?: string;
   clientWorkDescription?: string;
   veronikaWorkDescription?: string;
+  healthEnsuranceDescription?: string;
 }) {
   return fetch(`${baseUrl}/data`, {
     method: "PATCH",
@@ -46,6 +48,7 @@ export function setSiteData({
       personalWorkDescription,
       clientWorkDescription,
       veronikaWorkDescription,
+      healthEnsuranceDescription,
     }),
   });
 }
