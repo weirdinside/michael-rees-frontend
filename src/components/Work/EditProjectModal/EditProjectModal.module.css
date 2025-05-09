@@ -49,7 +49,7 @@
 }
 
 .epmodal.active {
-  z-index: 20;
+  z-index: 200;
   opacity: 1;
   transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
 }

@@ -62,3 +62,83 @@
   font-size: clamp(15px, 2.5vw, 25px);
 
 }
+
+.options {
+  font-weight: 600;
+  border: 10px solid red;
+  padding: 10px;
+  width: calc(94% - 20px);
+  border-radius: 18px;
+  display: flex;
+  margin-bottom: 20px;
+  font-family: monospace;
+  flex-direction: column;
+}
+
+.options__text {
+  text-align: left;
+  margin: 0 0 20px 0;
+  font-size: clamp(15px, 2vw, 28px);
+  text-decoration: underline;
+}
+
+.options__buttons {
+  display: flex;
+  width: 100%;
+  gap: 20px;
+  justify-content: flex-start;
+}
+
+.options__button {
+  width: 100%;
+  font-size: clamp(12px, 1.5vw, 20px);
+  background-color: transparent;
+  color: inherit;
+  border: 2px solid black;
+  padding: 10px;
+  border-radius: 10px;
+  font-family: monospace;
+}
+
+@media screen and (max-width: 600px) {
+  .options {
+    width: calc(94% - 20px);
+  }
+  .options__buttons {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+.health-ensurance.dark {
+  .options__button {
+    border: 1px solid white;
+  }
+}
+
+.health-ensurance.blue {
+  .options__button {
+    border: 1px solid white;
+  }
+}
+@media screen and (pointer: fine) {
+  .options__button:hover {
+    cursor: pointer;
+    color: white;
+    background-color: black;
+  }
+
+  .health-ensurance.dark {
+    .options__button:hover {
+      color: black;
+      background-color: white;
+    }
+  }
+
+  .health-ensurance.blue {
+    .options__button:hover {
+      color: black;
+      background-color: white;
+    }
+  }
+}

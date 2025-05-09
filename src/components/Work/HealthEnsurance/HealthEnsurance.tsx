@@ -8,10 +8,23 @@ import HE5 from "../../../assets/health-ensurance-posters/HE5.png";
 import HE6 from "../../../assets/health-ensurance-posters/HE6.png";
 import HE7 from "../../../assets/health-ensurance-posters/HE7.png";
 import HE7_1 from "../../../assets/health-ensurance-posters/HE7_1.png";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { getSiteData } from "../../../utils/api";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 
-export default function HealthEnsurance() {
+export default function HealthEnsurance({
+  isLoggedIn,
+  setActiveModal,
+}: {
+  isLoggedIn: boolean;
+  setActiveModal: (arg0: string) => void;
+}) {
   const events = [
     {
       title: "Health Ensurance Vol. 1",
@@ -70,10 +83,12 @@ export default function HealthEnsurance() {
 
   const marqueeRef = useRef<HTMLDivElement>(null);
   const animationFrameRef = useRef<number>(null);
-  const [description, setDescription] = useState<string>('');
+  const [description, setDescription] = useState<string>("");
 
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const [initialMousePos, setInitialMousePos] = useState<number>(0);
+
+  const { theme } = useContext(ThemeContext);
 
   const [marqueeXPos, setMarqueeXPos] = useState<number>(0);
 
@@ -124,10 +139,25 @@ export default function HealthEnsurance() {
   }, [isClicked, window.innerWidth]);
 
   return (
-    <div className={styles["health-ensurance"]}>
-      <p className={styles["description"]}>
-        {description}
-      </p>
+    <div className={`${styles["health-ensurance"]} ${styles[theme]}`}>
+      {isLoggedIn && (
+        <div className={styles["options"]}>
+          <p className={styles["options__text"]}>
+            Hey Michael! Since you're logged in: do you want to...
+          </p>
+          <div className={styles["options__buttons"]}>
+            <button
+              onClick={() => {
+                setActiveModal("edit-desc");
+              }}
+              className={styles["options__button"]}
+            >
+              Edit Description
+            </button>
+          </div>
+        </div>
+      )}
+      <p className={styles["description"]}>{description}</p>
       <div className={styles["draggable-marquee"]}>
         <div
           style={{ transform: `translateX(-${marqueeXPos}px)` }}
@@ -136,16 +166,13 @@ export default function HealthEnsurance() {
           onPointerDown={(e) => {
             setIsClicked(true);
             setInitialMousePos(e.clientX);
-
           }}
           onPointerUp={() => {
             setIsClicked(false);
-
           }}
           onPointerMove={(e) => {
             if (isClicked) {
               calculateMovedAmount(e);
-    
             }
           }}
         >

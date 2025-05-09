@@ -41,7 +41,7 @@ export default function EditDescriptionModal({
   }, [activeModal]);
 
   function checkFormValidity() {
-    if (cDesc.length > 5 && pDesc.length > 5 && vDesc.length > 5) {
+    if (cDesc.length > 5 && pDesc.length > 5 && vDesc.length > 5 && eDesc.length > 5) {
       setIsFormValid(true);
     } else {
       setIsFormValid(false);
@@ -72,7 +72,7 @@ export default function EditDescriptionModal({
 
   useEffect(() => {
     checkFormValidity();
-  }, [cDesc, pDesc, vDesc]);
+  }, [cDesc, pDesc, vDesc, eDesc]);
 
   return (
     <div

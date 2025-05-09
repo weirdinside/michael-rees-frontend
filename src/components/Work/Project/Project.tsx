@@ -170,7 +170,7 @@ export default function Project({
       <h3 className={styles["item__roles"]}>{project.role}</h3>
       {videoMarkup}
       <div className={styles["description"]}>
-        {project.description ? project.description : "A film by Michael Rees"}
+        {project.description ? project.description : ""}
       </div>
       {isLoggedIn && !isPreview && handleDeleteClick && handleEditClick && (
         <div className={styles["title__box"]}>

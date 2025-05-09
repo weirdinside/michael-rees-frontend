@@ -57,7 +57,7 @@ export default function AutoscrollText({
     // setInitialStyle does the same thing that this does, just this does it unconditionally if textwidth > containerwidth
     setTextStyle(() => ({
       position: `absolute`,
-      textWrap: `nowrap`,
+      whiteSpace: `nowrap`,
       transition: `none`,
       right: `${-difference}px`,
     }));
@@ -67,7 +67,7 @@ export default function AutoscrollText({
     // sets text style to ending position, which relies on <scrollTime> (calculated in checkWindowSize) and pauseTime, but does not require <difference>
     setTextStyle(() => ({
       position: `absolute`,
-      textWrap: `nowrap`,
+      whiteSpace: `nowrap`,
       transition: `${scrollTime}ms linear ${pauseTime}ms`,
       right: "0px",
     }));
@@ -77,7 +77,7 @@ export default function AutoscrollText({
   const resetText = useCallback(() => {
     setTextStyle({
       position: `absolute`,
-      textWrap: `nowrap`,
+      whiteSpace: `nowrap`,
       transition: `none`,
       right: `${-difference}px`,
     });
@@ -98,7 +98,7 @@ export default function AutoscrollText({
         setDifference(diff); // sets <difference> to be used in style setting functions
       }
     },
-    [scrollSpeed, children, containerWidth, difference, trigger],
+    [scrollSpeed, children, containerWidth, difference, trigger]
   );
 
   // set the initial style before rendering the rest
@@ -132,7 +132,7 @@ export default function AutoscrollText({
       }
       setTextStyle(getAlignmentStyle);
     },
-    [scrollTime, pauseTime, align, difference],
+    [scrollTime, pauseTime, align, difference]
   );
 
   // sets an interval for the classes to be set on the text.
@@ -176,7 +176,7 @@ export default function AutoscrollText({
       intervalTime,
       pauseTime,
       align,
-    ],
+    ]
   );
 
   useEffect(() => {
@@ -210,7 +210,7 @@ export default function AutoscrollText({
       ref={marqueeRef}
     >
       <p
-        style={{ opacity: "0", margin: "0", padding: "0", textWrap: "nowrap" }}
+        style={{ opacity: "0", margin: "0", padding: "0", whiteSpace: "nowrap" }}
       >
         {children}
       </p>
