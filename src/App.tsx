@@ -477,11 +477,11 @@ export default function App() {
         >
           <LuAudioLines size={50} />
         </div>
-        <Link to="/login">
+        {/* <Link to="/login">
           <div className={styles["login"]}>
             {isLoggedIn ? "Log out" : "Log in"}
           </div>
-        </Link>
+        </Link> */}
         {isLoggedIn && (
           <div
             onClick={() => {
