@@ -7,5 +7,9 @@ export default defineConfig({
   server: {
     port: 3000,
   },
-  base: '/michael-rees-frontend/'
+  base: '/',
+  build: {
+    outDir: 'dist', 
+    assetsDir: 'assets'  
+  }
 });
