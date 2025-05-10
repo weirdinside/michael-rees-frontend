@@ -122,7 +122,11 @@ export default function Work({
           mousedOverHeading={mousedOverHeading}
           setMousedOverHeading={setMousedOverHeading}
         >
-          <HealthEnsurance setActiveModal={setActiveModal} isLoggedIn={isLoggedIn} />
+          <HealthEnsurance
+            activeModal={activeModal}
+            setActiveModal={setActiveModal}
+            isLoggedIn={isLoggedIn}
+          />
         </WorkCategory>
         {/* {activeBlock === "" ||
           (activeBlock === null && (

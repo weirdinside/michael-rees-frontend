@@ -19,9 +19,11 @@ import { getSiteData } from "../../../utils/api";
 import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 export default function HealthEnsurance({
+  activeModal,
   isLoggedIn,
   setActiveModal,
 }: {
+  activeModal: string;
   isLoggedIn: boolean;
   setActiveModal: (arg0: string) => void;
 }) {
@@ -109,7 +111,7 @@ export default function HealthEnsurance({
     getSiteData().then((res) => {
       if (res) setDescription(res[0].healthEnsuranceDescription);
     });
-  }, []);
+  }, [activeModal]);
 
   useEffect(() => {
     if (!marqueeRef.current) return;

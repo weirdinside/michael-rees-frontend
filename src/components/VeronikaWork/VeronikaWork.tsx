@@ -4,6 +4,8 @@ import { ThemeContext } from "../../contexts/ThemeProvider";
 import { getSiteData, setSiteData } from "../../utils/api";
 import styles from "./VeronikaWork.module.css";
 
+import triopic from '/triopic.png'
+
 // this is just to fix ts2339; Property 'instgrm' does not exist on type 'Window & typeof globalThis'.
 declare global {
   interface Window {
@@ -113,7 +115,8 @@ export default function VeronikaWork({
           </div>
         </div>
       )}
-
+      <div className={styles['block']}>
+      <img className={styles['triopic']} src={triopic} alt={'picture of Veronika, Kyle and Michael'}/>
       <p className={styles["description"]}>
         {desc} Follow{" "}
         <Link target="_blank" to={"https://www.instagram.com/veronika_iscool/"}>
@@ -121,6 +124,8 @@ export default function VeronikaWork({
         </Link>{" "}
         to keep up with what's going on.
       </p>
+      </div>
+    
       <div className={styles["other-skits"]}>
         {links.map((link, idx) => {
           return (

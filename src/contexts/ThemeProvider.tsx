@@ -13,11 +13,11 @@ const getInitialTheme = (): string => {
   const savedTheme = localStorage.getItem("theme");
   if (savedTheme) return savedTheme;
 
-  return "light";
+  return "blue";
 };
 
 const defaultContext: ThemeContextType = {
-  theme: "light",
+  theme: "blue",
   toggleColorMode: () => {},
 };
 
