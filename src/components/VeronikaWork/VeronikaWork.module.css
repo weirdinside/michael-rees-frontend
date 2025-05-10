@@ -137,21 +137,14 @@
   font-family: monospace;
 }
 
+
+
 @media screen and (max-width: 1000px){
   .triopic{
     width: 100%;
   }
   .block{
     flex-direction: column;
-  }
-}
-
-@media screen and (max-height: 890px){
-  .triopic{
-    width: 50%;
-  }
-  .block{
-    flex-direction: row;
   }
 }
 
@@ -162,6 +155,15 @@
   .options__buttons {
     flex-direction: column;
     gap: 5px;
+  }
+}
+
+@media screen and (min-width: 600px) and (min-height: 1000px){
+  .triopic{
+    width: 50%;
+  }
+  .block{
+    flex-direction: row;
   }
 }
 

@@ -409,16 +409,18 @@ export default function App() {
                 </div>
                 <div className={styles["body__cta"]}>
                   Click{" "}
-                  <span className={`${styles["button"]} ${styles["cta"]}`}>
-                    <Link
+                  <Link
                       onClick={() => {
                         setMenuOpen(false);
                       }}
                       to="/work"
                     >
+                  <span className={`${styles["button"]} ${styles["cta"]}`}>
+
                       here
-                    </Link>
+  
                   </span>{" "}
+                  </Link>
                   to see his work.
                 </div>
               </main>

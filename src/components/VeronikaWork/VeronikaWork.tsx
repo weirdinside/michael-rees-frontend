@@ -122,7 +122,7 @@ export default function VeronikaWork({
         <Link target="_blank" to={"https://www.instagram.com/veronika_iscool/"}>
           @veronika_iscool on Instagram
         </Link>{" "}
-        to keep up with what's going on.
+        to keep up with what's going on and check out of a few of my favorites below:
       </p>
       </div>
     
