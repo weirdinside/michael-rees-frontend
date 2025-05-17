@@ -1,4 +1,10 @@
-import { useContext, useEffect, useLayoutEffect, useState } from "react";
+import {
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useCallback,
+  useState,
+} from "react";
 import { ThemeContext } from "../../../contexts/ThemeProvider";
 import { getSiteData } from "../../../utils/api";
 import Filter from "../Filter/Filter";
@@ -26,10 +32,9 @@ export default function ClientWork({
 }) {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [projects, setProjects] = useState<ProjectInfo[]>([]);
+  const [filteredProjects, setFilteredProjects] = useState<ProjectInfo[]>([]);
   const [isError, setIsError] = useState<boolean>(false);
   const [description, setDescription] = useState<string>("");
-
-  const [activeFilters, setActiveFilters] = useState<string[]>([]);
 
   const [searchTerm, setSearchTerm] = useState<string>("");
 
@@ -56,6 +61,15 @@ export default function ClientWork({
     setActiveModal("edit");
   }
 
+  const handleSearchChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      e.preventDefault();
+      const sanitizedInput = e.target.value.replace(/[^a-zA-Z0-9() ]/g, "");
+      setSearchTerm(sanitizedInput);
+    },
+    []
+  );
+
   const { theme } = useContext(ThemeContext);
 
   useLayoutEffect(() => {
@@ -65,7 +79,7 @@ export default function ClientWork({
   }, [activeModal]);
 
   useEffect(() => {
-    const newActiveFilters = (
+    const activeFilters = (
       Object.keys(filters) as Array<keyof typeof filters>
     ).filter((key: keyof typeof filters) => {
       if (filters[key] === true) {
@@ -73,13 +87,40 @@ export default function ClientWork({
       }
     });
 
-    setActiveFilters(newActiveFilters);
-  }, [filters]);
+    const matchesSearch: (project: ProjectInfo) => boolean = (project) => {
+      return (
+        !searchTerm ||
+        project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        project.role.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    };
+
+    const matchesFilters: (project: ProjectInfo) => boolean = (project) => {
+      return (
+        !activeFilters ||
+        activeFilters.length === 0 ||
+        activeFilters.some((filter: string) =>
+          project.role.toLowerCase().includes(filter.toLowerCase())
+        )
+      );
+    };
+
+    const newFilteredProjects = projects.filter((project) => {
+      return matchesFilters(project) && matchesSearch(project);
+    });
+
+    setFilteredProjects(newFilteredProjects);
+  }, [filters, searchTerm]);
 
   useEffect(() => {
     getAndOrderProjects({ category: "client" })
       .then((data) => {
-        if (data) setProjects(data);
+        if (data) 
+          {
+            setProjects(data);
+            setFilteredProjects(data)
+          }
+
       })
       .catch((err) => {
         console.error(err);
@@ -147,15 +188,8 @@ export default function ClientWork({
           placeholder="or search for a specific term"
           type="text"
           className={`${styles["search"]} ${styles[theme]}`}
-          onChange={(e) => {
-            e.preventDefault();
-            const sanitizedInput = e.target.value.replace(
-              /[^a-zA-Z0-9() ]/g,
-              ""
-            );
-            setSearchTerm(sanitizedInput);
-          }}
-        ></input>
+          onChange={handleSearchChange}
+        />
       </div>
       {!isError ? (
         <div className={styles["work__body"]}>
@@ -163,10 +197,9 @@ export default function ClientWork({
             <>loading...</>
           ) : (
             <ul className={styles["work"]}>
-              {projects.map((project, idx) => {
+              {filteredProjects.map((project, idx) => {
                 return (
                   <Project
-                    activeFilters={activeFilters}
                     searchTerm={searchTerm}
                     handleDeleteClick={handleDeleteClick}
                     handleEditClick={handleEditClick}

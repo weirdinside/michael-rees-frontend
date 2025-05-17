@@ -1,12 +1,12 @@
-import { useContext, useCallback, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 import { baseUrl } from "../../../utils/constants";
 import styles from "./Project.module.css";
-import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 export default function Project({
-  searchTerm,
-  activeFilters,
+  // searchTerm,
+  // activeFilters,
   handleEditClick,
   handleDeleteClick,
   idx,
@@ -25,32 +25,33 @@ export default function Project({
 }) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [videoMarkup, setVideoMarkup] = useState(<></>);
-  const [isVisible, setIsVisible] = useState<boolean>(true);
+  // const [isVisible, setIsVisible] = useState<boolean>(true);
 
   const { theme } = useContext(ThemeContext);
 
-  const checkFilter = useCallback(() => {
-    if (!searchTerm && (!activeFilters || activeFilters.length === 0)) {
-      return setIsVisible(true);
-    }
+  // const checkFilter = useCallback(() => {
+  //   if (!searchTerm && (!activeFilters || activeFilters.length === 0)) {
+  //     return setIsVisible(true);
+  //   }
 
-    const matchesSearch =
-      !searchTerm ||
-      project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      project.role.toLowerCase().includes(searchTerm.toLowerCase());
+  //   const matchesSearch =
+  //     !searchTerm ||
+  //     project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     project.role.toLowerCase().includes(searchTerm.toLowerCase());
 
-    const matchesFilters =
-      !activeFilters ||
-      activeFilters.length === 0 ||
-      activeFilters.some((filter) =>
-        project.role.toLowerCase().includes(filter.toLowerCase())
-      );
+  //   const matchesFilters =
+  //     !activeFilters ||
+  //     activeFilters.length === 0 ||
+  //     activeFilters.some((filter) =>
+  //       project.role.toLowerCase().includes(filter.toLowerCase())
+  //     );
 
-    setIsVisible(matchesSearch && matchesFilters);
-  }, [activeFilters, project.role, project.title, searchTerm]);
-  useEffect(() => {
-    checkFilter();
-  }, [checkFilter, activeFilters, searchTerm]);
+  //   setIsVisible(matchesSearch && matchesFilters);
+  // }, [activeFilters, project.role, project.title, searchTerm]);
+  
+  // useEffect(() => {
+  //   checkFilter();
+  // }, [checkFilter, activeFilters, searchTerm]);
 
   useEffect(
     function setVideoPlayer() {
@@ -151,19 +152,19 @@ export default function Project({
   return (
     <li
       key={idx}
-      style={
-        isVisible
-          ? { transition: '1s cubic-bezier(0.075, 0.82, 0.165, 1)', visibility: "visible", opacity: "1" }
-          : {
-              maxHeight: '0%',
-              display: 'none',
-              visibility: "hidden",
-              margin: '0',
-              padding: '0',
-              opacity: "0",
-              transition: '0.5s cubic-bezier(0.075, 0.82, 0.165, 1)'
-            }
-      }
+      // style={
+      //   isVisible
+      //     ? { transition: '1s cubic-bezier(0.075, 0.82, 0.165, 1)', visibility: "visible", opacity: "1" }
+      //     : {
+      //         maxHeight: '0%',
+      //         display: 'none',
+      //         visibility: "hidden",
+      //         margin: '0',
+      //         padding: '0',
+      //         opacity: "0",
+      //         transition: '0.5s cubic-bezier(0.075, 0.82, 0.165, 1)'
+      //       }
+      // }
       className={`${styles["work__item"]} ${styles[theme]} ${isPreview && styles['preview']}`}
     >
       <h1 className={styles["item__title"]}>{project.title}</h1>
